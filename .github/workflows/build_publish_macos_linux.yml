@@ -1,6 +1,6 @@
 name: Build and publish conda packages for Mac and Linux
 
-on: [push, pull_request]
+on: workflow_dispatch
 
 jobs:
   build-publish-conda:

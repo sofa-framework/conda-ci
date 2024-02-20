@@ -1,6 +1,6 @@
 name: Build and publish conda packages for Windows
 
-on: [push, pull_request]
+on: workflow_dispatch
 
 jobs:
   build-publish-conda:
@@ -28,6 +28,10 @@ jobs:
         auto-update-conda: true
         python-version: ${{ matrix.python-version }}
         miniforge-version: latest
+
+    - name: Check LongPathsEnabled
+      run: |
+        (Get-ItemProperty "HKLM:System\CurrentControlSet\Control\FileSystem").LongPathsEnabled
 
     - name: Install conda environment
       shell: pwsh
