@@ -1,0 +1,58 @@
+name: Build and publish conda packages for Mac and Linux
+
+on: [push, pull_request]
+
+jobs:
+  build-publish-conda:
+    name: "Build and publish conda packages for ${{ matrix.os }} on Python ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        build_type: [Release]
+        python-version: ["3.10"]
+        include:
+          - python-version: "3.10"
+            numpy-version: "1.22"
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: sofa-conda-ci-py${{ matrix.python-version }}
+        auto-update-conda: true
+        python-version: ${{ matrix.python-version }}
+        miniforge-version: latest
+
+    - name: Install conda environment
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        conda install anaconda-client conda-build -c conda-forge
+        conda config --set anaconda_upload no
+
+    - name: Show conda config
+      shell: bash -l {0}
+      run: |
+        conda info
+        conda list
+        conda config --show-sources
+        conda config --show
+        printenv | sort
+
+    - name: Build & publish  sofa conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        cd conda/recipes
+        conda build sofa -c conda-forge
+        PKGS=`conda build sofa -c conda-forge --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        
+
