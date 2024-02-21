@@ -35,6 +35,7 @@ requirements:
     - cmake
     - make                           # [unix]
     - ninja                          # [win]
+    - clang                          # [win]
   host:
     - zlib
     - tinyxml2
