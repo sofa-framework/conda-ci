@@ -6,10 +6,6 @@ rmdir /S /Q build
 mkdir build
 cd build
 
-set "CC=clang-cl.exe"
-set "CXX=clang-cl.exe"
-set "CL=/MP"
-
 :: We install to a temp directory to avoid duplicate compilation for libsofa-core and
 :: libsofa-core-devel. This is inspired from:
 :: https://github.com/conda-forge/boost-feedstock/blob/main/recipe/meta.yaml
