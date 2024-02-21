@@ -161,8 +161,11 @@ outputs:
         - {{ pin_subpackage('libsofa-core', exact=True) }}
         - {{ pin_subpackage('sofa-gl', exact=True) }}
         - glew
-        - libglu  # [linux]
-
+        - libglu                  # [linux]
+        # these are apparently required by qt on windows
+        - libzlib                 # [win]
+        - libjpeg-turbo           # [win]
+        - libpng                  # [win]
     test:
       commands:
         - test -f $PREFIX/include/Sofa.GUI.Qt/sofa/gui/qt/init.h                                     # [unix]
