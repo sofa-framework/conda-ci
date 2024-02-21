@@ -24,7 +24,7 @@ jobs:
 
     - uses: conda-incubator/setup-miniconda@v2
       with:
-        activate-environment: c:\so
+        activate-environment: c:\so-py${{ matrix.python-version }}
         auto-update-conda: true
         python-version: ${{ matrix.python-version }}
         miniforge-version: latest
@@ -36,7 +36,7 @@ jobs:
     - name: Install conda environment
       shell: pwsh
       run: |
-        conda activate c:\so
+        conda activate c:\so-py${{ matrix.python-version }}
         conda install anaconda-client conda-build -c conda-forge
         conda config --set anaconda_upload no
 
@@ -52,7 +52,7 @@ jobs:
     - name: Build & publish sofa conda package
       shell: pwsh
       run: |
-        conda activate c:\so
+        conda activate c:\so-py${{ matrix.python-version }}
         cd conda/recipes
         conda build sofa -c conda-forge
         $PKGS = conda build sofa -c conda-forge --output
