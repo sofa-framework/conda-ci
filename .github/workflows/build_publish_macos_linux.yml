@@ -50,7 +50,7 @@ jobs:
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa -c conda-forge
+        conda build sofa -c conda-forge --error-overlinking
         PKGS=`conda build sofa -c conda-forge --output`
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
@@ -60,7 +60,7 @@ jobs:
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-python3 --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
+        conda build sofa-python3 --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --error-overlinking
         PKGS=`conda build sofa-python3 --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output`
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
@@ -70,7 +70,7 @@ jobs:
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-stlib --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
+        conda build sofa-stlib --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --error-overlinking
         PKGS=`conda build sofa-stlib --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output`
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
@@ -80,7 +80,7 @@ jobs:
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-beamadapter --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
+        conda build sofa-beamadapter --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --error-overlinking
         PKGS=`conda build sofa-beamadapter --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output`
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
@@ -90,7 +90,7 @@ jobs:
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
+        conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --error-overlinking
         PKGS=`conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output`
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
@@ -100,7 +100,7 @@ jobs:
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-softrobots --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
+        conda build sofa-softrobots --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --error-overlinking
         PKGS=`conda build sofa-softrobots --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output`
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
@@ -110,7 +110,7 @@ jobs:
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-cosserat --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
+        conda build sofa-cosserat --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --error-overlinking
         PKGS=`conda build sofa-cosserat --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output`
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
