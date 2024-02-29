@@ -180,9 +180,9 @@ outputs:
         - if not exist %LIBRARY_PREFIX%\lib\Sofa.GUI.Qt.lib exit 1                                   # [win]
 
   - name: sofa-app
+    script: scripts/build-sofa-app.sh     # [unix]
+    script: scripts/build-sofa-app.bat    # [win]
     build:
-      script: scripts/build-sofa-app.sh     # [unix]
-      script: scripts/build-sofa-app.bat    # [win]
       run_exports:
         - {{ pin_subpackage("sofa-app", max_pin='x.x.x') }}
     requirements:
