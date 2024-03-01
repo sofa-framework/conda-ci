@@ -1,14 +1,14 @@
-From 66cac3192932fd2ec9692b7f14a5e0271e9cb0a1 Mon Sep 17 00:00:00 2001
+From af84c0938b6f130ff4bc02d9bb026454d3bcb4c6 Mon Sep 17 00:00:00 2001
 From: Olivier Roussel <olivier.roussel@inria.fr>
 Date: Wed, 3 Jan 2024 17:29:11 +0100
 Subject: [PATCH] Allow components to be compiled out of SOFA
 
 ---
  Sofa/GL/CMakeLists.txt                       |  9 ++++++++
- Sofa/GUI/Qt/CMakeLists.txt                   | 15 +++++++++++++
- applications/projects/runSofa/CMakeLists.txt | 23 ++++++++++++++++++--
+ Sofa/GUI/Qt/CMakeLists.txt                   | 15 ++++++++++++
+ applications/projects/runSofa/CMakeLists.txt | 24 ++++++++++++++++++--
  examples/CMakeLists.txt                      |  8 ++++++-
- 4 files changed, 52 insertions(+), 3 deletions(-)
+ 4 files changed, 53 insertions(+), 3 deletions(-)
 
 diff --git a/Sofa/GL/CMakeLists.txt b/Sofa/GL/CMakeLists.txt
 index c0d94be07f..402cb0e93f 100644
@@ -71,7 +71,7 @@ index 2bb1b2d8ba..025ce2bc84 100644
          target_link_libraries(${PROJECT_NAME} PUBLIC QGLViewer)
      endif()
 diff --git a/applications/projects/runSofa/CMakeLists.txt b/applications/projects/runSofa/CMakeLists.txt
-index aed8c17235..282c29c799 100644
+index aed8c17235..cad18fdc3a 100644
 --- a/applications/projects/runSofa/CMakeLists.txt
 +++ b/applications/projects/runSofa/CMakeLists.txt
 @@ -1,6 +1,18 @@
@@ -93,7 +93,7 @@ index aed8c17235..282c29c799 100644
  ###################################
  # Generate plugin_list.conf.default
  include(cmake/GeneratePluginConfig.cmake)
-@@ -14,8 +26,15 @@ endif()
+@@ -14,8 +26,16 @@ endif()
  set(_configPluginFileName plugin_list.conf)
  set(_defaultConfigPluginFileName "${_configPluginFileName}.default")
  set(_defaultConfigPluginFilePath "${CMAKE_BINARY_DIR}/${_pluginLocation}/${_defaultConfigPluginFileName}")
@@ -105,6 +105,7 @@ index aed8c17235..282c29c799 100644
 +  sofa_generate_plugin_config(${_defaultConfigPluginFilePath})
 +  message("Write Plugin list at ${_defaultConfigPluginFilePath}")
 +else()
++  file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/${_pluginLocation}")
 +  file(TOUCH ${_defaultConfigPluginFilePath})
 +  message("Created empty Plugin list at ${_defaultConfigPluginFilePath} (no targets defined)")
 +endif()
