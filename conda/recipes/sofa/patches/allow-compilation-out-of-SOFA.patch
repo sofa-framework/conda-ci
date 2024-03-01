@@ -1,17 +1,8 @@
-From 590b11461c5d2ade6d062d6274c226d6d9a8c07c Mon Sep 17 00:00:00 2001
+From e1c55978d50df60647f9ed52b141178dd4204f83 Mon Sep 17 00:00:00 2001
 From: Olivier Roussel <olivier.roussel@inria.fr>
 Date: Wed, 3 Jan 2024 17:29:11 +0100
 Subject: [PATCH] Allow components to be compiled out of SOFA
 
-Allow gui components to be compiled out of SOFA
-
-Allow runSofa to be compiled out of SOFA
-
-Allow examples/share to be compiled & installed out of SOFA
-
-define plugin_conf filenames even if they are not generated
-
-fix typos
 ---
  Sofa/GL/CMakeLists.txt                       |  9 ++++++++
  Sofa/GUI/Qt/CMakeLists.txt                   | 15 ++++++++++++
@@ -80,7 +71,7 @@ index 2bb1b2d8ba..025ce2bc84 100644
          target_link_libraries(${PROJECT_NAME} PUBLIC QGLViewer)
      endif()
 diff --git a/applications/projects/runSofa/CMakeLists.txt b/applications/projects/runSofa/CMakeLists.txt
-index aed8c17235..01c76d2984 100644
+index aed8c17235..ad375948c1 100644
 --- a/applications/projects/runSofa/CMakeLists.txt
 +++ b/applications/projects/runSofa/CMakeLists.txt
 @@ -1,6 +1,18 @@
@@ -112,7 +103,7 @@ index aed8c17235..01c76d2984 100644
 -install(FILES "${_defaultConfigPluginFilePath}" DESTINATION ${_pluginLocation}/ COMPONENT applications)
 +# Generate plugin_list.conf files from existing targets
 +# This step is skipped if the app is compiled outside SOFA, as no targets are defined
-+if ("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
++if (NOT "${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 +  sofa_generate_plugin_config(${_defaultConfigPluginFilePath})
 +  message("Write Plugin list at ${_defaultConfigPluginFilePath}")
 +  configure_file(${_defaultConfigPluginFilePath} ${PROJECT_BINARY_DIR}/${_defaultConfigPluginFileName} COPYONLY)
