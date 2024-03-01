@@ -6,8 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://github.com/sofa-framework/sofa/archive/refs/tags/v{{ version }}.tar.gz 
-
+  url: https://github.com/sofa-framework/sofa/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 469f69983ce4cdd58d8070ac4729ff75a78ed4c7f7b096425f726a511d009b69
   patches:
     # The WinDepPack (Windows Dependency Package) of Sofa is not used in a conda environment as 
     # dependencies are handled as conda packages. This seems to break the installation of Sofa and the 
