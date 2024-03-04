@@ -23,7 +23,7 @@ if [%PKG_NAME%] == [libsofa-core] (
     robocopy temp_prefix\include %LIBRARY_INC% /E >nul
     REM CMake metadata
     mkdir %LIBRARY_LIB%\cmake
-    xcopy /e /y temp_prefix\lib\cmake\Sofa* %LIBRARY_LIB%\cmake
+    robocopy temp_prefix\lib\cmake %LIBRARY_LIB%\cmake /E >nul
     REM and plugins
     cd temp_prefix\plugins
     for /D %%G in (*) do (
