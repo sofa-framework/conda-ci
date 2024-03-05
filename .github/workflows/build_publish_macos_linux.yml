@@ -19,7 +19,7 @@ jobs:
       with:
         submodules: recursive
 
-    - uses: conda-incubator/setup-miniconda@v2
+    - uses: conda-incubator/setup-miniconda@v3
       with:
         activate-environment: sofa-conda-ci-py${{ matrix.python-version }}
         auto-update-conda: true
