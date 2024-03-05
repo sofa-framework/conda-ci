@@ -12,10 +12,7 @@ jobs:
       matrix:
         os: [windows-latest]
         build_type: [Release]
-        python-version: ["3.10"]
-        include:
-          - python-version: "3.10"
-            numpy-version: "1.22"
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
     - uses: actions/checkout@v3
@@ -64,8 +61,8 @@ jobs:
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-python3 --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
-        $PKGS = conda build sofa-python3 --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output
+        conda build sofa-python3 --py ${{ matrix.python-version }} -c conda-forge
+        $PKGS = conda build sofa-python3 --py ${{ matrix.python-version }} -c conda-forge --output
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
@@ -74,8 +71,8 @@ jobs:
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-stlib --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
-        $PKGS = conda build sofa-stlib --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output
+        conda build sofa-stlib --py ${{ matrix.python-version }} -c conda-forge
+        $PKGS = conda build sofa-stlib --py ${{ matrix.python-version }} -c conda-forge --output
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
@@ -84,8 +81,8 @@ jobs:
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-beamadapter --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
-        $PKGS = conda build sofa-beamadapter --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output
+        conda build sofa-beamadapter --py ${{ matrix.python-version }} -c conda-forge
+        $PKGS = conda build sofa-beamadapter --py ${{ matrix.python-version }} -c conda-forge --output
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
@@ -94,8 +91,8 @@ jobs:
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
-        $PKGS = conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output
+        conda build sofa-modelorderreduction --py ${{ matrix.python-version }} -c conda-forge
+        $PKGS = conda build sofa-modelorderreduction --py ${{ matrix.python-version }} -c conda-forge --output
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
@@ -104,8 +101,8 @@ jobs:
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-softrobots --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
-        $PKGS = conda build sofa-softrobots --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output
+        conda build sofa-softrobots --py ${{ matrix.python-version }} -c conda-forge
+        $PKGS = conda build sofa-softrobots --py ${{ matrix.python-version }} -c conda-forge --output
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
@@ -114,8 +111,8 @@ jobs:
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-cosserat --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge
-        $PKGS = conda build sofa-cosserat --py ${{ matrix.python-version }} --numpy ${{ matrix.numpy-version }} -c conda-forge --output
+        conda build sofa-cosserat --py ${{ matrix.python-version }} -c conda-forge
+        $PKGS = conda build sofa-cosserat --py ${{ matrix.python-version }} -c conda-forge --output
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
