@@ -79,7 +79,27 @@ jobs:
         python-version: ${{ matrix.python-version }}
         miniforge-version: latest
         channels: conda-forge,sofa-framework
-        
+
+    - name: Check LongPathsEnabled
+      run: |
+        (Get-ItemProperty "HKLM:System\CurrentControlSet\Control\FileSystem").LongPathsEnabled
+
+    - name: Install conda environment
+      shell: pwsh
+      run: |
+        conda activate c:\so-py${{ matrix.python-version }}
+        conda install anaconda-client conda-build
+        conda config --set anaconda_upload no
+
+    - name: Show conda config
+      shell: pwsh
+      run: |
+        conda info
+        conda list
+        conda config --show-sources
+        conda config --show
+        ls env:\
+
     - name: Build & publish sofa-python3 conda package
       shell: pwsh
       run: |
