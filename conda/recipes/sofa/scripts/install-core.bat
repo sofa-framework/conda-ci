@@ -27,11 +27,17 @@ if [%PKG_NAME%] == [libsofa-core] (
     echo "============================="
     echo "===== files in source: temp_prefix\lib\cmake"
     echo "============================="
-    dir /A-D /S /B temp_prefix\lib\cmake
+    dir temp_prefix\lib\cmake /A-D /S /B
+    echo "============================="
+    dir temp_prefix\lib\cmake /b /s
+    echo "============================="
+    dir temp_prefix\lib /b
+    echo "============================="
+    dir temp_prefix /b
     echo "============================="
     echo "===== files in dest: %LIBRARY_LIB%\cmake"
     echo "============================="
-    dir /A-D /S /B %LIBRARY_LIB%\cmake
+    dir %LIBRARY_LIB%\cmake /A-D /S /B
     echo "============================="
     echo "============================="
     REM and plugins
