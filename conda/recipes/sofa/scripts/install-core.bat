@@ -29,12 +29,6 @@ if [%PKG_NAME%] == [libsofa-core] (
     echo "============================="
     dir temp_prefix\lib\cmake /A-D /S /B
     echo "============================="
-    dir temp_prefix\lib\cmake /b /s
-    echo "============================="
-    dir temp_prefix\lib /b
-    echo "============================="
-    dir temp_prefix /b
-    echo "============================="
     echo "===== files in dest: %LIBRARY_LIB%\cmake"
     echo "============================="
     dir %LIBRARY_LIB%\cmake /A-D /S /B

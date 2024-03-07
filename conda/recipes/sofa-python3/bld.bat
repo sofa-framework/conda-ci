@@ -3,6 +3,13 @@ setlocal EnableDelayedExpansion
 mkdir build
 cd build
 
+echo "============================="
+echo "===== files in source: %LIBRARY_LIB%\cmake"
+echo "============================="
+dir %LIBRARY_LIB%\cmake /A-D /S /B
+echo "============================="
+
+
 ::Configure
 cmake %CMAKE_ARGS% ^
   -B . ^
