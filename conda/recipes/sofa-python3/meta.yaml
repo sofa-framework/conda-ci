@@ -54,6 +54,15 @@ requirements:
 
 test:
   commands:
+      # Verify the scripts are in-place.
+    {% for state in ["activate", "deactivate"] %}
+    - test -f "${PREFIX}/etc/conda/{{ state }}.d/$PKG_NAME_{{ state }}.sh"                # [unix]
+    - if not exist %PREFIX%\\etc\\conda\\{{ state }}.d\\%PKG_NAME%_{{ state }}.bat exit 1  # [win]
+    {% endfor %}
+    - echo $SOFA_ROOT   # [unix]
+    - echo $SOFAPYTHON3_ROOT  # [unix]
+    - echo "%SOFA_ROOT%"   # [win]
+    - echo "%SOFAPYTHON3_ROOT%"  # [win]
     - test -f $PREFIX/include/SofaPython3/config.h                                               # [unix]
     - test -f $PREFIX/lib/cmake/SofaPython3/SofaPython3Config.cmake                              # [unix]
     - test -f $PREFIX/lib/cmake/SofaPython3/SofaPython3ConfigVersion.cmake                       # [unix]
