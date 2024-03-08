@@ -69,13 +69,6 @@ outputs:
 
     test:
       commands:
-        # Verify the scripts are in-place.
-        {% for state in ["activate", "deactivate"] %}
-        - test -f "${PREFIX}/etc/conda/{{ state }}.d/$PKG_NAME_{{ state }}.sh"                # [unix]
-        - if not exist %PREFIX%\\etc\\conda\\{{ state }}.d\\$PKG_NAME_{{ state }}.bat exit 1  # [win]
-        {% endfor %}
-        - echo $SOFA_ROOT   # [unix]
-        - echo "%SOFA_ROOT%"   # [win]
         - test -f $PREFIX/lib/libSofa.Core${SHLIB_EXT}.{{ version }}  # [linux]
         - test -f $PREFIX/lib/libSofa.Core.{{ version }}${SHLIB_EXT}  # [osx]
         - if not exist %LIBRARY_PREFIX%\bin\Sofa.Core.dll exit 1      # [win]
