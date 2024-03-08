@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   build-publish-sofa:
-    name: "Build and publish conda packages for ${{ matrix.os }} on Python ${{ matrix.python-version }}"
+    name: "Build and publish SOFA conda packages for ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -51,7 +51,7 @@ jobs:
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
   build-publish-sofa-plugins-with-python:
-    name: "Build and publish conda packages for ${{ matrix.os }} on Python ${{ matrix.python-version }}"
+    name: "Build and publish SOFA plugins conda packages for ${{ matrix.os }} on Python ${{ matrix.python-version }}"
     runs-on: ${{ matrix.os }}
     needs: build-publish-sofa
 
