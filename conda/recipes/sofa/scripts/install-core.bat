@@ -24,16 +24,6 @@ if [%PKG_NAME%] == [libsofa-core] (
     REM CMake metadata
     mkdir %LIBRARY_LIB%\cmake
     robocopy temp_prefix\lib\cmake %LIBRARY_LIB%\cmake /E >nul
-    echo "============================="
-    echo "===== files in source: temp_prefix\lib\cmake"
-    echo "============================="
-    dir temp_prefix\lib\cmake /A-D /S /B
-    echo "============================="
-    echo "===== files in dest: %LIBRARY_LIB%\cmake"
-    echo "============================="
-    dir %LIBRARY_LIB%\cmake /A-D /S /B
-    echo "============================="
-    echo "============================="
     REM and plugins
     cd temp_prefix\plugins
     for /D %%G in (*) do (
