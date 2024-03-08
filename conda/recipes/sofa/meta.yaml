@@ -73,7 +73,7 @@ outputs:
         - if not exist %LIBRARY_PREFIX%\bin\Sofa.Core.dll exit 1      # [win]
     about:
       summary: Runtime librairies for the SOFA framework
-      description: Runtime librairies for SOFA, a real-time multi-physics 
+      description: Runtime librairies for SOFA, a real-time multi-physics
        simulator with an emphasis on medical simulation and robotics.
       license: LGPL-2.1
       license_family: LGPL
@@ -108,7 +108,7 @@ outputs:
         - if not exist %LIBRARY_PREFIX%\lib\Sofa.Core.lib exit 1                                 # [win]
     about:
       summary: Development librairies for the SOFA framework
-      description: Development librairies for SOFA, a real-time multi-physics 
+      description: Development librairies for SOFA, a real-time multi-physics
        simulator with an emphasis on medical simulation and robotics.
       license: LGPL-2.1
       license_family: LGPL
@@ -155,7 +155,7 @@ outputs:
         - if not exist %LIBRARY_PREFIX%\lib\Sofa.GL.lib exit 1                               # [win]
     about:
       summary: SOFA GL rendering library
-      description: GL rendering library for SOFA, a real-time multi-physics 
+      description: GL rendering library for SOFA, a real-time multi-physics
        simulator with an emphasis on medical simulation and robotics.
       license: LGPL-2.1
       license_family: LGPL
@@ -207,7 +207,7 @@ outputs:
         - if not exist %LIBRARY_PREFIX%\lib\Sofa.GUI.Qt.lib exit 1                                   # [win]
     about:
       summary: Qt-based GUI library for the SOFA framework
-      description: Qt-based GUI library for SOFA, a real-time multi-physics 
+      description: Qt-based GUI library for SOFA, a real-time multi-physics
        simulator with an emphasis on medical simulation and robotics.
       license: GPL-2.1
       license_family: GPL
@@ -238,7 +238,7 @@ outputs:
         - if not exist %LIBRARY_PREFIX%\bin\runSofa.exe exit 1            # [win]
     about:
       summary: Applications and ressources for the SOFA framework
-      description: Application (runSofa) and ressources (examples and share) for SOFA, 
+      description: Application (runSofa) and ressources (examples and share) for SOFA,
        a real-time multi-physics simulator with an emphasis on medical simulation and robotics.
       license: GPL-2.1
       license_family: GPL
@@ -250,6 +250,13 @@ about:
   summary: Real-time multi-physics simulation with an emphasis on medical simulation and robotics.
   doc_url: https://www.sofa-framework.org/community/doc/
   dev_url: https://github.com/sofa-framework/sofa
+  license: LGPL-2.1
+  license_family: LGPL
+  license_file:
+    - LICENSE.LGPL.txt
+    - extlibs/difflib/LICENSE.MIT
+    - extlibs/json/LICENSE.MIT
+    - extlibs/stb/LICENSE.MIT
 
 extra:
   recipe-maintainers:
