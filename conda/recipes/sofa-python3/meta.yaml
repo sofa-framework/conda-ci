@@ -54,10 +54,6 @@ requirements:
 
 test:
   commands:
-    - echo $SOFA_ROOT   # [unix]
-    - echo $SOFAPYTHON3_ROOT  # [unix]
-    - echo "%SOFA_ROOT%"   # [win]
-    - echo "%SOFAPYTHON3_ROOT%"  # [win]
     - test -f $PREFIX/include/SofaPython3/config.h                                               # [unix]
     - test -f $PREFIX/lib/cmake/SofaPython3/SofaPython3Config.cmake                              # [unix]
     - test -f $PREFIX/lib/cmake/SofaPython3/SofaPython3ConfigVersion.cmake                       # [unix]
