@@ -7,8 +7,10 @@ package:
   version: {{ version }}
 
 source:
-  git_url: https://github.com/sofa-framework/sofa.git
-  git_rev: v{{ major_minor }}
+  # git_url: https://github.com/sofa-framework/sofa.git
+  # git_rev: v{{ major_minor }}
+  git_url: https://github.com/olivier-roussel/sofa.git
+  git_rev: debug-23.12-qglviewer-windows
 
   patches:
     # The WinDepPack (Windows Dependency Package) of Sofa is not used in a conda environment as 
