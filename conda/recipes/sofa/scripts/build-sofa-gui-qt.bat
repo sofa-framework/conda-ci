@@ -7,14 +7,8 @@ rmdir /S /Q build-sofa-gl
 mkdir build-sofa-gl
 cd build-sofa-gl
 
-echo %PREFIX%
-echo %LIBRARY_PREFIX%
-dir %LIBRARY_PREFIX%\include
-dir %LIBRARY_PREFIX%\include\QGLViewer
-dir %LIBRARY_PREFIX%\lib
-
 :: Configure
-cmake %CMAKE_ARGS% --debug-find ^
+cmake %CMAKE_ARGS% ^
   -B . ^
   -S %SRC_DIR%\Sofa\GUI\Qt ^
   -G Ninja ^
