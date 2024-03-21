@@ -150,3 +150,13 @@ jobs:
         PKGS=`conda build sofa-cosserat --py ${{ matrix.python-version }} --output`
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+
+    - name: Build & publish sofa-softrobotsinverse conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        cd conda/recipes
+        conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --error-overlinking
+        PKGS=`conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force

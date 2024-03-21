@@ -1,0 +1,60 @@
+{% set name = "sofa-softrobotsinverse" %}
+{% set version = "23.12.00" %}
+{% set major_minor = ".".join(version.split(".")[:2]) %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  # - url: https://github.com/SofaDefrost/SoftRobots.Inverse/archive/refs/tags/release-v{{ major_minor }}.tar.gz
+    git_url: https://github.com/SofaDefrost/SoftRobots.Inverse.git
+    git_rev: v23.12
+
+build:
+  number: 0
+  run_exports:
+    - {{ pin_subpackage(name, max_pin='x.x') }}
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - cmake
+    - make                           # [not win]
+    - ninja                          # [win]
+    - {{ cdt('mesa-libgl-devel') }}  # [linux]
+
+  host:
+    - {{ pin_compatible("libsofa-core-devel", min_pin='x.x', max_pin='x.x') }}
+    - {{ pin_compatible("sofa-stlib", min_pin='x.x', max_pin='x.x') }}
+    - {{ pin_compatible("sofa-softrobots", min_pin='x.x', max_pin='x.x') }}
+    - zlib
+    - eigen
+    - boost-cpp
+
+test:
+  commands:
+    - test -f $PREFIX/include/SoftRobots.Inverse/component/config.h                                            # [unix]
+    - test -f $PREFIX/lib/cmake/SoftRobots.Inverse/SoftRobots.InverseConfig.cmake                              # [unix]
+    - test -f $PREFIX/lib/cmake/SoftRobots.Inverse/SoftRobots.InverseConfigVersion.cmake                       # [unix]
+    - test -f $PREFIX/lib/libSoftRobots.Inverse${SHLIB_EXT}                                                    # [unix]
+    - if not exist %LIBRARY_PREFIX%\include\SoftRobots.Inverse\component\config.h exit 1                       # [win]
+    - if not exist %LIBRARY_PREFIX%\lib\cmake\SoftRobots.Inverse\SoftRobots.InverseConfig.cmake exit 1         # [win]
+    - if not exist %LIBRARY_PREFIX%\lib\cmake\SoftRobots.Inverse\SoftRobots.InverseConfigVersion.cmake exit 1  # [win]
+    - if not exist %LIBRARY_PREFIX%\lib\SoftRobots.Inverse.lib exit 1                                          # [win]
+    - if not exist %LIBRARY_PREFIX%\bin\SoftRobots.Inverse.dll exit 1                                          # [win]
+
+about:
+  home: https://github.com/SofaDefrost/SoftRobots.Inverse
+  summary: Sofa plugin containing inverse method for soft robotics.
+  license: AGPL-3.0-only
+  license_family: AGPL
+  license_file:
+    - LICENSE.AGPLV3.txt
+    - LICENSE.AGPLV3.Clause11.txt
+  dev_url: https://github.com/SofaDefrost/SoftRobots.Inverse
+
+extra:
+  recipe-maintainers:
+    - olivier-roussel
+    - hugtalbot
