@@ -45,6 +45,7 @@ requirements:
     - libboost-devel
     - cxxopts
     - metis =5.1.0
+    - gtest
   run:
     - eigen
     - libboost-devel
@@ -67,6 +68,7 @@ outputs:
         - tinyxml2
         - metis =5.1.0
         - libboost-devel
+        - gtest
       run:
         - cxxopts
         - eigen
