@@ -20,9 +20,8 @@ jobs:
 
     - uses: conda-incubator/setup-miniconda@v3
       with:
-        activate-environment: c:\so-py${{ matrix.python-version }}
+        activate-environment: c:\so-py
         auto-update-conda: true
-        python-version: ${{ matrix.python-version }}
         miniforge-version: latest
 
     - name: Check LongPathsEnabled
@@ -32,7 +31,7 @@ jobs:
     - name: Install conda environment
       shell: pwsh
       run: |
-        conda activate c:\so-py${{ matrix.python-version }}
+        conda activate c:\so-py
         conda install anaconda-client conda-build -c conda-forge
         conda config --set anaconda_upload no
 
@@ -48,10 +47,20 @@ jobs:
     - name: Build & publish sofa conda package
       shell: pwsh
       run: |
-        conda activate c:\so-py${{ matrix.python-version }}
+        conda activate c:\so-py
         cd conda/recipes
         conda build sofa -c conda-forge
         $PKGS = conda build sofa -c conda-forge --output
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+
+    - name: Build & publish sofa-beamadapter conda package
+      shell: pwsh
+      run: |
+        conda activate c:\so-py
+        cd conda/recipes
+        conda build sofa-beamadapter
+        $PKGS = conda build sofa-beamadapter --output
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
@@ -117,16 +126,6 @@ jobs:
         cd conda/recipes
         conda build sofa-stlib --py ${{ matrix.python-version }}
         $PKGS = conda build sofa-stlib --py ${{ matrix.python-version }} --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
-
-    - name: Build & publish sofa-beamadapter conda package
-      shell: pwsh
-      run: |
-        conda activate c:\so-py${{ matrix.python-version }}
-        cd conda/recipes
-        conda build sofa-beamadapter --py ${{ matrix.python-version }}
-        $PKGS = conda build sofa-beamadapter --py ${{ matrix.python-version }} --output
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
