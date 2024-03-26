@@ -28,7 +28,6 @@ requirements:
     - make                           # [not win]
     - ninja                          # [win]
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
-
   host:
     - {{ pin_compatible("libsofa-core-devel", min_pin='x.x', max_pin='x.x') }}
     - {{ pin_compatible("sofa-stlib", min_pin='x.x', max_pin='x.x') }}
@@ -36,6 +35,9 @@ requirements:
     - zlib
     - eigen
     - boost-cpp
+    - qpoases
+  run:
+    - qpoases
 
 test:
   commands:
