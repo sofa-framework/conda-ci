@@ -25,7 +25,7 @@ source:
     # Force the use of external libQGLViewer from conda and prevent
     # use of embedded version
     - patches/sofa-gui-qt-use-external-qglviewer.patch
-    # Fixes FindQGLViewer cmake find module as conda qglviewer package installs 
+    # Fixes FindQGLViewer cmake find module as conda qglviewer package installs
     # a QGLViewer2 lib instead of QGLViewer
     - patches/fix-qglviewer-cmake-module-win-conda.patch
     # Fix missed patch version bump. Should be fixed in release soon.
