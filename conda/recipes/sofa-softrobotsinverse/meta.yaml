@@ -15,6 +15,9 @@ source:
     # Code embedds a qpOASES version, we do not want that
     # and force use of an external conda package
     # - patches/force-external-qpOASES.patch
+    # qpOASES redefines snprintf even on modern MSVC compilers,
+    # despite this function is now implemented on MSC_VER >= 1900
+    - patches/0001-workaround-snprintf-for-modern-MSVC.patch  # [win]
 
 build:
   number: 0
