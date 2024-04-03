@@ -7,10 +7,8 @@ package:
   version: {{ version }}
 
 source:
-  # Release still in progress
-  # - url: https://github.com/sofa-framework/SofaPython3/archive/refs/tags/release-v{{ major_minor }}.tar.gz
-  git_url: https://github.com/sofa-framework/SofaPython3.git
-  git_rev: v23.12
+  url: https://github.com/sofa-framework/SofaPython3/archive/refs/tags/release-v{{ major_minor }}.tar.gz
+  sha256: bc0be501733482fc6491b41d7ac14b445a506f2391a182ed662ed9d5a904e8ee
 
   patches:
     # See comments in sofa conda package recipe at file
