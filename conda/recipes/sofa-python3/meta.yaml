@@ -1,5 +1,5 @@
 {% set name = "sofa-python3" %}
-{% set version = "23.12.00" %}
+{% set version = "23.12.01" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 
 package:
@@ -7,8 +7,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/sofa-framework/SofaPython3/archive/refs/tags/release-v{{ major_minor }}.tar.gz
-  sha256: bc0be501733482fc6491b41d7ac14b445a506f2391a182ed662ed9d5a904e8ee
+  url: https://github.com/sofa-framework/SofaPython3/archive/refs/tags/v{{ major_minor }}.tar.gz
+  sha256: 17c7427441b3504e088d1b50ff87206cdc45053565b2747f01884e230fd185cd
 
   patches:
     # See comments in sofa conda package recipe at file
