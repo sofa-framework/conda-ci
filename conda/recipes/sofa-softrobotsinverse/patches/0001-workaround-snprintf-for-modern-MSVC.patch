@@ -1,92 +1,61 @@
-From be0f73818e8bbde5a36c6841c1ad85b3d523eede Mon Sep 17 00:00:00 2001
+From f7539a9839c8f28aadb869bc34493baf632d2f8f Mon Sep 17 00:00:00 2001
 From: Olivier Roussel <olivier.roussel@inria.fr>
 Date: Thu, 28 Mar 2024 11:30:13 +0100
 Subject: [PATCH] workaround snprintf for modern MSVC
 
 ---
- .../component/solver/modules/LCPQPSolver.cpp             | 8 ++++++++
- .../component/solver/modules/QPInverseProblem.cpp        | 7 +++++++
- .../component/solver/modules/QPInverseProblemImpl.cpp    | 7 +++++++
- .../component/solver/modules/QPInverseProblemImpl.h      | 9 +++++++++
- 4 files changed, 31 insertions(+)
+ src/SoftRobots.Inverse/component/solver/modules/LCPQPSolver.cpp | 2 ++
+ .../component/solver/modules/QPInverseProblem.cpp               | 1 +
+ .../component/solver/modules/QPInverseProblemImpl.cpp           | 1 +
+ .../component/solver/modules/QPInverseProblemImpl.h             | 1 +
+ 4 files changed, 5 insertions(+)
 
 diff --git a/src/SoftRobots.Inverse/component/solver/modules/LCPQPSolver.cpp b/src/SoftRobots.Inverse/component/solver/modules/LCPQPSolver.cpp
-index dd42962..812fc2b 100644
+index dd42962..95a0b09 100644
 --- a/src/SoftRobots.Inverse/component/solver/modules/LCPQPSolver.cpp
 +++ b/src/SoftRobots.Inverse/component/solver/modules/LCPQPSolver.cpp
-@@ -27,7 +27,15 @@
- * Contact information: https://project.inria.fr/softrobot/contact/            *
+@@ -28,6 +28,8 @@
  ******************************************************************************/
  
-+#if _MSC_VER >= 1900
-+#define _MSC_VER_BAK _MSC_VER
-+#undef _MSC_VER
  #include <qpOASES.hpp>
-+#define _MSC_VER _MSC_VER_BAK
-+#else
-+#include <qpOASES.hpp>
-+#endif
++#undef snprintf
 +
  #include <sofa/helper/logging/Messaging.h>
  #include <SoftRobots.Inverse/component/solver/modules/LCPQPSolver.h>
  
 diff --git a/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblem.cpp b/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblem.cpp
-index 507b820..1920409 100644
+index 507b820..3b3661c 100644
 --- a/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblem.cpp
 +++ b/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblem.cpp
-@@ -33,7 +33,14 @@
- #include <SoftRobots.Inverse/component/solver/modules/QPInverseProblemImpl.h>
+@@ -34,6 +34,7 @@
  
  #include <sofa/helper/LCPcalc.h>
-+#if _MSC_VER >= 1900
-+#define _MSC_VER_BAK _MSC_VER
-+#undef _MSC_VER
  #include <qpOASES.hpp>
-+#define _MSC_VER _MSC_VER_BAK
-+#else
-+#include <qpOASES.hpp>
-+#endif
++#undef snprintf
  #include <fstream>
  
  #include <iomanip>
 diff --git a/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblemImpl.cpp b/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblemImpl.cpp
-index 3cb4948..f8a8960 100644
+index 3cb4948..ff71887 100644
 --- a/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblemImpl.cpp
 +++ b/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblemImpl.cpp
-@@ -38,7 +38,14 @@
- #include <sofa/component/collision/response/contact/CollisionResponse.h>
+@@ -39,6 +39,7 @@
  #include <iomanip>
  #include <sstream>
-+#if _MSC_VER >= 1900
-+#define _MSC_VER_BAK _MSC_VER
-+#undef _MSC_VER
  #include <qpOASES.hpp>
-+#define _MSC_VER _MSC_VER_BAK
-+#else
-+#include <qpOASES.hpp>
-+#endif
++#undef snprintf
  
  namespace softrobotsinverse::solver::module
  {
 diff --git a/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblemImpl.h b/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblemImpl.h
-index da6c8a0..4de4e18 100644
+index da6c8a0..5e62414 100644
 --- a/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblemImpl.h
 +++ b/src/SoftRobots.Inverse/component/solver/modules/QPInverseProblemImpl.h
-@@ -29,8 +29,17 @@
- #pragma once
- 
+@@ -31,6 +31,7 @@
  #include <Eigen/Core>
-+#if _MSC_VER >= 1900
-+#define _MSC_VER_BAK _MSC_VER
-+#undef _MSC_VER
  #include <qpOASES/Types.hpp>
  #include <qpOASES/QProblem.hpp>
-+#define _MSC_VER _MSC_VER_BAK
-+#else
-+#include <qpOASES/Types.hpp>
-+#include <qpOASES/QProblem.hpp>
-+#endif
-+
++#undef snprintf
  #include <SoftRobots/component/behavior/SoftRobotsBaseConstraint.h>
  
  #include <SoftRobots.Inverse/component/solver/modules/ConstraintHandler.h>
