@@ -24,7 +24,7 @@ External SOFA plugins:
 
 ## Installing SOFA
 
-You can install each of the previously mentioned package using conda command-line by specifying the `sofa-framework` custom channel. For example, if you want to install only SOFA runtime libraries, i.e. the `libsofa-core` package, use:
+You can install each of the previously mentioned package using conda command-line by specifying the `sofa-framework` custom channel. For example, if you want to install **only SOFA runtime libraries**, i.e. the `libsofa-core` package, use:
 
 ```
 conda install libsofa-core --channel sofa-framework
