@@ -5,7 +5,13 @@ Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anacond
 
 Only SOFA release are generated for now (no nightly or development versions).
 
-Available packages:
+## Build status
+
+**Current SOFA version for conda packages: 23.12.01**
+
+[![linux-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_linux-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_linux-64.yml) [![osx-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-64.yml) [![win-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_win-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_win-64.yml)
+
+## Available packages
 
 SOFA core:
   - **libsofa-core**: SOFA core runtime libraries
@@ -21,8 +27,7 @@ External SOFA plugins:
   - **sofa-beamadapter**
   - **sofa-softrobots**
 
-
-## Installing SOFA
+## Installing SOFA from these conda packages
 
 You can install each of the previously mentioned package using conda command-line by specifying the `sofa-framework` custom channel. For example, if you want to install **only SOFA runtime libraries**, i.e. the `libsofa-core` package, use:
 
@@ -58,7 +63,7 @@ conda install sofa-app sofa-python3 --channel sofa-framework
 
 If you are new to conda or do not have a recent conda version, consider installing miniforge available [here](https://github.com/conda-forge/miniforge). Miniforge is a conda distribution maintened by the conda-forge community, which is the most active open-source conda community. Miniforge is also preconfigured to use the conda-forge channel by default. 
 
-## Special instructions for macOS users
+## Special instructions for mac OS users
 
 There is a bug with the python / libpython version provided by conda and current SofaPython3 (see this [issue](https://github.com/sofa-framework/SofaPython3/issues/393) or related [PR](https://github.com/sofa-framework/SofaPython3/pull/394)).
 

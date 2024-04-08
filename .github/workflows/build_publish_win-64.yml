@@ -1,4 +1,4 @@
-name: Build and publish conda packages for Windows
+name: win-64
 
 on: workflow_dispatch
 
@@ -159,12 +159,13 @@ jobs:
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
-    - name: Build & publish sofa-softrobotsinverse conda package
-      shell: pwsh
-      run: |
-        conda activate c:\so-py${{ matrix.python-version }}
-        cd conda/recipes
-        conda build sofa-softrobotsinverse --py ${{ matrix.python-version }}
-        $PKGS = conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+    # WIP
+    # - name: Build & publish sofa-softrobotsinverse conda package
+    #   shell: pwsh
+    #   run: |
+    #     conda activate c:\so-py${{ matrix.python-version }}
+    #     cd conda/recipes
+    #     conda build sofa-softrobotsinverse --py ${{ matrix.python-version }}
+    #     $PKGS = conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --output
+    #     echo $PKGS
+    #     anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force

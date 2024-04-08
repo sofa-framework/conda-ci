@@ -1,4 +1,4 @@
-name: Build and publish conda packages for Mac and Linux
+name: osx-64
 
 on: workflow_dispatch
 
@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [macos-latest]
         build_type: [Release]
 
     steps:
@@ -68,7 +68,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [macos-latest]
         build_type: [Release]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
