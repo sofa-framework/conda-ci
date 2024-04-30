@@ -1,0 +1,163 @@
+name: osx-arm64
+
+on: workflow_dispatch
+
+jobs:
+  build-publish-sofa:
+    name: "Build and publish SOFA conda packages for ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14]
+        build_type: [Release]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: sofa-conda-ci
+        auto-update-conda: true
+        miniforge-version: latest
+
+    - name: Install conda environment
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci
+        conda install anaconda-client conda-build -c conda-forge
+        conda config --set anaconda_upload no
+
+    - name: Show conda config
+      shell: bash -l {0}
+      run: |
+        conda info
+        conda list
+        conda config --show-sources
+        conda config --show
+        printenv | sort
+
+    - name: Build & publish sofa conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci
+        cd conda/recipes
+        conda build sofa -c conda-forge --error-overlinking
+        PKGS=`conda build sofa -c conda-forge --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+
+    - name: Build & publish sofa-beamadapter conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci
+        cd conda/recipes
+        conda build sofa-beamadapter --error-overlinking
+        PKGS=`conda build sofa-beamadapter --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+
+  build-publish-sofa-plugins-with-python:
+    name: "Build and publish SOFA plugins conda packages for ${{ matrix.os }} on Python ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}
+    needs: build-publish-sofa
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14]
+        build_type: [Release]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: sofa-conda-ci-py${{ matrix.python-version }}
+        auto-update-conda: true
+        python-version: ${{ matrix.python-version }}
+        miniforge-version: latest
+        channels: conda-forge,sofa-framework
+        installer-url: https://github.com/conda-forge/miniforge/releases/download/24.3.0-0/Miniforge3-24.3.0-0-MacOSX-arm64.sh
+        
+    - name: Install conda environment
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        conda install anaconda-client conda-build
+        conda config --set anaconda_upload no
+
+    - name: Show conda config
+      shell: bash -l {0}
+      run: |
+        conda info
+        conda list
+        conda config --show-sources
+        conda config --show
+        printenv | sort
+
+    - name: Build & publish sofa-python3 conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        cd conda/recipes
+        conda build sofa-python3 --py ${{ matrix.python-version }} --error-overlinking
+        PKGS=`conda build sofa-python3 --py ${{ matrix.python-version }} --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        
+    - name: Build & publish sofa-stlib conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        cd conda/recipes
+        conda build sofa-stlib --py ${{ matrix.python-version }} --error-overlinking
+        PKGS=`conda build sofa-stlib --py ${{ matrix.python-version }} --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+
+    - name: Build & publish sofa-modelorderreduction conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        cd conda/recipes
+        conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --error-overlinking
+        PKGS=`conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+
+    - name: Build & publish sofa-softrobots conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        cd conda/recipes
+        conda build sofa-softrobots --py ${{ matrix.python-version }} --error-overlinking
+        PKGS=`conda build sofa-softrobots --py ${{ matrix.python-version }} --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+
+    - name: Build & publish sofa-cosserat conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        cd conda/recipes
+        conda build sofa-cosserat --py ${{ matrix.python-version }} --error-overlinking
+        PKGS=`conda build sofa-cosserat --py ${{ matrix.python-version }} --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+
+    - name: Build & publish sofa-softrobotsinverse conda package
+      shell: bash -l {0}
+      run: |
+        conda activate sofa-conda-ci-py${{ matrix.python-version }}
+        cd conda/recipes
+        conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --error-overlinking
+        PKGS=`conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --output`
+        echo $PKGS
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
