@@ -27,7 +27,30 @@ External SOFA plugins:
   - **sofa-beamadapter**
   - **sofa-softrobots**
 
-## Installing SOFA from these conda packages
+## Installing SOFA from conda
+
+### Setup conda
+
+#### Install miniforge conda distribution
+
+If you are new to conda or do not have a recent conda version, consider installing miniforge available [here](https://github.com/conda-forge/miniforge). Miniforge is a conda distribution maintened by the conda-forge community, which is the most active open-source conda community. Miniforge is also preconfigured to use the conda-forge channel by default. 
+
+#### Create & activate conda environment
+
+```
+conda create -n sofa-env
+conda activate sofa-env
+```
+
+### Quick install (recommanded): Full SOFA core install with SofaPython3 plugin
+
+```
+conda install sofa-app sofa-python3 --channel sofa-framework
+```
+
+If you need additional plugins that are listed as available, please see below to install them.
+
+### Custom installation of SOFA from these conda packages
 
 You can install each of the previously mentioned package using conda command-line by specifying the `sofa-framework` custom channel. For example, if you want to install **only SOFA runtime libraries**, i.e. the `libsofa-core` package, use:
 
@@ -47,23 +70,7 @@ It is possible to list all the versions of each SOFA package that are available 
 conda search libsofa-core --channel sofa-framework
 ```
 
-### Full SOFA core install (devel libraries, exectuables and resources)
-
-```
-conda install sofa-app --channel sofa-framework
-```
-
-### Full SOFA core install with SofaPython3
-
-```
-conda install sofa-app sofa-python3 --channel sofa-framework
-```
-
-## About conda
-
-If you are new to conda or do not have a recent conda version, consider installing miniforge available [here](https://github.com/conda-forge/miniforge). Miniforge is a conda distribution maintened by the conda-forge community, which is the most active open-source conda community. Miniforge is also preconfigured to use the conda-forge channel by default. 
-
-## Special instructions for mac OS users
+## Special instructions for macOS users
 
 There is a bug with the python / libpython version provided by conda and current SofaPython3 (see this [issue](https://github.com/sofa-framework/SofaPython3/issues/393) or related [PR](https://github.com/sofa-framework/SofaPython3/pull/394)).
 
