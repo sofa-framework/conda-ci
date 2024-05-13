@@ -84,7 +84,6 @@ jobs:
         python-version: ${{ matrix.python-version }}
         miniforge-version: latest
         channels: conda-forge,sofa-framework
-        installer-url: https://github.com/conda-forge/miniforge/releases/download/24.3.0-0/Miniforge3-24.3.0-0-MacOSX-arm64.sh
         
     - name: Install conda environment
       shell: bash -l {0}
