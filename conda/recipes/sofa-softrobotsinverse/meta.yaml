@@ -33,6 +33,7 @@ requirements:
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
   host:
     - {{ pin_compatible("libsofa-core-devel", min_pin='x.x', max_pin='x.x') }}
+    - {{ pin_compatible("sofa-python3", min_pin='x.x', max_pin='x.x') }}
     - {{ pin_compatible("sofa-stlib", min_pin='x.x', max_pin='x.x') }}
     - {{ pin_compatible("sofa-softrobots", min_pin='x.x', max_pin='x.x') }}
     - zlib
@@ -40,7 +41,9 @@ requirements:
     - boost-cpp
     - qpoases
     - pybind11
+    - python
   run:
+    - python
     - qpoases
 
 test:
