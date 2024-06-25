@@ -27,12 +27,14 @@ build:
 requirements:
   build:
     - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
     - cmake
     - make                           # [not win]
     - ninja                          # [win]
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
+
   host:
-    - {{ pin_compatible("libsofa-core-devel", min_pin='x.x', max_pin='x.x') }}
+    - {{ pin_compatible("sofa-devel", min_pin='x.x', max_pin='x.x') }}
     - {{ pin_compatible("sofa-python3", min_pin='x.x', max_pin='x.x') }}
     - {{ pin_compatible("sofa-stlib", min_pin='x.x', max_pin='x.x') }}
     - {{ pin_compatible("sofa-softrobots", min_pin='x.x', max_pin='x.x') }}
@@ -42,9 +44,9 @@ requirements:
     - qpoases
     - pybind11
     - python
+
   run:
     - python
-    - qpoases
 
 test:
   commands:
