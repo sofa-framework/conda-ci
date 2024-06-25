@@ -1,10 +1,17 @@
-c_compiler:                     # [win]
+c_compiler:
   - vs2022                      # [win]
-cxx_compiler:                   # [win]
+  - clang                       # [osx]
+  - gcc                         # [linux]
+cxx_compiler:
   - vs2022                      # [win]
+  - gxx                         # [linux]
+  - clangxx                     # [osx]
 c_stdlib:
   - sysroot                     # [linux]
+  - vs                          # [win]
   - macosx_deployment_target    # [osx]
 c_stdlib_version:
   - 2.17                        # [linux]
-  - 10.13                       # [osx]
+  - 10.13                       # [osx and x86_64]
+cdt_name:
+  - cos7                        # [linux]
