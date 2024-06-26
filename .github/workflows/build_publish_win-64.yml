@@ -159,12 +159,13 @@ jobs:
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
-    - name: Build & publish sofa-softrobotsinverse conda package
-      shell: pwsh
-      run: |
-        conda activate c:\so-py${{ matrix.python-version }}
-        cd conda/recipes
-        conda build sofa-softrobotsinverse --py ${{ matrix.python-version }}
-        $PKGS = conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+    # FIXME : fail to compile with external qpoases due to snprintf and MSVC bug
+    # - name: Build & publish sofa-softrobotsinverse conda package
+    #   shell: pwsh
+    #   run: |
+    #     conda activate c:\so-py${{ matrix.python-version }}
+    #     cd conda/recipes
+    #     conda build sofa-softrobotsinverse --py ${{ matrix.python-version }}
+    #     $PKGS = conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --output
+    #     echo $PKGS
+    #     anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
