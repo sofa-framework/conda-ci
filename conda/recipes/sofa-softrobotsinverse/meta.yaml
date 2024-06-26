@@ -1,5 +1,5 @@
 {% set name = "sofa-softrobotsinverse" %}
-{% set version = "23.12.00" %}
+{% set version = "24.06.00" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 
 package:
@@ -9,7 +9,7 @@ package:
 source:
   # - url: https://github.com/SofaDefrost/SoftRobots.Inverse/archive/refs/tags/release-v{{ major_minor }}.tar.gz
   git_url: https://github.com/olivier-roussel/SoftRobots.Inverse.git
-  git_rev: force-external-qpOASES-23.12
+  git_rev: allow-external-qpOASES-2
 
   patches:
     # Code embedds a qpOASES version, we do not want that
@@ -17,7 +17,7 @@ source:
     # - patches/force-external-qpOASES.patch
     # qpOASES redefines snprintf even on modern MSVC compilers,
     # despite this function is now implemented on MSC_VER >= 1900
-    - patches/0001-workaround-snprintf-for-modern-MSVC.patch  # [win]
+    # - patches/0001-workaround-snprintf-for-modern-MSVC.patch  # [win]
 
 build:
   number: 0
@@ -27,20 +27,26 @@ build:
 requirements:
   build:
     - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
     - cmake
     - make                           # [not win]
     - ninja                          # [win]
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
+
   host:
-    - {{ pin_compatible("libsofa-core-devel", min_pin='x.x', max_pin='x.x') }}
+    - {{ pin_compatible("sofa-devel", min_pin='x.x', max_pin='x.x') }}
+    - {{ pin_compatible("sofa-python3", min_pin='x.x', max_pin='x.x') }}
     - {{ pin_compatible("sofa-stlib", min_pin='x.x', max_pin='x.x') }}
     - {{ pin_compatible("sofa-softrobots", min_pin='x.x', max_pin='x.x') }}
     - zlib
     - eigen
     - boost-cpp
     - qpoases
+    - pybind11
+    - python
+
   run:
-    - qpoases
+    - python
 
 test:
   commands:

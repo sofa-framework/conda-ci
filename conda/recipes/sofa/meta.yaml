@@ -1,5 +1,5 @@
 {% set name = "sofa" %}
-{% set version = "23.12.01" %}
+{% set version = "24.06.00" %}
 
 package:
   name: {{ name|lower }}-split
@@ -7,13 +7,13 @@ package:
 
 source:
   url: https://github.com/sofa-framework/sofa/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: e2495a6e6b16d92bbfb16a4a75011d8b831cc600a170b2edcbbd38010d8c0a0d
+  sha256: ee208e6e2ac4af6930626ae42e70993b2d5944ed879929a0e6abc29ad742e58a
 
   patches:
-    # The WinDepPack (Windows Dependency Package) of Sofa is not used in a conda environment as 
-    # dependencies are handled as conda packages. This seems to break the installation of Sofa and the 
+    # The WinDepPack (Windows Dependency Package) of Sofa is not used in a conda environment as
+    # dependencies are handled as conda packages. This seems to break the installation of Sofa and the
     # further compilation of external Sofa plugins. For the current release, WinDepPack usage is forced
-    # in the cmake files as long Sofa is built on Windows. A solution must be investigated with the 
+    # in the cmake files as long Sofa is built on Windows. A solution must be investigated with the
     # dev team to have the capability to at least disable it.
     - patches/0002-Remove-WinDepPack.patch
     # Some components that are part of the main SOFA code tree have to be compiled separately
@@ -34,6 +34,7 @@ build:
 requirements:
   build:
     - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
     - cmake
     - make                           # [unix]
     - ninja                          # [win]
@@ -41,34 +42,28 @@ requirements:
     - zlib
     - tinyxml2
     - eigen
-    - libboost-devel
+    - libboost-headers
     - cxxopts
     - metis =5.1.0
     - gtest
-  run:
-    - eigen
-    - libboost-devel
-    - zlib
-    - tinyxml2
-    - metis =5.1.0
 
 outputs:
-  - name: libsofa-core
+  - name: libsofa
     script: scripts/install-core.bat  # [win]
     script: scripts/install-core.sh   # [not win]
     build:
       run_exports:
-        - {{ pin_subpackage("libsofa-core", max_pin='x.x.x') }}
+        - {{ pin_subpackage("libsofa", max_pin='x.x.x') }}
     requirements:
       build:
         - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
       host:
         - zlib
         - tinyxml2
         - metis =5.1.0
-        - libboost-devel
+        - libboost-headers
         - gtest
-      run:
         - cxxopts
         - eigen
     test:
@@ -83,25 +78,26 @@ outputs:
       license: LGPL-2.1
       license_family: LGPL
       license_file:
-        - LICENSE.LGPL.txt
+        - LICENSE-LGPL.md
         - extlibs/difflib/LICENSE.MIT
         - extlibs/json/LICENSE.MIT
         - extlibs/stb/LICENSE.MIT
 
-  - name: libsofa-core-devel
+  - name: sofa-devel
     script: scripts/install-core.bat  # [win]
     script: scripts/install-core.sh   # [not win]
     build:
       run_exports:
         # Run exports should require only the library binaries,
         # not headers or cmake configuration files
-        - {{ pin_subpackage("libsofa-core", max_pin='x.x.x') }}
+        - {{ pin_subpackage("libsofa", max_pin='x.x.x') }}
     requirements:
       host:
-        - {{ pin_subpackage("libsofa-core", exact=True) }}
-
+        - {{ pin_subpackage("libsofa", exact=True) }}
       run:
-        - {{ pin_subpackage("libsofa-core", exact=True) }}
+        - {{ pin_subpackage("libsofa", exact=True) }}
+        - eigen
+        - cxxopts
     test:
       commands:
         - test -f $PREFIX/include/Sofa.Core/sofa/core/init.h                                     # [unix]
@@ -118,7 +114,7 @@ outputs:
       license: LGPL-2.1
       license_family: LGPL
       license_file:
-        - LICENSE.LGPL.txt
+        - LICENSE-LGPL.md
         - extlibs/difflib/LICENSE.MIT
         - extlibs/json/LICENSE.MIT
         - extlibs/stb/LICENSE.MIT
@@ -132,21 +128,19 @@ outputs:
     requirements:
       build:
         - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
         - cmake
         - make                           # [unix]
         - ninja                          # [win]
         - {{ cdt('mesa-libgl-devel') }}  # [linux]
       host:
-        - {{ pin_subpackage('libsofa-core-devel', exact=True) }}
+        - {{ pin_subpackage('sofa-devel', exact=True) }}
         - glew
-        - libboost-devel
         - eigen
+        - libboost-headers
         - libglu  # [linux]
       run:
-        - {{ pin_subpackage("libsofa-core-devel", exact=True) }}
-        # strangely overlinking checks complains if this libsofa-core missing,
-        # but it should have been pulled by libsofa-core-devel
-        - {{ pin_subpackage('libsofa-core', exact=True) }}
+        - {{ pin_subpackage('libsofa', exact=True) }}
         - libglu  # [linux]
 
     test:
@@ -168,7 +162,7 @@ outputs:
       license: LGPL-2.1
       license_family: LGPL
       license_file:
-        - LICENSE.LGPL.txt
+        - LICENSE-LGPL.md
 
   - name: sofa-gui-qt
     script: scripts/build-sofa-gui-qt.sh     # [unix]
@@ -179,23 +173,23 @@ outputs:
     requirements:
       build:
         - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
         - cmake
         - make                           # [unix]
         - ninja                          # [win]
         - {{ cdt('mesa-libgl-devel') }}  # [linux]
       host:
+        - {{ pin_subpackage('sofa-devel', exact=True) }}
         - {{ pin_subpackage('sofa-gl', exact=True) }}
         - qt-main
         - ffmpeg
-        - libboost-devel
         - libqglviewer
         - eigen
+        - libboost-headers
         - cxxopts
       run:
+        - {{ pin_subpackage('libsofa', exact=True) }}
         - {{ pin_subpackage('sofa-gl', exact=True) }}
-        # strangely overlinking checks complains if this libsofa-core missing,
-        # but it should have been pulled by sofa-gl
-        - {{ pin_subpackage('libsofa-core', exact=True) }}
         - glew
         - libglu                  # [linux]
         # these are apparently required by qt on windows
@@ -232,17 +226,17 @@ outputs:
     requirements:
       build:
         - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
         - cmake
         - make                           # [unix]
         - ninja                          # [win]
       host:
+        - {{ pin_subpackage('sofa-devel', exact=True) }}
         - {{ pin_subpackage('sofa-gui-qt', exact=True) }}
-        - libboost-devel
+        - libboost-headers
       run:
+        - {{ pin_subpackage('libsofa', exact=True) }}
         - {{ pin_subpackage('sofa-gui-qt', exact=True) }}
-        # strangely overlinking checks complains if this libsofa-core missing,
-        # but it should have been pulled by libsofa-core-devel
-        - {{ pin_subpackage('libsofa-core', exact=True) }}
     test:
       commands:
         - test -f $PREFIX/bin/runSofa                                     # [unix]
@@ -264,7 +258,7 @@ about:
   license: LGPL-2.1
   license_family: LGPL
   license_file:
-    - LICENSE.LGPL.txt
+    - LICENSE-LGPL.md
     - extlibs/difflib/LICENSE.MIT
     - extlibs/json/LICENSE.MIT
     - extlibs/stb/LICENSE.MIT

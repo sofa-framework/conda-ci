@@ -159,7 +159,7 @@ jobs:
         echo $PKGS
         anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
 
-    # WIP
+    # FIXME : fail to compile with external qpoases due to snprintf and MSVC bug
     # - name: Build & publish sofa-softrobotsinverse conda package
     #   shell: pwsh
     #   run: |
