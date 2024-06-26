@@ -7,15 +7,15 @@ Only SOFA release are generated for now (no nightly or development versions).
 
 ## Build status
 
-**Current SOFA version for conda packages: 23.12.01**
+**Current SOFA version for conda packages: 24.06.00**
 
-[![linux-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_linux-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_linux-64.yml) [![osx-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-64.yml) [![win-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_win-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_win-64.yml)
+[![linux-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_linux-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_linux-64.yml) [![osx-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-64.yml) [![osx-arm64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-arm64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-arm64.yml) [![win-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_win-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_win-64.yml)
 
 ## Available packages
 
 SOFA core:
-  - **libsofa-core**: SOFA core runtime libraries
-  - **libsofa-core-devel**: SOFA core development files (runtime libraries + headers + cmake files)
+  - **libsofa**: SOFA core runtime libraries
+  - **sofa-devel**: SOFA core development files (runtime libraries + headers + cmake files)
   - **sofa-gl**: SOFA.GL rendering library (devel version)
   - **sofa-gui-qt**: Qt based GUI library for SOFA (devel version)
   - **sofa-app**: SOFA runtime binaries (sofaRun) + required resources. Use this package if you want a full install of SOFA core, as it will install as well all the previously mentioned packages for SOFA core. 
@@ -52,22 +52,22 @@ If you need additional plugins that are listed as available, please see below to
 
 ### Custom installation of SOFA from these conda packages
 
-You can install each of the previously mentioned package using conda command-line by specifying the `sofa-framework` custom channel. For example, if you want to install **only SOFA runtime libraries**, i.e. the `libsofa-core` package, use:
+You can install each of the previously mentioned package using conda command-line by specifying the `sofa-framework` custom channel. For example, if you want to install **only SOFA runtime libraries**, i.e. the `libsofa` package, use:
 
 ```
-conda install libsofa-core --channel sofa-framework
+conda install libsofa --channel sofa-framework
 ```
 
 or use the alternative modern notation:
 
 ```
-conda install sofa-framework::libsofa-core
+conda install sofa-framework::libsofa
 ```
 
-It is possible to list all the versions of each SOFA package that are available for your platform using `conda search` command. For example, searching versions for the `libsofa-core` package:
+It is possible to list all the versions of each SOFA package that are available for your platform using `conda search` command. For example, searching versions for the `libsofa` package:
 
 ```
-conda search libsofa-core --channel sofa-framework
+conda search libsofa --channel sofa-framework
 ```
 
 ## Special instructions for macOS users
