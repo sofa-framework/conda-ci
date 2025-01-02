@@ -28,7 +28,7 @@ jobs:
       shell: bash -l {0}
       run: |
         conda activate sofa-conda-ci
-        conda install anaconda-client conda-build -c conda-forge
+        conda install anaconda-client rattler-build=0.31.1 -c conda-forge
         conda config --set anaconda_upload no
 
     - name: Show conda config
@@ -45,20 +45,18 @@ jobs:
       run: |
         conda activate sofa-conda-ci
         cd conda/recipes
-        conda build sofa -c conda-forge --error-overlinking
-        PKGS=`conda build sofa -c conda-forge --output`
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        PKG_DIR=../../../rattler-bld
+        rattler-build build --recipe sofa/recipe.yaml --variant-config ../configs/linux64.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/*sofa*.conda --force
 
     - name: Build & publish sofa-beamadapter conda package
       shell: bash -l {0}
       run: |
         conda activate sofa-conda-ci
         cd conda/recipes
-        conda build sofa-beamadapter --error-overlinking
-        PKGS=`conda build sofa-beamadapter --output`
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        PKG_DIR=../../../rattler-bld
+        rattler-build build --recipe sofa-beamadapter/recipe.yaml --variant-config ../configs/linux64.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-beamadapter*.conda --force
 
   build-publish-sofa-plugins-with-python:
     name: "Build and publish SOFA plugins conda packages for ${{ matrix.os }} on Python ${{ matrix.python-version }}"
@@ -83,13 +81,13 @@ jobs:
         auto-update-conda: true
         python-version: ${{ matrix.python-version }}
         miniforge-version: latest
-        channels: conda-forge,sofa-framework
+        channels: conda-forge,sofa-framework-prerelease
 
     - name: Install conda environment
       shell: bash -l {0}
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
-        conda install anaconda-client conda-build
+        conda install anaconda-client rattler-build=0.31.1
         conda config --set anaconda_upload no
 
     - name: Show conda config
@@ -106,57 +104,51 @@ jobs:
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-python3 --py ${{ matrix.python-version }} --error-overlinking
-        PKGS=`conda build sofa-python3 --py ${{ matrix.python-version }} --output`
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        PKG_DIR=../../../rattler-bld
+        rattler-build build --recipe sofa-python3/recipe.yaml --variant-config ../configs/linux64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-python3*.conda --force
         
     - name: Build & publish sofa-stlib conda package
       shell: bash -l {0}
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-stlib --py ${{ matrix.python-version }} --error-overlinking
-        PKGS=`conda build sofa-stlib --py ${{ matrix.python-version }} --output`
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        PKG_DIR=../../../rattler-bld
+        rattler-build build --recipe sofa-stlib/recipe.yaml --variant-config ../configs/linux64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-stlib*.conda --force
 
     - name: Build & publish sofa-modelorderreduction conda package
       shell: bash -l {0}
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --error-overlinking
-        PKGS=`conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --output`
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        PKG_DIR=../../../rattler-bld
+        rattler-build build --recipe sofa-modelorderreduction/recipe.yaml --variant-config ../configs/linux64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-modelorderreduction*.conda --force
 
     - name: Build & publish sofa-softrobots conda package
       shell: bash -l {0}
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-softrobots --py ${{ matrix.python-version }} --error-overlinking
-        PKGS=`conda build sofa-softrobots --py ${{ matrix.python-version }} --output`
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        PKG_DIR=../../../rattler-bld
+        rattler-build build --recipe sofa-softrobots/recipe.yaml --variant-config ../configs/linux64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-softrobots*.conda --force
 
     - name: Build & publish sofa-cosserat conda package
       shell: bash -l {0}
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-cosserat --py ${{ matrix.python-version }} --error-overlinking
-        PKGS=`conda build sofa-cosserat --py ${{ matrix.python-version }} --output`
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        PKG_DIR=../../../rattler-bld
+        rattler-build build --recipe sofa-cosserat/recipe.yaml --variant-config ../configs/linux64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-cosserat*.conda --force
 
     - name: Build & publish sofa-softrobotsinverse conda package
       shell: bash -l {0}
       run: |
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
-        conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --error-overlinking
-        PKGS=`conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --output`
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        PKG_DIR=../../../rattler-bld
+        rattler-build build --recipe sofa-softrobotsinverse/recipe.yaml --variant-config ../configs/linux64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-softrobotsinverse*.conda --force
