@@ -32,7 +32,7 @@ jobs:
       shell: pwsh
       run: |
         conda activate c:\so-py
-        conda install anaconda-client rattler-build=0.31.1 -c conda-forge
+        conda install anaconda-client rattler-build=0.31.1 m2-patch -c conda-forge
         conda config --set anaconda_upload no
 
     - name: Show conda config
@@ -95,7 +95,7 @@ jobs:
       shell: pwsh
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
-        conda install anaconda-client rattler-build=0.31.1 -c conda-forge
+        conda install anaconda-client rattler-build=0.31.1 m2-patch -c conda-forge
         conda config --set anaconda_upload no
 
     - name: Show conda config

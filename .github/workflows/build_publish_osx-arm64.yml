@@ -46,7 +46,7 @@ jobs:
         conda activate sofa-conda-ci
         cd conda/recipes
         PKG_DIR=../../../rattler-bld
-        rattler-build build --recipe sofa/recipe.yaml --variant-config ../configs/osx64.yaml --output-dir $PKG_DIR --experimental
+        rattler-build build --recipe sofa/recipe.yaml --variant-config ../configs/osx-arm64.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/*sofa*.conda --force
 
     - name: Build & publish sofa-beamadapter conda package
@@ -55,7 +55,7 @@ jobs:
         conda activate sofa-conda-ci
         cd conda/recipes
         PKG_DIR=../../../rattler-bld
-        rattler-build build --recipe sofa-beamadapter/recipe.yaml --variant-config ../configs/osx64.yaml --output-dir $PKG_DIR --experimental
+        rattler-build build --recipe sofa-beamadapter/recipe.yaml --variant-config ../configs/osx-arm64.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-beamadapter*.conda --force
 
   build-publish-sofa-plugins-with-python:
@@ -105,7 +105,7 @@ jobs:
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
         PKG_DIR=../../../rattler-bld
-        rattler-build build --recipe sofa-python3/recipe.yaml --variant-config ../configs/osx64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        rattler-build build --recipe sofa-python3/recipe.yaml --variant-config ../configs/osx-arm64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-python3*.conda --force
         
     - name: Build & publish sofa-stlib conda package
@@ -114,7 +114,7 @@ jobs:
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
         PKG_DIR=../../../rattler-bld
-        rattler-build build --recipe sofa-stlib/recipe.yaml --variant-config ../configs/osx64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        rattler-build build --recipe sofa-stlib/recipe.yaml --variant-config ../configs/osx-arm64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-stlib*.conda --force
 
     - name: Build & publish sofa-modelorderreduction conda package
@@ -123,7 +123,7 @@ jobs:
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
         PKG_DIR=../../../rattler-bld
-        rattler-build build --recipe sofa-modelorderreduction/recipe.yaml --variant-config ../configs/osx64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        rattler-build build --recipe sofa-modelorderreduction/recipe.yaml --variant-config ../configs/osx-arm64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-modelorderreduction*.conda --force
 
     - name: Build & publish sofa-softrobots conda package
@@ -132,7 +132,7 @@ jobs:
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
         PKG_DIR=../../../rattler-bld
-        rattler-build build --recipe sofa-softrobots/recipe.yaml --variant-config ../configs/osx64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        rattler-build build --recipe sofa-softrobots/recipe.yaml --variant-config ../configs/osx-arm64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-softrobots*.conda --force
 
     - name: Build & publish sofa-cosserat conda package
@@ -141,7 +141,7 @@ jobs:
         conda activate sofa-conda-ci-py${{ matrix.python-version }}
         cd conda/recipes
         PKG_DIR=../../../rattler-bld
-        rattler-build build --recipe sofa-cosserat/recipe.yaml --variant-config ../configs/osx64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+        rattler-build build --recipe sofa-cosserat/recipe.yaml --variant-config ../configs/osx-arm64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-cosserat*.conda --force
 
     # FIXME : fail to compile as qpoases not available as conda package for osx-arm64,
@@ -154,5 +154,5 @@ jobs:
     #     conda activate sofa-conda-ci-py${{ matrix.python-version }}
     #     cd conda/recipes
     #     PKG_DIR=../../../rattler-bld
-    #     rattler-build build --recipe sofa-softrobotsinverse/recipe.yaml --variant-config ../configs/osx64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
+    #     rattler-build build --recipe sofa-softrobotsinverse/recipe.yaml --variant-config ../configs/osx-arm64.yaml --variant-config ../configs/python-${{ matrix.python-version }}.yaml --output-dir $PKG_DIR --experimental
     #     anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-softrobotsinverse*.conda --force

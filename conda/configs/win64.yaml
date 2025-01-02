@@ -8,3 +8,7 @@ channel_sources:
   - conda-forge
 target_platform:
   - win-64
+c_compiler:
+  - vs2022
+cxx_compiler:
+  - vs2022

@@ -1,5 +1,5 @@
 c_stdlib_version:
-- 2.17
+- '2.17'
 c_stdlib:
 - sysroot
 cdt_name:
@@ -8,21 +8,9 @@ c_compiler:
 - gcc
 cxx_compiler:
 - gxx
-fortran_compiler:
-- gfortran
-go_compiler:
-- go-nocgo
-cgo_compiler:
-- go-cgo
+cxx_compiler_version:
+- '13'
+docker_image:
+- quay.io/condaforge/linux-anvil-x86_64:alma9
 target_platform:
 - linux-64
-channel_sources:
-- conda-forge
-docker_image:
-- quay.io/condaforge/linux-anvil-cos7-x86_64
-cuda_compiler:
-- None
-cuda_compiler_version:
-- None
-cuda_compiler_version_min:
-- None
