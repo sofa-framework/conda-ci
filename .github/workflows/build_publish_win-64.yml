@@ -20,7 +20,7 @@ jobs:
 
     - uses: conda-incubator/setup-miniconda@v3
       with:
-        activate-environment: c:\so-py
+        activate-environment: c:\so
         auto-update-conda: true
         miniforge-version: latest
 
@@ -31,7 +31,7 @@ jobs:
     - name: Install conda environment
       shell: pwsh
       run: |
-        conda activate c:\so-py
+        conda activate c:\so
         conda install anaconda-client rattler-build=0.31.1 m2-patch -c conda-forge
         conda config --set anaconda_upload no
 
@@ -47,18 +47,18 @@ jobs:
     - name: Build & publish sofa conda package
       shell: pwsh
       run: |
-        conda activate c:\so-py
+        conda activate c:\so
         cd conda\recipes
-        $PKG_DIR = '..\..\..\rattler-bld'
+        $PKG_DIR = 'c:\so\bld'
         rattler-build build --recipe sofa\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
 
     - name: Build & publish sofa-beamadapter conda package
       shell: pwsh
       run: |
-        conda activate c:\so-py
+        conda activate c:\so
         cd conda\recipes
-        $PKG_DIR = '..\..\..\rattler-bld'
+        $PKG_DIR = 'c:\so\bld'
         rattler-build build --recipe sofa-beamadapter\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
 
