@@ -67,8 +67,6 @@ outputs:
     requirements:
       run:
         - zlib
-        # - tinyxml2
-        # - gtest
       run_exports:
         - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
     tests:
@@ -238,7 +236,6 @@ outputs:
         - eigen
         - libboost-headers
         - cxxopts
-        # - zlib
       run:
         - ${{ pin_subpackage('libsofa', exact=True) }}
         - ${{ pin_subpackage('sofa-gui-qt', exact=True) }}
