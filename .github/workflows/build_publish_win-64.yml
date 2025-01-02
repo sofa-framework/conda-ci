@@ -32,7 +32,7 @@ jobs:
       shell: pwsh
       run: |
         conda activate c:\so-py
-        conda install anaconda-client conda-build -c conda-forge
+        conda install anaconda-client rattler-build=0.31.1 -c conda-forge
         conda config --set anaconda_upload no
 
     - name: Show conda config
@@ -48,21 +48,19 @@ jobs:
       shell: pwsh
       run: |
         conda activate c:\so-py
-        cd conda/recipes
-        conda build sofa -c conda-forge
-        $PKGS = conda build sofa -c conda-forge --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        cd conda\recipes
+        PKG_DIR=..\..\..\rattler-bld
+        rattler-build build --recipe sofa\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
 
     - name: Build & publish sofa-beamadapter conda package
       shell: pwsh
       run: |
         conda activate c:\so-py
-        cd conda/recipes
-        conda build sofa-beamadapter
-        $PKGS = conda build sofa-beamadapter --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        cd conda\recipes
+        PKG_DIR=..\..\..\rattler-bld
+        rattler-build build --recipe sofa-beamadapter\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
 
   build-publish-sofa-plugins-with-python:
     name: "Build and publish SOFA plugins conda packages for ${{ matrix.os }} on Python ${{ matrix.python-version }}"
@@ -97,7 +95,7 @@ jobs:
       shell: pwsh
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
-        conda install anaconda-client conda-build
+        conda install anaconda-client rattler-build=0.31.1 -c conda-forge
         conda config --set anaconda_upload no
 
     - name: Show conda config
@@ -113,59 +111,54 @@ jobs:
       shell: pwsh
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
-        cd conda/recipes
-        conda build sofa-python3 --py ${{ matrix.python-version }}
-        $PKGS = conda build sofa-python3 --py ${{ matrix.python-version }} --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        cd conda\recipes
+        PKG_DIR=..\..\..\rattler-bld
+        rattler-build build --recipe sofa-python3\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
 
     - name: Build & publish sofa-stlib conda package
       shell: pwsh
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
-        cd conda/recipes
-        conda build sofa-stlib --py ${{ matrix.python-version }}
-        $PKGS = conda build sofa-stlib --py ${{ matrix.python-version }} --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        cd conda\recipes
+        PKG_DIR=..\..\..\rattler-bld
+        rattler-build build --recipe sofa-stlib\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
 
     - name: Build & publish sofa-modelorderreduction conda package
       shell: pwsh
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
-        cd conda/recipes
-        conda build sofa-modelorderreduction --py ${{ matrix.python-version }}
-        $PKGS = conda build sofa-modelorderreduction --py ${{ matrix.python-version }} --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        cd conda\recipes
+        PKG_DIR=..\..\..\rattler-bld
+        rattler-build build --recipe sofa-modelorderreduction\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
 
     - name: Build & publish sofa-softrobots conda package
       shell: pwsh
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
-        cd conda/recipes
-        conda build sofa-softrobots --py ${{ matrix.python-version }}
-        $PKGS = conda build sofa-softrobots --py ${{ matrix.python-version }} --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        cd conda\recipes
+        PKG_DIR=..\..\..\rattler-bld
+        rattler-build build --recipe sofa-softrobots\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
 
     - name: Build & publish sofa-cosserat conda package
       shell: pwsh
       run: |
         conda activate c:\so-py${{ matrix.python-version }}
-        cd conda/recipes
-        conda build sofa-cosserat --py ${{ matrix.python-version }}
-        $PKGS = conda build sofa-cosserat --py ${{ matrix.python-version }} --output
-        echo $PKGS
-        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+        cd conda\recipes
+        PKG_DIR=..\..\..\rattler-bld
+        rattler-build build --recipe sofa-cosserat\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
 
     # FIXME : fail to compile with external qpoases due to snprintf and MSVC bug
     # - name: Build & publish sofa-softrobotsinverse conda package
     #   shell: pwsh
     #   run: |
     #     conda activate c:\so-py${{ matrix.python-version }}
-    #     cd conda/recipes
-    #     conda build sofa-softrobotsinverse --py ${{ matrix.python-version }}
-    #     $PKGS = conda build sofa-softrobotsinverse --py ${{ matrix.python-version }} --output
-    #     echo $PKGS
-    #     anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKGS --force
+    #     cd conda\recipes
+    #     PKG_DIR=..\..\..\rattler-bld
+    #     rattler-build build --recipe sofa-python3\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
+    #     anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR\**\*sofa*.conda --force
+
