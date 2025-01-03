@@ -60,7 +60,7 @@ outputs:
     build:
       script: scripts/install-core
       files:
-        - ${{ "Library/" if win }}lib/*
+        - ${{ "Library/" if win }}lib/*Sofa*
         - ${{ "Library/" if win }}plugins/**/lib
         - if: win
           then:
