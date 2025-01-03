@@ -60,12 +60,12 @@ outputs:
     build:
       script: scripts/install-core
       files:
-        - ${{ "Library/" if win }}lib/*Sofa*
+        - ${{ "Library/" if win }}lib/${{ "lib" if not win }}Sofa*
         - ${{ "Library/" if win }}plugins/**/lib
         - if: win
           then:
-            - bin/*
-            - plugins/**/bin
+            - Library/bin/*
+            - Library/plugins/**/bin
         # for copying activation/deactivation scripts
         - etc/conda/*
     requirements:
