@@ -6,17 +6,11 @@ rmdir /S /Q build
 mkdir build
 cd build
 
-:: We install to a temp directory to avoid duplicate compilation for libsofa and
-:: sofa-devel. This is inspired from:
-:: https://github.com/conda-forge/boost-feedstock/blob/main/recipe/meta.yaml
-mkdir temp_prefix
-
 :: Configure
 cmake %CMAKE_ARGS% ^
   -B . ^
   -S %SRC_DIR% ^
   -G Ninja ^
-  -DCMAKE_INSTALL_PREFIX:PATH=temp_prefix\ ^
   -DCMAKE_BUILD_TYPE:STRING=Release ^
   -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF ^
   -DAPPLICATION_SOFAPHYSICSAPI=OFF ^
