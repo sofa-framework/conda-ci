@@ -60,8 +60,12 @@ outputs:
     build:
       script: scripts/install-core
       files:
-        - lib/libSofa*
-        - plugins/**/lib
+        - ${{ "Library/" if win }}lib/*
+        - ${{ "Library/" if win }}plugins/**/lib
+        - if: win
+          then:
+            - bin/*
+            - plugins/**/bin
         # for copying activation/deactivation scripts
         - etc/conda/*
     requirements:
@@ -88,10 +92,10 @@ outputs:
       name: sofa-devel
     build:
       files:
-        - include/*
-        - lib/cmake/Sofa*
-        - plugins/**/include
-        - plugins/**/lib/cmake
+        - ${{ "Library/" if win }}include/*
+        - ${{ "Library/" if win }}lib/cmake/Sofa*
+        - ${{ "Library/" if win }}plugins/**/include
+        - ${{ "Library/" if win }}plugins/**/lib/cmake
     requirements:
       host:
         - ${{ pin_subpackage('libsofa', exact=True) }}
