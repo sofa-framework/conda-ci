@@ -58,7 +58,7 @@ jobs:
         conda activate c:\\so
         cd conda/recipes
         PKG_DIR=c:/so/bld
-        rattler-build build --recipe sofa-beamadapter\recipe.yaml --variant-config ..\configs\win64.yaml --output-dir $PKG_DIR --experimental
+        rattler-build build --recipe sofa-beamadapter/recipe.yaml --variant-config ../configs/win64.yaml --output-dir $PKG_DIR --experimental
         anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/sofa-beamadapter*.conda --force
 
   build-publish-sofa-plugins-with-python:
@@ -80,7 +80,7 @@ jobs:
 
     - uses: conda-incubator/setup-miniconda@v3
       with:
-        activate-environment: c:\so-py${{ matrix.python-version }}
+        activate-environment: c:\\so
         auto-update-conda: true
         python-version: ${{ matrix.python-version }}
         miniforge-version: latest
@@ -92,7 +92,7 @@ jobs:
     - name: Install conda environment
       shell: bash -l {0}
       run: |
-        conda activate c:\so-py${{ matrix.python-version }}
+        conda activate c:\\so
         conda install anaconda-client rattler-build=0.31.1 m2-patch -c conda-forge
         conda config --set anaconda_upload no
 
@@ -107,7 +107,7 @@ jobs:
     - name: Build & publish sofa-python3 conda package
       shell: bash -l {0}
       run: |
-        conda activate c:\so-py${{ matrix.python-version }}
+        conda activate c:\\so
         cd conda/recipes
         PKG_DIR=c:/so/bld
         rattler-build build --recipe sofa-python3/recipe.yaml --variant-config ../configs/win64.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c sofa-framework-prerelease
@@ -116,7 +116,7 @@ jobs:
     - name: Build & publish sofa-stlib conda package
       shell: bash -l {0}
       run: |
-        conda activate c:\so-py${{ matrix.python-version }}
+        conda activate c:\\so
         cd conda/recipes
         PKG_DIR=c:/so/bld
         rattler-build build --recipe sofa-stlib/recipe.yaml --variant-config ../configs/win64.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c sofa-framework-prerelease
@@ -125,7 +125,7 @@ jobs:
     - name: Build & publish sofa-modelorderreduction conda package
       shell: bash -l {0}
       run: |
-        conda activate c:\so-py${{ matrix.python-version }}
+        conda activate c:\\so
         cd conda/recipes
         PKG_DIR=c:/so/bld
         rattler-build build --recipe sofa-modelorderreduction/recipe.yaml --variant-config ../configs/win64.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c sofa-framework-prerelease
@@ -134,7 +134,7 @@ jobs:
     - name: Build & publish sofa-softrobots conda package
       shell: bash -l {0}
       run: |
-        conda activate c:\so-py${{ matrix.python-version }}
+        conda activate c:\\so
         cd conda/recipes
         PKG_DIR=c:/so/bld
         rattler-build build --recipe sofa-softrobots/recipe.yaml --variant-config ../configs/win64.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c sofa-framework-prerelease
@@ -143,7 +143,7 @@ jobs:
     - name: Build & publish sofa-cosserat conda package
       shell: bash -l {0}
       run: |
-        conda activate c:\so-py${{ matrix.python-version }}
+        conda activate c:\\so
         cd conda/recipes
         PKG_DIR=c:/so/bld
         rattler-build build --recipe sofa-cosserat/recipe.yaml --variant-config ../configs/win64.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c sofa-framework-prerelease
