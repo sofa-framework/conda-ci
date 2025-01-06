@@ -18,7 +18,9 @@ source:
     - patches/cmake-qglviewer.patch
     # See comments in sofa conda package recipe at file
     # scripts/hotfix-sofa-run-macos.sh for more details.
-    - patches/0001-hotfix-for-libpython-linking-on-macOS.patch
+    - if: osx
+      then:
+        - patches/0001-hotfix-for-libpython-linking-on-macOS.patch
 
 build:
   number: ${{ build_num }}
