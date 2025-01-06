@@ -4,13 +4,14 @@ context:
   build_num: 2
   major: ${{ (version | split('.'))[0] }}
   minor: ${{ (version | split('.'))[1] }}
+  major_minor: ${{ major }}.${{ minor }}
 
 package:
   name: ${{ name|lower }}
   version: ${{ version }}
 
 source:
-  # - url: https://github.com/SofaDefrost/SoftRobots.Inverse/archive/refs/tags/release-v${{ major }}.${{ minor }}.tar.gz
+  # - url: https://github.com/SofaDefrost/SoftRobots.Inverse/archive/refs/tags/release-v${{ major_minor }}.tar.gz
   git_url: https://github.com/olivier-roussel/SoftRobots.Inverse.git
   git_rev: main
 
@@ -45,10 +46,10 @@ requirements:
         - cross-python_${{ target_platform }}
         - pybind11        
   host:
-    - sofa-devel
-    - sofa-python3
-    - sofa-stlib
-    - sofa-softrobots
+    - sofa-devel ${{ major_minor }}
+    - sofa-python3 ${{ major_minor }}
+    - sofa-stlib ${{ major_minor }}
+    - sofa-softrobots ${{ major_minor }}
     - zlib
     - eigen
     - boost-cpp

@@ -4,13 +4,14 @@ context:
   build_num: 1
   major: ${{ (version | split('.'))[0] }}
   minor: ${{ (version | split('.'))[1] }}
+  major_minor: ${{ major }}.${{ minor }}
 
 package:
   name: ${{ name }}
   version: ${{ version }}
 
 source:
-  url: https://github.com/SofaDefrost/STLIB/archive/refs/tags/release-v${{ major }}.${{ minor }}.tar.gz
+  url: https://github.com/SofaDefrost/STLIB/archive/refs/tags/release-v${{ major_minor }}.tar.gz
   sha256: 90a05fe6899bc42756bdcfd7280b085cdaafb539dc1fd262d87180c64b0be39f
 build:
   number: ${{ build_num }}
@@ -32,7 +33,7 @@ requirements:
         - cross-python_${{ target_platform }}
         - pybind11
   host:
-    - sofa-python3
+    - sofa-python3 ${{ major_minor }}
     - eigen
     - libboost-headers
     - python

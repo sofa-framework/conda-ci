@@ -4,13 +4,14 @@ context:
   build_num: 1
   major: ${{ (version | split('.'))[0] }}
   minor: ${{ (version | split('.'))[1] }}
+  major_minor: ${{ major }}.${{ minor }}
 
 package:
   name: ${{ name }}
   version: ${{ version }}
 
 source:
-  url: https://github.com/SofaDefrost/ModelOrderReduction/archive/refs/tags/release-v${{ major }}.${{ minor }}.tar.gz
+  url: https://github.com/SofaDefrost/ModelOrderReduction/archive/refs/tags/release-v${{ major_minor }}.tar.gz
   sha256: 214481e12b0038a8b0fddaa18b4b36528b737df2714866d18a843e2a0ad952d4
 
 build:
@@ -36,8 +37,8 @@ requirements:
         - cross-python_${{ target_platform }}
         - pybind11
   host:
-    - sofa-devel
-    - sofa-python3
+    - sofa-devel ${{ major_minor }}
+    - sofa-python3 ${{ major_minor }}
     - eigen
     - libboost-headers
     - cxxopts
