@@ -1,7 +1,7 @@
 context:
   name: sofa
-  version: 24.06.00
-  build_num: 1
+  version: 24.12.00
+  build_num: 0
 
 recipe:
   name: ${{ name }}
@@ -11,27 +11,16 @@ build:
   number: ${{ build_num }}
 
 source:
-  url: https://github.com/sofa-framework/sofa/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: ee208e6e2ac4af6930626ae42e70993b2d5944ed879929a0e6abc29ad742e58a
+  # url: https://github.com/sofa-framework/sofa/archive/refs/tags/v${{ version }}.tar.gz
+  # sha256: ee208e6e2ac4af6930626ae42e70993b2d5944ed879929a0e6abc29ad742e58a
+  git: https://github.com/sofa-framework/sofa.git
+  branch: v24.12
 
   patches:
-    # The WinDepPack (Windows Dependency Package) of Sofa is not used in a conda environment as
-    # dependencies are handled as conda packages. This seems to break the installation of Sofa and the
-    # further compilation of external Sofa plugins. For the current release, WinDepPack usage is forced
-    # in the cmake files as long Sofa is built on Windows. A solution must be investigated with the
-    # dev team to have the capability to at least disable it.
-    - patches/0002-Remove-WinDepPack.patch
     # Some components that are part of the main SOFA code tree have to be compiled separately
     # as conda packages split the sofa-core part from GUI related components. SOFA CMakeFiles
     # needs to be patched to allow isolated compilation.
-    - patches/allow-compilation-out-of-SOFA.patch
-    - patches/0001-disable-SceneChecker-in-runSofa.patch
-    # Force the use of external libQGLViewer from conda and prevent
-    # use of embedded version
-    - patches/sofa-gui-qt-use-external-qglviewer.patch
-    # Fixes FindQGLViewer cmake find module as conda qglviewer package installs
-    # a QGLViewer2 lib instead of QGLViewer
-    - patches/fix-qglviewer-cmake-module-win-conda.patch
+    - patches/0001-fix-missing-cmake-module-path-for-qglviewer-find-mod.patch
 
 cache:
   build:

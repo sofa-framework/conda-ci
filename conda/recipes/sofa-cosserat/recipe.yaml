@@ -1,7 +1,7 @@
 context:
   name: sofa-cosserat
-  version: 24.06.00
-  build_num: 1
+  version: 24.12.00
+  build_num: 0
   major: ${{ (version | split('.'))[0] }}
   minor: ${{ (version | split('.'))[1] }}
   major_minor: ${{ major }}.${{ minor }}
@@ -12,13 +12,7 @@ package:
 
 source:
   url: https://github.com/SofaDefrost/Cosserat/archive/refs/tags/release-v${{ major_minor }}.tar.gz
-  sha256: f57b5020ea9742ce6f381f7adbfe762bb53635e8bdd0ef44cf3517c7079b1248
-
-  patches:
-  # Python 2.7 support in SOFA is officially deprecated since v20.12 release
-  # and this conda package requires at least Python 3.8. This patch
-  # prevents from polluting the environment with deprecated Python 2 packages.
-  - patches/0002-Remove-Python2.7-support-as-deprecated-in-SOFA.patch
+  sha256: b34f2207d3d69aa34d7587a1c13680bc38f91b5d7b5c7def2c595196e8e8b4a3
 
 build:
   number: ${{ build_num }}

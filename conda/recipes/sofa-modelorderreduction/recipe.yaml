@@ -1,7 +1,7 @@
 context:
   name: sofa-modelorderreduction
-  version: 24.06.00
-  build_num: 1
+  version: 24.12.00
+  build_num: 0
   major: ${{ (version | split('.'))[0] }}
   minor: ${{ (version | split('.'))[1] }}
   major_minor: ${{ major }}.${{ minor }}
@@ -12,7 +12,7 @@ package:
 
 source:
   url: https://github.com/SofaDefrost/ModelOrderReduction/archive/refs/tags/release-v${{ major_minor }}.tar.gz
-  sha256: 214481e12b0038a8b0fddaa18b4b36528b737df2714866d18a843e2a0ad952d4
+  sha256: d13d639fc9897f5a5a19f0c9a28e5d72fc480c10c2f55c0565d15bf2a2a0f899
 
 build:
   number: ${{ build_num }}
