@@ -1,14 +1,10 @@
-go_compiler:
-  - go-nocgo
 c_stdlib:
-  - vs
-cgo_compiler:
-  - go-cgo
+- vs
 channel_sources:
-  - conda-forge
+- conda-forge
 target_platform:
-  - win-64
+- win-64
 c_compiler:
-  - vs2022
+- vs2022
 cxx_compiler:
-  - vs2022
+- vs2022
