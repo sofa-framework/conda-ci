@@ -1,0 +1,50 @@
+name: sofa
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
+      platform:
+        required: true
+        type: string
+
+jobs:
+  build-publish-sofa:
+    name: "Build and publish SOFA conda packages for ${{ inputs.os }}"
+    runs-on: ${{ inputs.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: sofa-conda-ci
+        auto-update-conda: true
+        miniforge-version: latest
+
+    - name: Install conda environment
+      shell: bash -l {0}
+      run: |
+        conda install anaconda-client rattler-build=0.31.1 -c conda-forge
+        conda config --set anaconda_upload no
+
+    - name: Show conda config
+      shell: bash -l {0}
+      run: |
+        conda info
+        conda list
+        conda config --show-sources
+        conda config --show
+        printenv | sort
+
+    - name: Build & publish sofa conda package
+      shell: bash -l {0}
+      run: |
+        cd conda/recipes
+        PKG_DIR=../../../rattler-bld
+        rattler-build build --recipe sofa/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental
+        anaconda -t ${{ secrets.ANACONDA_PRERELEASE_TOKEN }} upload -u sofa-framework-prerelease -l main $PKG_DIR/**/*sofa*.conda --force

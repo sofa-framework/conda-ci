@@ -1,0 +1,9 @@
+name: sofa-linux-64
+on: workflow_dispatch
+
+jobs:
+  build-publish-sofa-linux-64:
+    uses: ./.github/workflows/build_publish_sofa.yml
+    with:
+      os: ubuntu-latest
+      platform: linux64
