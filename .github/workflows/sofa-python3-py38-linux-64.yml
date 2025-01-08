@@ -1,13 +1,14 @@
-name: sofa-linux-64
+name: sofa-python3-py38-linux-64
 on: workflow_dispatch
 
 jobs:
-  build-publish-sofa-linux-64:
+  build-publish-sofa-python3-py38-linux-64:
     uses: ./.github/workflows/build_publish_package.yml
     with:
-      package-name: sofa
+      package-name: sofa-python3
       os: ubuntu-latest
       platform: linux64
+      python: python-3.8
       anaconda-channel: sofa-framework-prerelease
     secrets:
       anaconda-token: ${{ secrets.ANACONDA_PRERELEASE_TOKEN }}

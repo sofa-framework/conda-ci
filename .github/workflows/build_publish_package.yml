@@ -1,0 +1,66 @@
+name: sofa-package
+
+on:
+  workflow_call:
+    inputs:
+      package-name:
+        required: true
+        type: string
+      os:
+        required: true
+        type: string
+      platform:
+        required: true
+        type: string        
+      python:
+        required: false
+        type: string
+      anaconda-channel:
+        required: true
+        type: string
+    secrets:
+      anaconda-token:
+        required: true
+
+jobs:
+  build-publish-sofa:
+    name: "Build and publish  ${{ inputs.package-name }} - ${{ inputs.platform }} conda packages for ${{ inputs.os }}"
+    runs-on: ${{ inputs.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: sofa-conda-ci
+        auto-update-conda: true
+        miniforge-version: latest
+
+    - name: Install conda environment
+      shell: bash -l {0}
+      run: |
+        conda install anaconda-client rattler-build=0.31.1 -c conda-forge
+        conda config --set anaconda_upload no
+
+    - name: Show conda config
+      shell: bash -l {0}
+      run: |
+        conda info
+        conda list
+        conda config --show-sources
+        conda config --show
+        printenv | sort
+
+    - name: Build & publish sofa conda package
+      shell: bash -l {0}
+      run: |
+        cd conda/recipes
+        PKG_DIR=../../../rattler-bld
+        if [ ! -z "${{ inputs.python }}" ]; then
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml --variant-config ../configs/${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }}
+        else
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }}
+        fi
+        anaconda -t ${{ secrets.anaconda-token }} upload -u ${{ inputs.anaconda-channel }} -l main $PKG_DIR/**/*${{ inputs.package-name }}*.conda --force
