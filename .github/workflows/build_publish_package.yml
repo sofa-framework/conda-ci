@@ -1,4 +1,4 @@
-name: sofa-package
+name: common-build-publish-sofa-package
 
 on:
   workflow_call:
@@ -6,7 +6,7 @@ on:
       package-name:
         required: true
         type: string
-      os:
+      runner:
         required: true
         type: string
       platform:
@@ -24,15 +24,26 @@ on:
 
 jobs:
   build-publish-sofa:
-    name: "Build and publish  ${{ inputs.package-name }} - ${{ inputs.platform }} conda packages for ${{ inputs.os }}"
-    runs-on: ${{ inputs.os }}
-
+    name: "Build and publish  ${{ inputs.package-name }} - ${{ inputs.platform }} (py${{ inputs.python }} ) conda packages on ${{ inputs.runner }}"
+    runs-on: ${{ inputs.runner }}
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: recursive
 
-    - uses: conda-incubator/setup-miniconda@v3
+    # We force to use a conda env located close to filesystem root on Windows to bypass a compilation bug with SOFA
+    # due to too long filename, even if LongPath registry key is enabled
+    - name: Install miniconda [Windows]
+      if: contains(inputs.runner, 'windows')
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: c:\so
+        auto-update-conda: true
+        miniforge-version: latest
+
+    - name: Install miniconda [Linux & macOS]
+      if: contains(inputs.runner, 'windows') == false
+      uses: conda-incubator/setup-miniconda@v3
       with:
         activate-environment: sofa-conda-ci
         auto-update-conda: true
@@ -53,13 +64,19 @@ jobs:
         conda config --show
         printenv | sort
 
+    # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
     - name: Build & publish sofa conda package
       shell: bash -l {0}
       run: |
+        conda info
         cd conda/recipes
-        PKG_DIR=../../../rattler-bld
+        if [[ ${{ inputs.runner }} == "windows"* ]]; then
+          PKG_DIR=c:/so/bld
+        else
+          PKG_DIR=../../../rattler-bld
+        fi
         if [ ! -z "${{ inputs.python }}" ]; then
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml --variant-config ../configs/${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }}
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml --variant-config ../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }}
         else
           rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }}
         fi

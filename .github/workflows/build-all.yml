@@ -1,0 +1,25 @@
+name: sofa-all-packages
+on:
+  - workflow_dispatch
+
+jobs:
+  build-publish-sofa:
+    uses: ./.github/workflows/sofa.yml
+  build-publish-sofa-beamadapter:
+    uses: ./.github/workflows/sofa-beamadapter.yml
+    needs: build-publish-sofa
+  build-publish-sofa-python3:
+    uses: ./.github/workflows/sofa-python3.yml
+    needs: build-publish-sofa
+  build-publish-sofa-stlib:
+    uses: ./.github/workflows/sofa-stlib.yml
+    needs: [build-publish-sofa, build-publish-sofa-python3]
+  build-publish-sofa-modelorderreduction:
+    uses: ./.github/workflows/sofa-modelorderreduction.yml
+    needs: [build-publish-sofa, build-publish-sofa-python3]
+  build-publish-sofa-softrobots:
+    uses: ./.github/workflows/sofa-softrobots.yml
+    needs: [build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-stlib]
+  build-publish-sofa-cosserat:
+    uses: ./.github/workflows/sofa-cosserat.yml
+    needs: [build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-stlib, build-publish-sofa-softrobots]

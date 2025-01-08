@@ -1,4 +1,4 @@
-name: win-64
+name: deprecated_win-64
 
 on: workflow_dispatch
 

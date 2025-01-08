@@ -1,4 +1,4 @@
-name: linux-64
+name: deprecated_linux-64
 
 on: workflow_dispatch
 

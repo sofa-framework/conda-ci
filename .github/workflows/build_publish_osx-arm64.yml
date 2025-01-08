@@ -1,4 +1,4 @@
-name: osx-arm64
+name: deprecated_osx-arm64
 
 on: workflow_dispatch
 
