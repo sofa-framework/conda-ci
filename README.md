@@ -7,25 +7,32 @@ Only SOFA release are generated for now (no nightly or development versions).
 
 ## Build status
 
-**Current SOFA version for conda packages: 24.06.00**
+![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsofa-framework%2Fconda-ci%2Frefs%2Fheads%2Fmaster%2Fconda%2Frecipes%2Fsofa%2Frecipe.yaml&query=%24.context.version&label=Sofa%20release&color=4dc71f) ![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsofa-framework%2Fconda-ci%2Frefs%2Fheads%2Fmaster%2F.github%2Fworkflows%2Fsofa-python3.yml&query=%24.jobs.build-publish-sofa-python3.strategy.matrix.python&label=Python%20versions) [![sofa](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa.yml)
 
-[![linux-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_linux-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_linux-64.yml) [![osx-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-64.yml) [![osx-arm64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-arm64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_osx-arm64.yml) [![win-64](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_win-64.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/build_publish_win-64.yml)
+[![sofa-python3](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-python3.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-python3.yml) [![sofa-stlib](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-stlib.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-stlib.yml) [![sofa-modelorderreduction](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-modelorderreduction.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-modelorderreduction.yml) [![sofa-beamadapter](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-beamadapter.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-beamadapter.yml) [![sofa-softrobots](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-softrobots.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-softrobots.yml) [![sofa-cosserat](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-cosserat.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-cosserat.yml)
 
 ## Available packages
 
-SOFA core:
-  - **libsofa**: SOFA core runtime libraries
-  - **sofa-devel**: SOFA core development files (runtime libraries + headers + cmake files)
-  - **sofa-gl**: SOFA.GL rendering library (devel version)
-  - **sofa-gui-qt**: Qt based GUI library for SOFA (devel version)
-  - **sofa-app**: SOFA runtime binaries (sofaRun) + required resources. Use this package if you want a full install of SOFA core, as it will install as well all the previously mentioned packages for SOFA core. 
+**SOFA core**
 
-External SOFA plugins:
-  - **sofa-python3**: for macOS users, please read special instructions [here](#special-instructions-for-macOS-users).
-  - **sofa-stlib**
-  - **sofa-modelorderreduction**
-  - **sofa-beamadapter**
-  - **sofa-softrobots**
+| Name | Version | Platforms | Description |
+| :---------: | ----------- | ------- | ------ |
+| ![Static Badge](https://img.shields.io/badge/libsofa-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/libsofa) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/libsofa) |  SOFA core runtime libraries |
+| ![Static Badge](https://img.shields.io/badge/sofa--devel-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-devel) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-devel) |  SOFA core development files (runtime libraries + headers + cmake files) |
+| ![Static Badge](https://img.shields.io/badge/sofa--gl-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-gl) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-gl) |  SOFA.GL rendering library (devel version) |
+| ![Static Badge](https://img.shields.io/badge/sofa--gui--qt-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-gui-qt) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-gui-qt) |  Qt based GUI library for SOFA (devel version) |
+| ![Static Badge](https://img.shields.io/badge/sofa--app-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-app) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-app) | SOFA runtime binaries (sofaRun) + required resources. Includes all SOFA core packages. |
+
+**External SOFA plugins**
+
+| Name | Version | Platforms | Description |
+| :---------: | ----------- | ------- | ------ |
+| [![Static Badge](https://img.shields.io/badge/sofa--python3-98c610)](https://github.com/sofa-framework/SofaPython3) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-python3) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-python3) |  Python bindings and scenes support. For macOS users, **please read** special instructions [here](#special-instructions-for-macOS-users). |
+| [![Static Badge](https://img.shields.io/badge/sofa--stlib-98c610)](https://github.com/SofaDefrost/STLIB) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-stlib) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-stlib) | SOFA Template Library |
+| [![Static Badge](https://img.shields.io/badge/sofa--modelorderreduction-98c610)](https://github.com/SofaDefrost/ModelOrderReduction) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-modelorderreduction) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-modelorderreduction) | Plugin to Reduce Model |
+| [![Static Badge](https://img.shields.io/badge/sofa--beamadapter-98c610)](https://github.com/sofa-framework/BeamAdapter) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-beamadapter) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-beamadapter) | Plugin implementing Kirchhoff rods to simulate any 1D flexible structure |
+| [![Static Badge](https://img.shields.io/badge/sofa--softrobots-98c610)](https://github.com/SofaDefrost/SoftRobots) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-softrobots) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-softrobots) |  Plugin containing components & method for soft robotics |
+| [![Static Badge](https://img.shields.io/badge/sofa--cosserat-98c610)](https://github.com/SofaDefrost/Cosserat) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-cosserat) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-cosserat) |  Plugin to simulate linear structures using Cosserat theory |
 
 ## Installing SOFA from conda
 
