@@ -18,6 +18,6 @@ jobs:
       package-name: sofa-beamadapter
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
-      anaconda-channel: sofa-framework-prerelease
+      anaconda-channel: sofa-framework
     secrets:
-      anaconda-token: ${{ secrets.ANACONDA_PRERELEASE_TOKEN }}
+      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
