@@ -19,7 +19,7 @@ jobs:
       package-name: sofa-modelorderreduction
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
-      python: ${{ matrix.target.python }}
+      python: ${{ matrix.python }}
       anaconda-channel: sofa-framework-prerelease
     secrets:
       anaconda-token: ${{ secrets.ANACONDA_PRERELEASE_TOKEN }}
