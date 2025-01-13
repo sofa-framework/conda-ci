@@ -19,5 +19,6 @@ jobs:
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
       anaconda-channel: sofa-framework
+      build-type: sofa-release-v24.12
     secrets:
       anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
