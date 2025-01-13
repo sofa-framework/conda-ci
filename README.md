@@ -36,13 +36,20 @@ Only SOFA release are generated for now (no nightly or development versions).
 
 ## Installing SOFA from conda
 
-### Quick install (recommanded): Full SOFA core install with SofaPython3 plugin
+### Quick install (recommanded)
+
+#### Full SOFA core install with SofaPython3 plugin
 
 ```
 conda install sofa-app sofa-python3 --channel sofa-framework
 ```
 
-If you need additional plugins that are listed as available, please see below to install them.
+Or
+#### Full SOFA core install with all packaged plugins
+
+```
+conda install sofa-app sofa-python3 sofa-stlib sofa-modelorderreduction sofa-beamadapter sofa-softrobots sofa-cosserat --channel sofa-framework
+```
 
 ### Custom install
 
