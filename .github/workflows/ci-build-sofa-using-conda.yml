@@ -36,6 +36,8 @@ jobs:
         auto-update-conda: true
         miniforge-version: latest
         environment-file: main/conda/environments/sofa_win-64.yml
+        channels: conda-forge
+        conda-remove-defaults: "true"
 
     - name: Install miniconda [Linux-x64]
       if: contains(matrix.os, 'ubuntu')
@@ -45,6 +47,8 @@ jobs:
         auto-update-conda: true
         miniforge-version: latest
         environment-file: main/conda/environments/sofa_linux-64.yml
+        channels: conda-forge
+        conda-remove-defaults: "true"
 
     - name: Install miniconda [macOS-x64]
       if: contains(matrix.os, 'macos-13')
@@ -54,6 +58,8 @@ jobs:
         auto-update-conda: true
         miniforge-version: latest
         environment-file: main/conda/environments/sofa_osx-64.yml
+        channels: conda-forge
+        conda-remove-defaults: "true"
 
     - name: Print environment [Conda]
       shell: bash -l {0}
