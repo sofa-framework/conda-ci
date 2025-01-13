@@ -15,4 +15,3 @@ dependencies:
   - qt-main
   - ffmpeg
   - libqglviewer
-  - mesa-libgl-devel-cos7-x86_64
