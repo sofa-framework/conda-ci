@@ -2,19 +2,18 @@ name: sofa
 channels:
   - conda-forge
 dependencies:
+  - cmake
+  - ninja
+  - cxx-compiler
+  - libboost-headers
+  - zlib
   - tinyxml2
-  - metis=5.1.0
   - eigen
   - cxxopts
-  - libboost-devel
   - gtest
   - glew
   - libglu
-  - zlib
   - qt-main
   - ffmpeg
   - libqglviewer
   - mesa-libgl-devel-cos7-x86_64
-  - cmake
-  - ninja
-  - cxx-compiler

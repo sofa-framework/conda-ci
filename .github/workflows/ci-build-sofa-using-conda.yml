@@ -1,0 +1,94 @@
+name: CI Sofa - Linux/OSX/Windows - Conda
+
+on:
+  workflow_dispatch:
+  # push:
+  # pull_request:
+
+jobs:
+  build-with-conda-and-test:
+    name: Run on ${{ matrix.os }} using Conda with SOFA ${{ matrix.sofa_branch }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-13, windows-2022]
+        sofa_branch: [master, v24.12]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: sofa-framework/sofa
+        ref: ${{ matrix.sofa_branch }}
+
+    # We force to use a conda env located close to filesystem root on Windows to bypass a compilation bug with SOFA
+    # due to too long filename, even if LongPath registry key is enabled
+    - name: Install miniconda [Windows-x64]
+      if: contains(matrix.os, 'windows')
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: c:\so
+        auto-update-conda: true
+        miniforge-version: latest
+        environment-file: conda/sofa/environment_win-64.yml
+
+    - name: Install miniconda [Linux-x64]
+      if: contains(matrix.os, 'ubuntu')
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: sofa-conda-ci
+        auto-update-conda: true
+        miniforge-version: latest
+        environment-file: conda/sofa/environment_linux-64.yml
+
+    - name: Install miniconda [macOS-x64]
+      if: contains(matrix.os, 'macos-13')
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: sofa-conda-ci
+        auto-update-conda: true
+        miniforge-version: latest
+        environment-file: conda/sofa/environment_osx-64.yml
+
+    - name: Print environment [Conda]
+      shell: bash -l {0}
+      run: |
+        conda info
+        conda list
+        env
+
+    - name: Configure [Conda / All]
+      shell: bash -l {0}
+      run: |
+        mkdir build
+        cd build
+        cmake .. -GNinja \
+         -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} \
+         -DCMAKE_BUILD_TYPE=Release \
+         -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF \
+         -DAPPLICATION_SOFAPHYSICSAPI=OFF \
+         -DSOFA_BUILD_SCENECREATOR=OFF \
+         -DSOFA_BUILD_TESTS=OFF \
+         -DSOFA_FLOATING_POINT_TYPE=double \
+         -DPLUGIN_CIMGPLUGIN=OFF \
+         -DPLUGIN_SOFAMATRIX=OFF \
+         -DPLUGIN_SOFAVALIDATION=OFF \
+         -DPLUGIN_SOFA_GUI_QT=OFF \
+         -DSOFA_NO_OPENGL=ON \
+         -DSOFA_WITH_OPENGL=OFF \
+         -DPLUGIN_MULTITHREADING=ON \
+         -DAPPLICATION_RUNSOFA=OFF \
+         -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF \
+         -DSOFA_ALLOW_FETCH_DEPENDENCIES=OFF
+
+    - name: Build [Conda]
+      shell: bash -l {0}
+      run: |
+        cd build
+        cmake --build . -v -j 1
+
+    - name: Install [Conda]
+      shell: bash -l {0}
+      run: |
+        cd build
+        cmake --install .
