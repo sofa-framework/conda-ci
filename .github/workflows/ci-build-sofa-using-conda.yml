@@ -18,8 +18,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        path: main
+
+    - uses: actions/checkout@v4
+      with:
         repository: sofa-framework/sofa
         ref: ${{ matrix.sofa_branch }}
+        path: sofa-src
 
     # We force to use a conda env located close to filesystem root on Windows to bypass a compilation bug with SOFA
     # due to too long filename, even if LongPath registry key is enabled
@@ -30,7 +35,7 @@ jobs:
         activate-environment: c:\so
         auto-update-conda: true
         miniforge-version: latest
-        environment-file: conda/environments/sofa_win-64.yml
+        environment-file: main/conda/environments/sofa_win-64.yml
 
     - name: Install miniconda [Linux-x64]
       if: contains(matrix.os, 'ubuntu')
@@ -39,7 +44,7 @@ jobs:
         activate-environment: sofa-conda-ci
         auto-update-conda: true
         miniforge-version: latest
-        environment-file: conda/environments/sofa_linux-64.yml
+        environment-file: main/conda/environments/sofa_linux-64.yml
 
     - name: Install miniconda [macOS-x64]
       if: contains(matrix.os, 'macos-13')
@@ -48,7 +53,7 @@ jobs:
         activate-environment: sofa-conda-ci
         auto-update-conda: true
         miniforge-version: latest
-        environment-file: conda/environments/sofa_osx-64.yml
+        environment-file: main/conda/environments/sofa_osx-64.yml
 
     - name: Print environment [Conda]
       shell: bash -l {0}
@@ -60,6 +65,7 @@ jobs:
     - name: Configure [Conda / All]
       shell: bash -l {0}
       run: |
+        cd sofa-src
         mkdir build
         cd build
         cmake .. -GNinja \
@@ -84,11 +90,11 @@ jobs:
     - name: Build [Conda]
       shell: bash -l {0}
       run: |
-        cd build
+        cd sofa-src/build
         cmake --build . -v -j 1
 
     - name: Install [Conda]
       shell: bash -l {0}
       run: |
-        cd build
+        cd sofa-src/build
         cmake --install .
