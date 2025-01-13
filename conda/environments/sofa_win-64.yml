@@ -3,8 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - cmake
-  - ninja
-  - cxx-compiler
+  - vs2022_win-64
   - libboost-headers
   - zlib
   - tinyxml2

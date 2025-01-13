@@ -68,13 +68,40 @@ jobs:
         conda list
         env
 
-    - name: Configure [Conda / All]
+    - name: Configure [Conda - Linux/macOS]
+      if: contains(matrix.os, 'windows') == false
       shell: bash -l {0}
       run: |
         cd sofa-src
         mkdir build
         cd build
         cmake .. -GNinja \
+         -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} \
+         -DCMAKE_BUILD_TYPE=Release \
+         -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF \
+         -DAPPLICATION_SOFAPHYSICSAPI=OFF \
+         -DSOFA_BUILD_SCENECREATOR=OFF \
+         -DSOFA_BUILD_TESTS=OFF \
+         -DSOFA_FLOATING_POINT_TYPE=double \
+         -DPLUGIN_CIMGPLUGIN=OFF \
+         -DPLUGIN_SOFAMATRIX=OFF \
+         -DPLUGIN_SOFAVALIDATION=OFF \
+         -DPLUGIN_SOFA_GUI_QT=OFF \
+         -DSOFA_NO_OPENGL=ON \
+         -DSOFA_WITH_OPENGL=OFF \
+         -DPLUGIN_MULTITHREADING=ON \
+         -DAPPLICATION_RUNSOFA=OFF \
+         -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF \
+         -DSOFA_ALLOW_FETCH_DEPENDENCIES=OFF
+
+    - name: Configure [Conda - Windows]
+      shell: bash -l {0}
+      if: contains(matrix.os, 'windows')
+      run: |
+        cd sofa-src
+        mkdir build
+        cd build
+        cmake .. -G"Visual Studio 17 2022" -T "v143" \
          -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} \
          -DCMAKE_BUILD_TYPE=Release \
          -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF \
