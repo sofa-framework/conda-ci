@@ -104,6 +104,7 @@ jobs:
         cmake .. -G"Visual Studio 17 2022" -T "v143" \
          -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} \
          -DCMAKE_BUILD_TYPE=Release \
+         -DSOFA_USE_DEPENDENCY_PACK=OFF \
          -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF \
          -DAPPLICATION_SOFAPHYSICSAPI=OFF \
          -DSOFA_BUILD_SCENECREATOR=OFF \
@@ -124,7 +125,7 @@ jobs:
       shell: bash -l {0}
       run: |
         cd sofa-src/build
-        cmake --build . -v -j 1
+        cmake --build . -v -j2
 
     - name: Install [Conda]
       shell: bash -l {0}
