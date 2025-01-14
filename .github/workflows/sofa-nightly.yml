@@ -1,4 +1,4 @@
-name: sofa
+name: nightly-sofa
 on:
   - workflow_call
   - workflow_dispatch
@@ -18,9 +18,9 @@ jobs:
       package-name: sofa
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
-      anaconda-channel: sofa-framework
-      is-nightly: false
-      version: "24.12.00"
-      git-ref: "tag: v24.12.00"
+      anaconda-channel: sofa-framework-nightly
+      is-nightly: true
+      version: "24.12.99"
+      git-ref: "branch: master"
     secrets:
-      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
+      anaconda-token: ${{ secrets.ANACONDA_NIGHTLY_TOKEN }}

@@ -15,7 +15,13 @@ on:
       python:
         required: false
         type: string
-      build-type:
+      is-nightly:
+        required: false
+        type: boolean
+      version:
+        required: false
+        type: string
+      git-ref:
         required: false
         type: string
       anaconda-channel:
@@ -67,6 +73,20 @@ jobs:
         conda config --show
         printenv | sort
 
+    - name: Configuring recipe for build type
+      shell: bash -l {0}
+      run: |
+        export SOFA_PACKAGE_VERSION="${{ inputs.version }}"
+        export SOFA_PACKAGE_GIT_REF="${{ inputs.git-ref }}"
+        if [ ${{ inputs.is-nightly }} = "true" ]; then
+          export SOFA_PACKAGE_BUILD_STRING="string: nightly_\$\{\{ env.get(\"GIT_BUILD_STRING\") \}\}"
+          echo $SOFA_PACKAGE_BUILD_STRING
+        fi
+        cd conda/recipes
+        envsubst < ${{ inputs.package-name }}/recipe.yaml.in > ${{ inputs.package-name }}/recipe.yaml
+        echo "Configured recipe.yaml:"
+        cat ${{ inputs.package-name }}/recipe.yaml
+
     # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
     - name: Build & publish sofa conda package
       shell: bash -l {0}
@@ -79,8 +99,8 @@ jobs:
           PKG_DIR=../../../rattler-bld
         fi
         if [ ! -z "${{ inputs.python }}" ]; then
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml --variant-config ../configs/${{ inputs.build-type }}.yaml ../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }}
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml ../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }}
         else
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml --variant-config ../configs/${{ inputs.build-type }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }}
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }}
         fi
         anaconda -t ${{ secrets.anaconda-token }} upload -u ${{ inputs.anaconda-channel }} -l main $PKG_DIR/**/*${{ inputs.package-name }}*.conda --force

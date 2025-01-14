@@ -1,6 +1,6 @@
 context:
   name: sofa
-  version: ${{ sofa_version }}
+  version: $SOFA_PACKAGE_VERSION
   build_num: 0
 
 recipe:
@@ -9,12 +9,13 @@ recipe:
 
 build:
   number: ${{ build_num }}
+  $SOFA_PACKAGE_BUILD_STRING
 
 source:
   # url: https://github.com/sofa-framework/sofa/archive/refs/tags/v${{ version }}.tar.gz
   # sha256: ee208e6e2ac4af6930626ae42e70993b2d5944ed879929a0e6abc29ad742e58a
   git: https://github.com/sofa-framework/sofa.git
-  branch: ${{ git_branch }}
+  $SOFA_PACKAGE_GIT_REF
 
   patches:
     # Some components that are part of the main SOFA code tree have to be compiled separately
