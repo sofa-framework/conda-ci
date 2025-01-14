@@ -1,0 +1,24 @@
+From 490f7502c5016fb2d641713f6ce99afb6a82c776 Mon Sep 17 00:00:00 2001
+From: Olivier Roussel <olivier.roussel@inria.fr>
+Date: Mon, 6 Jan 2025 10:58:01 +0100
+Subject: [PATCH] fix missing cmake module path for qglviewer find module
+
+---
+ Sofa/GUI/Qt/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Sofa/GUI/Qt/CMakeLists.txt b/Sofa/GUI/Qt/CMakeLists.txt
+index 85ebe4e49e..4a9e3248f2 100644
+--- a/Sofa/GUI/Qt/CMakeLists.txt
++++ b/Sofa/GUI/Qt/CMakeLists.txt
+@@ -4,6 +4,7 @@ project(Sofa.GUI.Qt LANGUAGES CXX)
+ # Detect if component is compiled outside SOFA
+ if ("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
+     find_package(Sofa.Config REQUIRED)
++    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake/Modules")
+     sofa_find_package(Sofa.GUI.Common REQUIRED)
+ endif()
+ 
+-- 
+2.34.1
+

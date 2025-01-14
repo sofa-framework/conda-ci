@@ -1,4 +1,4 @@
-name: sofa-beamadapter
+name: nightly-sofa-beamadapter
 on:
   - workflow_call
   - workflow_dispatch
@@ -18,7 +18,7 @@ jobs:
       package-name: sofa-beamadapter
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
-      anaconda-channel: sofa-framework
-      recipe-dir: release-v24.12
+      anaconda-channel: sofa-framework-nightly
+      recipe-dir: nightly
     secrets:
-      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
+      anaconda-token: ${{ secrets.ANACONDA_NIGHTLY_TOKEN }}

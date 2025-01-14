@@ -15,14 +15,8 @@ on:
       python:
         required: false
         type: string
-      is-nightly:
-        required: false
-        type: boolean
-      version:
-        required: false
-        type: string
-      git-ref:
-        required: false
+      recipe-dir:
+        required: true
         type: string
       anaconda-channel:
         required: true
@@ -73,26 +67,12 @@ jobs:
         conda config --show
         printenv | sort
 
-    - name: Configuring recipe for build type
-      shell: bash -l {0}
-      run: |
-        export SOFA_PACKAGE_VERSION="${{ inputs.version }}"
-        export SOFA_PACKAGE_GIT_REF="${{ inputs.git-ref }}"
-        if [ ${{ inputs.is-nightly }} = "true" ]; then
-          export SOFA_PACKAGE_BUILD_STRING="string: nightly_${{ '\${{' }} hash ${{ '}}' }}"
-          echo $SOFA_PACKAGE_BUILD_STRING
-        fi
-        cd conda/recipes
-        envsubst < ${{ inputs.package-name }}/recipe.yaml.in > ${{ inputs.package-name }}/recipe.yaml
-        echo "Configured recipe.yaml:"
-        cat ${{ inputs.package-name }}/recipe.yaml
-
     # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
     - name: Build & publish sofa conda package
       shell: bash -l {0}
       run: |
         conda info
-        cd conda/recipes
+        cd conda/recipes/${{ inputs.recipe-dir }}
         if [[ ${{ inputs.runner }} == "windows"* ]]; then
           PKG_DIR=c:/so/bld
         else

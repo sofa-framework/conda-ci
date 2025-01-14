@@ -21,5 +21,6 @@ jobs:
       platform: ${{ matrix.target.platform }}
       python: ${{ matrix.python }}
       anaconda-channel: sofa-framework
+      recipe-dir: release-v24.12
     secrets:
       anaconda-token: ${{ secrets.ANACONDA_TOKEN }}

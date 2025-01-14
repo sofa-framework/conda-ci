@@ -1,4 +1,4 @@
-name: sofa-python3
+name: nightly-sofa-python3
 on:
   - workflow_call
   - workflow_dispatch
@@ -20,7 +20,7 @@ jobs:
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
       python: ${{ matrix.python }}
-      anaconda-channel: sofa-framework
-      recipe-dir: release-v24.12
+      anaconda-channel: sofa-framework-nightly
+      recipe-dir: nightly
     secrets:
-      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
+      anaconda-token: ${{ secrets.ANACONDA_NIGHTLY_TOKEN }}
