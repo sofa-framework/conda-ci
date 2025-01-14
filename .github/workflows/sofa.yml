@@ -21,6 +21,7 @@ jobs:
       anaconda-channel: sofa-framework
       is-nightly: false
       version: "24.12.00"
-      git-ref: "tag: v24.12.00"
+      # git-ref: "tag: v24.12.00"
+      git-ref: "branch: v24.12"
     secrets:
       anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
