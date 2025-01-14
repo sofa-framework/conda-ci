@@ -79,7 +79,7 @@ jobs:
         export SOFA_PACKAGE_VERSION="${{ inputs.version }}"
         export SOFA_PACKAGE_GIT_REF="${{ inputs.git-ref }}"
         if [ ${{ inputs.is-nightly }} = "true" ]; then
-          export SOFA_PACKAGE_BUILD_STRING="string: nightly_\$\{\{ env.get(\"GIT_BUILD_STRING\") \}\}"
+          export SOFA_PACKAGE_BUILD_STRING="string: nightly_${{ '\${{' }} env.get(\"GIT_BUILD_STR\") ${{ '}}' }}"
           echo $SOFA_PACKAGE_BUILD_STRING
         fi
         cd conda/recipes

@@ -121,11 +121,16 @@ jobs:
          -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF \
          -DSOFA_ALLOW_FETCH_DEPENDENCIES=OFF
 
-    - name: Build [Conda]
+    # - name: Build [Conda]
+    #   shell: bash -l {0}
+    #   run: |
+    #     cd sofa-src/build
+    #     cmake --build . -v -j 1
+
+    - name: Debug cmake_install [All]
       shell: bash -l {0}
       run: |
-        cd sofa-src/build
-        cmake --build . -v -j2
+        cat sofa-src/build/cmake_install.cmake
 
     - name: Install [Conda]
       shell: bash -l {0}
