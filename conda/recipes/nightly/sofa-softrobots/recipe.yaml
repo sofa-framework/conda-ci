@@ -38,8 +38,8 @@ requirements:
         - cross-python_${{ target_platform }}
         - pybind11
   host:
-    - sofa-devel ${{ major_minor }}
-    - sofa-stlib ${{ major_minor }}
+    - sofa-devel ==${{ version }}
+    - sofa-stlib ==${{ version }}
     - eigen
     - libboost-headers
     - cxxopts

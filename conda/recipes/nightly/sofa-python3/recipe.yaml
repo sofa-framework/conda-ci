@@ -47,9 +47,9 @@ requirements:
         - numpy
         - pybind11
   host:
-    - sofa-devel ${{ major_minor }}
-    - sofa-gl ${{ major_minor }}
-    - sofa-gui-qt ${{ major_minor }}
+    - sofa-devel ==${{ version }}
+    - sofa-gl ==${{ version }}
+    - sofa-gui-qt ==${{ version }}
     - eigen
     - libboost-headers
     - glew

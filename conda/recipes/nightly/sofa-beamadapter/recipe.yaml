@@ -33,7 +33,7 @@ requirements:
       then: 
         - ${{ cdt('mesa-libgl-devel') }}
   host:
-    - sofa-devel ${{ major_minor }}
+    - sofa-devel ==${{ version }}
     - eigen
     - libboost-headers
   run:

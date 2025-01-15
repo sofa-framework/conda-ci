@@ -46,10 +46,10 @@ requirements:
         - cross-python_${{ target_platform }}
         - pybind11        
   host:
-    - sofa-devel ${{ major_minor }}
-    - sofa-python3 ${{ major_minor }}
-    - sofa-stlib ${{ major_minor }}
-    - sofa-softrobots ${{ major_minor }}
+    - sofa-devel ==${{ version }}
+    - sofa-python3 ==${{ version }}
+    - sofa-stlib ==${{ version }}
+    - sofa-softrobots ==${{ version }}
     - zlib
     - eigen
     - boost-cpp
