@@ -121,16 +121,34 @@ jobs:
          -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF \
          -DSOFA_ALLOW_FETCH_DEPENDENCIES=OFF
 
-    # - name: Build [Conda]
-    #   shell: bash -l {0}
-    #   run: |
-    #     cd sofa-src/build
-    #     cmake --build . -v -j 1
+    - name: Build [Conda]
+      shell: bash -l {0}
+      run: |
+        cd sofa-src/build
+        cmake --build . -v -j 1
 
     - name: Debug cmake_install [All]
       shell: bash -l {0}
+      if: contains(matrix.os, 'windows')
       run: |
+        echo "------------------------"
         cat sofa-src/build/cmake_install.cmake
+        echo "------------------------"
+        cat sofa-src/build/Sofa/framework/Config/cmake_install.cmake
+        echo "------------------------"
+        ls D:/a/conda-ci/conda-ci/sofa-src
+        echo "------------------------"
+        ls D:/a/conda-ci/conda-ci/sofa-src/build
+        echo "------------------------"
+        ls D:/a/conda-ci/conda-ci/sofa-src/build/bin
+        echo "------------------------"
+        ls D:/a/conda-ci/conda-ci/sofa-src/build/bin/Release
+        echo "------------------------"
+        find D:/a/conda-ci/conda-ci/sofa-src/build -iname "Sofa.Config.dll"
+        echo "------------------------"
+        echo ${CONDA_PREFIX}
+        ls ${CONDA_PREFIX}
+        echo "------------------------"
 
     - name: Install [Conda]
       shell: bash -l {0}
