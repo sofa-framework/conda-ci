@@ -23,4 +23,4 @@ jobs:
       anaconda-channel: sofa-framework-nightly
       recipe-dir: nightly
     secrets:
-      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
+      anaconda-token: ${{ secrets.ANACONDA_NIGHTLY_TOKEN }}
