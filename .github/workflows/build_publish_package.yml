@@ -55,7 +55,7 @@ jobs:
     - name: Install conda environment
       shell: bash -l {0}
       run: |
-        conda install anaconda-client rattler-build=0.31.1 -c conda-forge
+        conda install anaconda-client rattler-build -c conda-forge
         conda config --set anaconda_upload no
 
     - name: Show conda config

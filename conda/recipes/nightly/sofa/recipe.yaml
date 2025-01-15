@@ -11,17 +11,17 @@ build:
   number: ${{ build_num }}
   string: nightly_${{ hash }}
 
-source:
-  git: https://github.com/sofa-framework/sofa.git
-  branch: master
-
-  patches:
-    # Some components that are part of the main SOFA code tree have to be compiled separately
-    # as conda packages split the sofa-core part from GUI related components. SOFA CMakeFiles
-    # needs to be patched to allow isolated compilation.
-    - patches/0001-fix-missing-cmake-module-path-for-qglviewer-find-mod.patch
-
 cache:
+  source:
+    git: https://github.com/sofa-framework/sofa.git
+    branch: master
+
+    patches:
+      # Some components that are part of the main SOFA code tree have to be compiled separately
+      # as conda packages split the sofa-core part from GUI related components. SOFA CMakeFiles
+      # needs to be patched to allow isolated compilation.
+      - patches/0001-fix-missing-cmake-module-path-for-qglviewer-find-mod.patch
+
   build:
     script: scripts/build-cache
 
