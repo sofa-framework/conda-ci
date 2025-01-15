@@ -101,7 +101,7 @@ jobs:
         cd sofa-src
         mkdir build
         cd build
-        cmake .. -G"Visual Studio 17 2022" -T "v143" ^
+        cmake .. -G"Ninja" ^
          -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX% ^
          -DCMAKE_BUILD_TYPE:STRING=Release ^
          -DSOFA_USE_DEPENDENCY_PACK=OFF ^
