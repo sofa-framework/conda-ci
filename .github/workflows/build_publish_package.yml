@@ -44,13 +44,22 @@ jobs:
         auto-update-conda: true
         miniforge-version: latest
 
-    - name: Install miniconda [Linux & macOS]
-      if: contains(inputs.runner, 'windows') == false
+    - name: Install miniconda [Linux x64 & macOS]
+      if: contains(inputs.runner, 'windows') == false && !(contains(inputs.runner, 'ubuntu') && contains(inputs.runner, 'arm'))
       uses: conda-incubator/setup-miniconda@v3
       with:
         activate-environment: sofa-conda-ci
         auto-update-conda: true
         miniforge-version: latest
+
+    - name: Install miniconda [Linux aarch64]
+      if: contains(inputs.runner, 'ubuntu') && contains(inputs.runner, 'arm')
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: sofa-conda-ci
+        auto-update-conda: true
+        miniforge-version: latest
+        architecture: aarch64
 
     - name: Install conda environment
       shell: bash -l {0}
