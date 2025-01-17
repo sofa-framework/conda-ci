@@ -5,6 +5,8 @@ on:
   # push:
   # pull_request:
 
+# TODO: build on different scopes as in 
+# https://github.com/sofa-framework/ci/blob/5dca4a6da1eb25502545fcf7b24bae5015c8c3af/scripts/configure.sh#L338
 jobs:
   build-with-conda-and-test:
     name: Run on ${{ matrix.os }} using Conda with SOFA ${{ matrix.sofa_branch }}
