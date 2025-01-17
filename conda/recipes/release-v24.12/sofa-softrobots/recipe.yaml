@@ -12,7 +12,7 @@ package:
 
 source:
   git: https://github.com/SofaDefrost/SoftRobots.git
-  branch: release-v24.12
+  tag: release-v24.12
 
 build:
   number: ${{ build_num }}
