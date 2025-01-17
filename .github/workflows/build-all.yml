@@ -1,6 +1,6 @@
 name: sofa-all-packages
 on:
-  workflow_dispatch:
+  - workflow_dispatch
 
 jobs:
   build-publish-sofa:

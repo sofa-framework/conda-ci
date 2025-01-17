@@ -24,7 +24,7 @@ source:
 
 build:
   number: ${{ build_num }}
-  string: nightly_${{ python | version_to_buildstring }}${{ hash }}
+  string: nightly_py${{ python | version_to_buildstring }}h${{ hash }}
 
 requirements:
   build:

@@ -16,7 +16,7 @@ source:
 
 build:
   number: ${{ build_num }}
-  string: nightly_${{ hash }}
+  string: nightly_h${{ hash }}
 
 requirements:
   build:
