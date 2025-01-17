@@ -48,11 +48,11 @@ requirements:
         - numpy
         - pybind11
   host:
-    - sofa-devel ${{ major_minor }}
-    - sofa-gl ${{ major_minor }}
+    - sofa-devel ==${{ major_minor }}
+    - sofa-gl ==${{ major_minor }}
     - if: not(linux and aarch64)
       then:
-        - sofa-gui-qt ${{ major_minor }}
+        - sofa-gui-qt ==${{ major_minor }}
     - eigen
     - libboost-headers
     - glew
