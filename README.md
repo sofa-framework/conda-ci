@@ -51,6 +51,21 @@ Or
 ```
 conda install sofa-app sofa-python3 sofa-stlib sofa-modelorderreduction sofa-beamadapter sofa-softrobots sofa-cosserat --channel sofa-framework
 ```
+### Testing install
+
+Run SOFA application with its GUI
+
+```
+runSofa -l Sofa.GUI.Qt -g qt
+```
+
+Run SOFA application with its GUI **and** SofaPython3 plugin
+
+```
+runSofa -l Sofa.GUI.Qt -g qt -l SofaPython3
+```
+
+Please open an [issue](https://github.com/sofa-framework/conda-ci/issues) to report any problem.
 
 ### Custom install
 
