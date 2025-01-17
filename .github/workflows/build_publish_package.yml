@@ -30,6 +30,12 @@ jobs:
     name: "Build and publish  ${{ inputs.package-name }} - ${{ inputs.platform }} (py${{ inputs.python }} ) conda packages on ${{ inputs.runner }}"
     runs-on: ${{ inputs.runner }}
     steps:
+    # hotfix for linux arm64 runners that have a permission bug
+    # https://github.com/orgs/community/discussions/148648#discussioncomment-11858098
+    - name: Fix PATH and XDG_CONFIG_HOME for ARM64 Linux runners (actions/partner-runner-images#25)
+      if: contains(inputs.runner, 'ubuntu') && contains(inputs.runner, 'arm')
+      run: for var in PATH XDG_CONFIG_HOME; do sed -Ee "s/^/${var}=/" -e 's/(runner)admin/\1/g' <<< "${!var}"; done | tee -a "$GITHUB_ENV"
+
     - uses: actions/checkout@v4
       with:
         submodules: recursive
