@@ -21,6 +21,8 @@ source:
     - if: osx
       then:
         - patches/0001-hotfix-for-libpython-linking-on-macOS.patch
+    # https://github.com/sofa-framework/SofaPython3/pull/479
+    - patches/0002-Fix-bindings-cmake-config-for-missing-simpleApi.patch
 
 build:
   number: ${{ build_num }}
