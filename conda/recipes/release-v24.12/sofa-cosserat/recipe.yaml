@@ -32,9 +32,9 @@ requirements:
       then: 
         - ${{ cdt('mesa-libgl-devel') }}
   host:
-    - sofa-devel ${{ major_minor }}
-    - sofa-stlib ${{ major_minor }}
-    - sofa-softrobots ${{ major_minor }}
+    - sofa-devel ==${{ major_minor }}
+    - sofa-stlib ==${{ major_minor }}
+    - sofa-softrobots ==${{ major_minor }}
     - eigen
     - libboost-headers
     - cxxopts
