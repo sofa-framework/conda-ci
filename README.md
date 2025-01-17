@@ -27,7 +27,7 @@ It is recommanded you use the following latest SOFA release conda packages. If y
 **External SOFA plugins**
 
 | Name | Version | Platforms | Description |
-| :---------: | ----------- | ------- | ------ |
+| :---------: | :--------: | :-------: | ------ |
 | [![Static Badge](https://img.shields.io/badge/sofa--python3-98c610)](https://github.com/sofa-framework/SofaPython3) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-python3?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-python3?label=) |  Python bindings and scenes support. For macOS users, **please read** special instructions [here](#special-instructions-for-macOS-users). |
 | [![Static Badge](https://img.shields.io/badge/sofa--stlib-98c610)](https://github.com/SofaDefrost/STLIB) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-stlib?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-stlib?label=) | SOFA Template Library |
 | [![Static Badge](https://img.shields.io/badge/sofa--modelorderreduction-98c610)](https://github.com/SofaDefrost/ModelOrderReduction) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-modelorderreduction?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-modelorderreduction?label=) | Plugin to Reduce Model |
