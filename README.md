@@ -3,9 +3,9 @@
 CI generating conda packages and conda-based CI tools for SOFA.
 Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anaconda.org/sofa-framework/repo).
 
-Only SOFA release are generated for now (no nightly or development versions).
+It is recommanded you use the latest SOFA release conda packages. If you are looking for nightly build packages instead, check here.
 
-## Conda package build status
+## Build status for latest release
 
 ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/libsofa?label=SOFA%20release&color=4dc71f)
 ![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsofa-framework%2Fconda-ci%2Frefs%2Fheads%2Fmaster%2F.github%2Fworkflows%2Fsofa-python3.yml&query=%24.jobs.build-publish-sofa-python3.strategy.matrix.python&label=Python%20versions) ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/libsofa?label=Supported%20platforms)
@@ -35,7 +35,7 @@ Only SOFA release are generated for now (no nightly or development versions).
 | [![Static Badge](https://img.shields.io/badge/sofa--softrobots-98c610)](https://github.com/SofaDefrost/SoftRobots) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-softrobots) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-softrobots) |  Plugin containing components & method for soft robotics |
 | [![Static Badge](https://img.shields.io/badge/sofa--cosserat-98c610)](https://github.com/SofaDefrost/Cosserat) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-cosserat) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-cosserat) |  Plugin to simulate linear structures using Cosserat theory |
 
-## Installing SOFA from conda
+## Installing SOFA latest release from conda
 
 ### Quick install (recommanded)
 
