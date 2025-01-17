@@ -83,4 +83,5 @@ jobs:
         else
           rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }} --channel-priority disabled
         fi
+        anaconda -t ${{ secrets.anaconda-token }} remove ${{ inputs.anaconda-channel }}/${{ inputs.package-name }}
         anaconda -t ${{ secrets.anaconda-token }} upload -u ${{ inputs.anaconda-channel }} -l main $PKG_DIR/**/*${{ inputs.package-name }}*.conda --force
