@@ -158,6 +158,8 @@ outputs:
       name: sofa-gui-qt
     build:
       script: scripts/build-sofa-gui-qt
+      skip:
+        - linux and aarch64
     requirements:
       build:
         - ${{ compiler('cxx') }}
@@ -224,13 +226,17 @@ outputs:
           then: ninja
       host:
         - ${{ pin_subpackage('sofa-devel', exact=True) }}
-        - ${{ pin_subpackage('sofa-gui-qt', exact=True) }}
+        - if: not(linux and aarch64)
+          then:
+            - ${{ pin_subpackage('sofa-gui-qt', exact=True) }}
         - eigen
         - libboost-headers
         - cxxopts
       run:
         - ${{ pin_subpackage('libsofa', exact=True) }}
-        - ${{ pin_subpackage('sofa-gui-qt', exact=True) }}
+        - if: not(linux and aarch64)
+          then:
+          - ${{ pin_subpackage('sofa-gui-qt', exact=True) }}
     tests:
       - package_contents:
           bin:
