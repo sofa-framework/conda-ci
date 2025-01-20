@@ -16,7 +16,7 @@ cd build
 cmake ${CMAKE_ARGS} \
   -B . \
   -S .. \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
   -DPython_EXECUTABLE:PATH=${PREFIX}/bin/python \
   -DSP3_PYTHON_PACKAGES_DIRECTORY:PATH=python${PY_VER}/site-packages \
   -DCMAKE_INSTALL_RPATH_USE_LINK_PATH:BOOL=ON \

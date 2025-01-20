@@ -21,7 +21,7 @@ cd build-sofa-app
 cmake ${CMAKE_ARGS} \
   -B . \
   -S ../applications/projects/runSofa/ \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
   -DCMAKE_INSTALL_RPATH:PATH=${PREFIX}/lib
 
 # build
@@ -51,7 +51,7 @@ cd build-sofa-examples
 cmake ${CMAKE_ARGS} \
   -B . \
   -S ../examples/ \
-  -DCMAKE_BUILD_TYPE:STRING=Release
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel
 
 # build
 cmake --build . --parallel ${CPU_COUNT}

@@ -8,7 +8,7 @@ cmake %CMAKE_ARGS% ^
   -B . ^
   -S %SRC_DIR% ^
   -G Ninja ^
-  -DCMAKE_BUILD_TYPE:STRING=Release ^
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel ^
   -DBEAMADAPTER_BUILD_TESTS:BOOL=OFF
 if errorlevel 1 exit 1
 

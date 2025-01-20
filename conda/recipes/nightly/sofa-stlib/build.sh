@@ -8,7 +8,7 @@ cd build
 cmake ${CMAKE_ARGS} \
   -B . \
   -S .. \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
   -DPython_EXECUTABLE:PATH=${PREFIX}/bin/python \
   -DPLUGIN_SOFAPYTHON=ON
 

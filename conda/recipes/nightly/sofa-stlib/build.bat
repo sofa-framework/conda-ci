@@ -8,7 +8,7 @@ cmake %CMAKE_ARGS% ^
   -B . ^
   -S %SRC_DIR% ^
   -G Ninja ^
-  -DCMAKE_BUILD_TYPE:STRING=Release ^
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel ^
   -DPython_EXECUTABLE:PATH="%PREFIX%\python.exe" ^
   -DPLUGIN_SOFAPYTHON:BOOL=ON
 if errorlevel 1 exit 1

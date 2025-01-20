@@ -12,7 +12,7 @@ cmake %CMAKE_ARGS% ^
   -B . ^
   -S %SRC_DIR%\applications\projects\runSofa ^
   -G Ninja ^
-  -DCMAKE_BUILD_TYPE:STRING=Release
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel
 if errorlevel 1 exit 1
 
 :: Build.
@@ -37,7 +37,7 @@ cmake %CMAKE_ARGS% ^
   -B . ^
   -S %SRC_DIR%\examples ^
   -G Ninja ^
-  -DCMAKE_BUILD_TYPE:STRING=Release
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel
 if errorlevel 1 exit 1
 
 :: Build.

@@ -14,7 +14,7 @@ cd build
 cmake ${CMAKE_ARGS} \
   -B . \
   -S .. \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
   -DPython_EXECUTABLE:PATH=${PREFIX}/bin/python \
   -DSOFTROBOTSINVERSE_BUILD_TESTS:BOOL=OFF
 

@@ -12,7 +12,7 @@ cmake %CMAKE_ARGS% ^
   -B . ^
   -S %SRC_DIR%\Sofa\GL ^
   -G Ninja ^
-  -DCMAKE_BUILD_TYPE:STRING=Release ^
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel ^
   -DSOFA_BUILD_TESTS:BOOL=OFF ^
   -DSOFA_ALLOW_FETCH_DEPENDENCIES:BOOL=OFF
 if errorlevel 1 exit 1

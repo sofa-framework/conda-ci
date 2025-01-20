@@ -8,7 +8,7 @@ cmake %CMAKE_ARGS% ^
   -B . ^
   -S %SRC_DIR% ^
   -G Ninja ^
-  -DCMAKE_BUILD_TYPE:STRING=Release ^
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel ^
   -DPython_EXECUTABLE:PATH="%PREFIX%\python.exe" ^
   -DSP3_PYTHON_PACKAGES_DIRECTORY:PATH="..\..\lib\site-packages" ^
   -DMODELORDERREDUCTION_BUILD_TESTS:BOOL=OFF

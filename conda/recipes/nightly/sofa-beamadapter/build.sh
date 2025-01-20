@@ -14,7 +14,7 @@ cd build
 cmake ${CMAKE_ARGS} \
   -B. \
   -S .. \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
   -DBEAMADAPTER_BUILD_TESTS:BOOL=OFF
 
 # build
