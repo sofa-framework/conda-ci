@@ -9,12 +9,15 @@ on:
 # https://github.com/sofa-framework/ci/blob/5dca4a6da1eb25502545fcf7b24bae5015c8c3af/scripts/configure.sh#L338
 jobs:
   build-with-conda-and-test:
-    name: Run on ${{ matrix.os }} using Conda with SOFA ${{ matrix.sofa_branch }}
-    runs-on: ${{ matrix.os }}
+    name: Run ${{ matrix.target.name }} using Conda with SOFA ${{ matrix.sofa_branch }}
+    runs-on: ${{ matrix.target.runner }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-13, windows-2022]
+        target: [{name: "ubuntu-22.04", runner: "ubuntu-22.04"},
+                {name: "macos-13", runner: "macos-13"},
+                {name: "windows-2022-msvc", runner: "windows-2022", compiler: "msvc"},
+                {name: "windows-2019-clang", runner: "windows-2019", compiler: "clang"}]
         sofa_branch: [master, v24.12]
 
     steps:
@@ -30,19 +33,30 @@ jobs:
 
     # We force to use a conda env located close to filesystem root on Windows to bypass a compilation bug with SOFA
     # due to too long filename, even if LongPath registry key is enabled
-    - name: Install miniconda [Windows-x64]
-      if: contains(matrix.os, 'windows')
+    - name: Install miniconda [Windows-x64 - Cl]
+      if: contains(matrix.target.name, 'windows') && contains(matrix.target.compiler, 'msvc')
       uses: conda-incubator/setup-miniconda@v3
       with:
         activate-environment: c:\so
         auto-update-conda: true
         miniforge-version: latest
-        environment-file: main/conda/environments/sofa_win-64.yml
+        environment-file: main/conda/environments/sofa_win-64-cl.yml
+        channels: conda-forge
+        conda-remove-defaults: "true"
+
+    - name: Install miniconda [Windows-x64 - Clang]
+      if: contains(matrix.target.name, 'windows') && contains(matrix.target.compiler, 'clang')
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: c:\so
+        auto-update-conda: true
+        miniforge-version: latest
+        environment-file: main/conda/environments/sofa_win-64-clang.yml
         channels: conda-forge
         conda-remove-defaults: "true"
 
     - name: Install miniconda [Linux-x64]
-      if: contains(matrix.os, 'ubuntu')
+      if: contains(matrix.target.name, 'ubuntu')
       uses: conda-incubator/setup-miniconda@v3
       with:
         activate-environment: sofa-conda-ci
@@ -53,7 +67,7 @@ jobs:
         conda-remove-defaults: "true"
 
     - name: Install miniconda [macOS-x64]
-      if: contains(matrix.os, 'macos-13')
+      if: contains(matrix.target.name, 'macos-13')
       uses: conda-incubator/setup-miniconda@v3
       with:
         activate-environment: sofa-conda-ci
@@ -71,7 +85,7 @@ jobs:
         env
 
     - name: Configure [Conda - Linux/macOS]
-      if: contains(matrix.os, 'windows') == false
+      if: contains(matrix.target.name, 'windows') == false
       shell: bash -l {0}
       run: |
         cd sofa-src
@@ -96,106 +110,137 @@ jobs:
          -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF \
          -DSOFA_ALLOW_FETCH_DEPENDENCIES=OFF
 
-    - name: Configure [Conda - Windows]
-      shell: cmd /C CALL {0}
-      if: contains(matrix.os, 'windows')
-      run: |
-        cd sofa-src
-        mkdir build
-        cd build
-        cmake .. -G"Ninja" ^
-         -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX% ^
-         -DCMAKE_BUILD_TYPE:STRING=Release ^
-         -DSOFA_USE_DEPENDENCY_PACK=OFF ^
-         -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF ^
-         -DAPPLICATION_SOFAPHYSICSAPI=OFF ^
-         -DSOFA_BUILD_SCENECREATOR=OFF ^
-         -DSOFA_BUILD_TESTS=OFF ^
-         -DSOFA_FLOATING_POINT_TYPE=double ^
-         -DPLUGIN_CIMGPLUGIN=OFF ^
-         -DPLUGIN_SOFAMATRIX=OFF ^
-         -DPLUGIN_SOFAVALIDATION=OFF ^
-         -DPLUGIN_SOFA_GUI_QT=OFF ^
-         -DSOFA_NO_OPENGL=ON ^
-         -DSOFA_WITH_OPENGL=OFF ^
-         -DPLUGIN_MULTITHREADING=ON ^
-         -DAPPLICATION_RUNSOFA=OFF ^
-         -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF ^
-         -DSOFA_ALLOW_FETCH_DEPENDENCIES=OFF
     # - name: Configure [Conda - Windows]
-    #   shell: bash -l {0}
+    #   shell: cmd /C CALL {0}
     #   if: contains(matrix.os, 'windows')
     #   run: |
     #     cd sofa-src
     #     mkdir build
     #     cd build
-    #     cmake .. -G"Visual Studio 17 2022" -T "v143" \
-    #      -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} \
-    #      -DCMAKE_BUILD_TYPE=Release \
-    #      -DSOFA_USE_DEPENDENCY_PACK=OFF \
-    #      -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF \
-    #      -DAPPLICATION_SOFAPHYSICSAPI=OFF \
-    #      -DSOFA_BUILD_SCENECREATOR=OFF \
-    #      -DSOFA_BUILD_TESTS=OFF \
-    #      -DSOFA_FLOATING_POINT_TYPE=double \
-    #      -DPLUGIN_CIMGPLUGIN=OFF \
-    #      -DPLUGIN_SOFAMATRIX=OFF \
-    #      -DPLUGIN_SOFAVALIDATION=OFF \
-    #      -DPLUGIN_SOFA_GUI_QT=OFF \
-    #      -DSOFA_NO_OPENGL=ON \
-    #      -DSOFA_WITH_OPENGL=OFF \
-    #      -DPLUGIN_MULTITHREADING=ON \
-    #      -DAPPLICATION_RUNSOFA=OFF \
-    #      -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF \
+    #     cmake .. -G"Ninja" ^
+    #      -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX% ^
+    #      -DCMAKE_BUILD_TYPE:STRING=Release ^
+    #      -DSOFA_USE_DEPENDENCY_PACK=OFF ^
+    #      -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF ^
+    #      -DAPPLICATION_SOFAPHYSICSAPI=OFF ^
+    #      -DSOFA_BUILD_SCENECREATOR=OFF ^
+    #      -DSOFA_BUILD_TESTS=OFF ^
+    #      -DSOFA_FLOATING_POINT_TYPE=double ^
+    #      -DPLUGIN_CIMGPLUGIN=OFF ^
+    #      -DPLUGIN_SOFAMATRIX=OFF ^
+    #      -DPLUGIN_SOFAVALIDATION=OFF ^
+    #      -DPLUGIN_SOFA_GUI_QT=OFF ^
+    #      -DSOFA_NO_OPENGL=ON ^
+    #      -DSOFA_WITH_OPENGL=OFF ^
+    #      -DPLUGIN_MULTITHREADING=ON ^
+    #      -DAPPLICATION_RUNSOFA=OFF ^
+    #      -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF ^
     #      -DSOFA_ALLOW_FETCH_DEPENDENCIES=OFF
+    - name: Configure [Conda - Windows - Cl]
+      shell: bash -l {0}
+      if: contains(matrix.target.name, 'windows') && contains(matrix.target.compiler, 'msvc')
+      run: |
+        cd sofa-src
+        mkdir build
+        cd build
+        cmake .. -G"Visual Studio 17 2022" -T "v143" \
+         -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} \
+         -DCMAKE_BUILD_TYPE=Release \
+         -DSOFA_USE_DEPENDENCY_PACK=OFF \
+         -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF \
+         -DAPPLICATION_SOFAPHYSICSAPI=OFF \
+         -DSOFA_BUILD_SCENECREATOR=OFF \
+         -DSOFA_BUILD_TESTS=OFF \
+         -DSOFA_FLOATING_POINT_TYPE=double \
+         -DPLUGIN_CIMGPLUGIN=OFF \
+         -DPLUGIN_SOFAMATRIX=OFF \
+         -DPLUGIN_SOFAVALIDATION=OFF \
+         -DPLUGIN_SOFA_GUI_QT=OFF \
+         -DSOFA_NO_OPENGL=ON \
+         -DSOFA_WITH_OPENGL=OFF \
+         -DPLUGIN_MULTITHREADING=ON \
+         -DAPPLICATION_RUNSOFA=OFF \
+         -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF \
+         -DSOFA_ALLOW_FETCH_DEPENDENCIES=OFF
 
-    - name: Build [Conda / Linux & macOS]
-      if: contains(matrix.os, 'windows') == false
+    - name: Configure [Conda - Windows - Clang]
+      shell: bash -l {0}
+      if: contains(matrix.target.name, 'windows') && contains(matrix.target.compiler, 'clang')
+      run: |
+        cd sofa-src
+        mkdir build
+        cd build
+        export CXX=clang-cl
+        export CC=clang-cl
+        cmake .. -G"Ninja" \
+         -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} \
+         -DCMAKE_BUILD_TYPE=Release \
+         -DSOFA_USE_DEPENDENCY_PACK=OFF \
+         -DSOFA_ENABLE_LEGACY_HEADERS:BOOL=OFF \
+         -DAPPLICATION_SOFAPHYSICSAPI=OFF \
+         -DSOFA_BUILD_SCENECREATOR=OFF \
+         -DSOFA_BUILD_TESTS=OFF \
+         -DSOFA_FLOATING_POINT_TYPE=double \
+         -DPLUGIN_CIMGPLUGIN=OFF \
+         -DPLUGIN_SOFAMATRIX=OFF \
+         -DPLUGIN_SOFAVALIDATION=OFF \
+         -DPLUGIN_SOFA_GUI_QT=OFF \
+         -DSOFA_NO_OPENGL=ON \
+         -DSOFA_WITH_OPENGL=OFF \
+         -DPLUGIN_MULTITHREADING=ON \
+         -DAPPLICATION_RUNSOFA=OFF \
+         -DPLUGIN_ARTICULATEDSYSTEMPLUGIN=OFF \
+         -DSOFA_ALLOW_FETCH_DEPENDENCIES=OFF
+
+    # - name: Build [Conda / Linux & macOS]
+    #   if: contains(matrix.target.name, 'windows') == false
+    - name: Build [Conda]
       shell: bash -l {0}
       run: |
         cd sofa-src/build
         cmake --build . -v -j2
 
-    - name: Build [Windows]
-      if: contains(matrix.os, 'windows')
-      shell: cmd /C CALL {0}
-      run: |
-        cd sofa-src\build
-        cmake --build . -j2
+    # - name: Build [Windows]
+    #   if: contains(matrix.target.name, 'windows')
+    #   shell: cmd /C CALL {0}
+    #   run: |
+    #     cd sofa-src\build
+    #     cmake --build . -j2
       
-    - name: Debug cmake_install [All]
-      shell: bash -l {0}
-      if: contains(matrix.os, 'windows')
-      run: |
-        echo "------------------------"
-        cat sofa-src/build/cmake_install.cmake
-        echo "------------------------"
-        cat sofa-src/build/Sofa/framework/Config/cmake_install.cmake
-        echo "------------------------"
-        ls D:/a/conda-ci/conda-ci/sofa-src
-        echo "------------------------"
-        ls D:/a/conda-ci/conda-ci/sofa-src/build
-        echo "------------------------"
-        ls D:/a/conda-ci/conda-ci/sofa-src/build/bin
-        echo "------------------------"
-        ls D:/a/conda-ci/conda-ci/sofa-src/build/bin/Release
-        echo "------------------------"
-        find D:/a/conda-ci/conda-ci/sofa-src/build -iname "Sofa.Config.dll"
-        echo "------------------------"
-        echo ${CONDA_PREFIX}
-        ls ${CONDA_PREFIX}
-        echo "------------------------"
+    # - name: Debug cmake_install [All]
+    #   shell: bash -l {0}
+    #   if: contains(matrix.os, 'windows')
+    #   run: |
+    #     echo "------------------------"
+    #     cat sofa-src/build/cmake_install.cmake
+    #     echo "------------------------"
+    #     cat sofa-src/build/Sofa/framework/Config/cmake_install.cmake
+    #     echo "------------------------"
+    #     ls D:/a/conda-ci/conda-ci/sofa-src
+    #     echo "------------------------"
+    #     ls D:/a/conda-ci/conda-ci/sofa-src/build
+    #     echo "------------------------"
+    #     ls D:/a/conda-ci/conda-ci/sofa-src/build/bin
+    #     echo "------------------------"
+    #     ls D:/a/conda-ci/conda-ci/sofa-src/build/bin/Release
+    #     echo "------------------------"
+    #     find D:/a/conda-ci/conda-ci/sofa-src/build -iname "Sofa.Config.dll"
+    #     echo "------------------------"
+    #     echo ${CONDA_PREFIX}
+    #     ls ${CONDA_PREFIX}
+    #     echo "------------------------"
 
-    - name: Install [Conda / Linux & macOS]
-      if: contains(matrix.os, 'windows') == false
+    # - name: Install [Conda / Linux & macOS]
+    #   if: contains(matrix.os, 'windows') == false
+    - name: Install [Conda]
       shell: bash -l {0}
       run: |
         cd sofa-src/build
         cmake --install .
 
-    - name: Install [Conda / Windows]
-      if: contains(matrix.os, 'windows')
-      shell: cmd /C CALL {0}
-      run: |
-        cd sofa-src\build
-        cmake --install .    
+    # - name: Install [Conda / Windows]
+    #   if: contains(matrix.os, 'windows')
+    #   shell: cmd /C CALL {0}
+    #   run: |
+    #     cd sofa-src\build
+    #     cmake --install .    
