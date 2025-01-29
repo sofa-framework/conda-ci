@@ -18,11 +18,11 @@ on:
       recipe-dir:
         required: true
         type: string
-      anaconda-channel:
+      channel:
         required: true
         type: string
     secrets:
-      anaconda-token:
+      api-key:
         required: true
 
 jobs:
@@ -70,8 +70,7 @@ jobs:
     - name: Install conda environment
       shell: bash -l {0}
       run: |
-        conda install anaconda-client rattler-build -c conda-forge
-        conda config --set anaconda_upload no
+        conda install rattler-build -c conda-forge
 
     - name: Show conda config
       shell: bash -l {0}
@@ -94,8 +93,10 @@ jobs:
           PKG_DIR=../../../../rattler-bld
         fi
         if [ ! -z "${{ inputs.python }}" ]; then
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --variant-config ../../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }} --channel-priority disabled
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --variant-config ../../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
         else
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }} --channel-priority disabled
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
         fi
-        anaconda -t ${{ secrets.anaconda-token }} upload -u ${{ inputs.anaconda-channel }} -l main $PKG_DIR/**/*${{ inputs.package-name }}*.conda --force
+        for file in $PKG_DIR/**/*${{ inputs.package-name }}*.conda; do
+          rattler-build upload prefix -c ${{ inputs.channel }} --api-key ${{ secrets.api-key }} "$file"
+        done
