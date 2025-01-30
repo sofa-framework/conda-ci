@@ -1,6 +1,6 @@
 context:
   name: sofa-modelorderreduction
-  version: 24.12.99
+  version: 25.06.99
   build_num: 0
   major: ${{ (version | split('.'))[0] }}
   minor: ${{ (version | split('.'))[1] }}
