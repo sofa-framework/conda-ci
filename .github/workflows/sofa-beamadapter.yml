@@ -19,7 +19,7 @@ jobs:
       package-name: sofa-beamadapter
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
-      channel: sofa-framework
+      anaconda-channel: sofa-framework
       recipe-dir: release-v24.12
     secrets:
-      api-key: ${{ secrets.PREFIXDEV_APIKEY }}
+      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
