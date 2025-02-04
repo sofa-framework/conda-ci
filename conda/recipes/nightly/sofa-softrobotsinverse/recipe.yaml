@@ -1,6 +1,6 @@
 context:
   name: sofa-softrobotsinverse
-  version: 24.12.99
+  version: 25.06.99
   build_num: 0
   major: ${{ (version | split('.'))[0] }}
   minor: ${{ (version | split('.'))[1] }}
@@ -14,17 +14,9 @@ source:
   git: https://github.com/SofaDefrost/SoftRobots.Inverse.git
   branch: main
 
-  patches:
-    # Code embedds a qpOASES version, we do not want that
-    # and force use of an external conda package
-    # - patches/force-external-qpOASES.patch
-    # qpOASES redefines snprintf even on modern MSVC compilers,
-    # despite this function is now implemented on MSC_VER >= 1900
-    # - patches/0001-workaround-snprintf-for-modern-MSVC.patch  # [win]
-
 build:
   number: ${{ build_num }}
-  string: nightly_${{ python | version_to_buildstring }}${{ hash }}
+  string: nightly_py${{ python | version_to_buildstring }}h${{ hash }}
 
 requirements:
   build:
@@ -53,7 +45,7 @@ requirements:
     - zlib
     - eigen
     - boost-cpp
-    - qpoases
+    - proxsuite
     - pybind11
     - python
   run:
@@ -65,7 +57,7 @@ requirements:
     - python
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
-test:
+tests:
   - package_contents:
       include: 
         - SoftRobots.Inverse/component/config.h
