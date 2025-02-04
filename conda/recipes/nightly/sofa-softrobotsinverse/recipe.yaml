@@ -64,7 +64,7 @@ tests:
       lib: 
         - SoftRobots.Inverse
       files: 
-        - ${{ "Library/" if win }}lib/cmake/SoftRobots.Inverse/SoftRobot.InverseConfig.cmake
+        - ${{ "Library/" if win }}lib/cmake/SoftRobots.Inverse/SoftRobots.InverseConfig.cmake
         - ${{ "Library/" if win }}lib/cmake/SoftRobots.Inverse/SoftRobots.InverseConfigVersion.cmake
 
 about:
