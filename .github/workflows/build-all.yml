@@ -26,6 +26,10 @@ jobs:
     uses: ./.github/workflows/sofa-softrobots.yml
     needs: [build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-stlib]
     secrets: inherit
+  build-publish-sofa-softrobotsinverse:
+    uses: ./.github/workflows/sofa-softrobotsinverse.yml
+    needs: [build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-stlib, build-publish-sofa-softrobots]
+    secrets: inherit
   build-publish-sofa-cosserat:
     uses: ./.github/workflows/sofa-cosserat.yml
     needs: [build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-stlib, build-publish-sofa-softrobots]
