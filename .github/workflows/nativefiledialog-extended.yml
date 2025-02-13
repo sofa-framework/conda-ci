@@ -13,8 +13,8 @@ jobs:
                   {platform: "osx-arm64", runner: "macos-14"},
                   {platform: "win-64", runner: "windows-latest"}]
 
-    name: "Build and publish  ${{ name }} - ${{ matrix.target.platform }} conda packages on ${{ matrix.target.runner }}"
-    runs-on: ${{ inputs.runner }}
+    name: "Build and publish nativefiledialog-extended - ${{ matrix.target.platform }} conda packages on ${{ matrix.target.runner }}"
+    runs-on: ${{ matrix.target.runner }}
     steps:
     - uses: actions/checkout@v4
       with:
@@ -47,5 +47,5 @@ jobs:
       run: |
         cd conda/recipes/
         PKG_DIR=../../../../rattler-bld
-        rattler-build build --recipe ${{ name }}/recipe.yaml --variant-config ../../configs/${{ matrix.target.platform }}.yaml --output-dir $PKG_DIR -c conda-forge
-        anaconda -t ${{ secrets.anaconda-token }} upload -u sofa-framework -l main $PKG_DIR/**/*${{ name }}*.conda --force
+        rattler-build build --recipe nativefiledialog-extended/recipe.yaml --variant-config ../configs/${{ matrix.target.platform }}.yaml --output-dir $PKG_DIR -c conda-forge
+        anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -u sofa-framework -l main $PKG_DIR/**/*.conda --force
