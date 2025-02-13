@@ -6,12 +6,12 @@ on:
 jobs:
   build-publish-nativefiledialog-extended:
     strategy:
-    fail-fast: false
-    matrix:
-      target: [{platform: "linux-64", runner: "ubuntu-latest"},
-                {platform: "osx-64", runner: "macos-13"},
-                {platform: "osx-arm64", runner: "macos-14"},
-                {platform: "win-64", runner: "windows-latest"}]
+      fail-fast: false
+      matrix:
+        target: [{platform: "linux-64", runner: "ubuntu-latest"},
+                  {platform: "osx-64", runner: "macos-13"},
+                  {platform: "osx-arm64", runner: "macos-14"},
+                  {platform: "win-64", runner: "windows-latest"}]
 
     name: "Build and publish  ${{ name }} - ${{ matrix.target.platform }} conda packages on ${{ matrix.target.runner }}"
     runs-on: ${{ inputs.runner }}
