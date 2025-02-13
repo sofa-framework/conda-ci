@@ -1,0 +1,64 @@
+context:
+  name: nativefiledialog-extended
+  version: 1.2.1
+  build_num: 0
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  git: https://github.com/olivier-roussel/nativefiledialog-extended.git
+  branch: master
+
+build:
+  number: ${{ build_num }}
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ stdlib('c') }}
+    - cmake
+    - ninja
+    - pkg-config
+  host:
+    - zlib
+    - if: linux
+      then:
+        - gtk3
+        - glib
+        - xorg-xproto
+        - xorg-kbproto
+        - xorg-xextproto
+        - xorg-renderproto
+        - xorg-inputproto
+        - xorg-fixesproto
+        - xorg-randrproto
+        - xorg-xineramaproto
+        - xorg-recordproto
+        # libxfixes >= v6 requires fixesproto >= v6 in its xfixes.pc 
+        # pkgconfig file, which does not exists (max version of fixesproto 
+        # at this day is < v6). So we restrict xfixes version here.
+        - xorg-libxfixes < 6.0.0
+        - liblzma-devel
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound='x.x.x') }}
+
+tests:
+  - package_contents:
+      include: 
+        - nfd.h
+      lib: 
+        - nfd
+      files: 
+        - ${{ "Library/" if win }}lib/cmake/nfd/nfd-config.cmake
+about:
+  homepage: https://github.com/btzy/nativefiledialog-extended
+  summary: Cross platform (Windows, Mac, Linux) native file dialog library with C and C++ bindings, based on mlabbe/nativefiledialog.
+  license: Zlib
+  license_file: LICENSE
+  repository: https://github.com/btzy/nativefiledialog-extended
+
+extra:
+  recipe-maintainers:
+    - olivier-roussel
