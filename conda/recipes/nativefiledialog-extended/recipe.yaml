@@ -8,8 +8,8 @@ package:
   version: ${{ version }}
 
 source:
-  git: https://github.com/olivier-roussel/nativefiledialog-extended.git
-  branch: master
+  url: https://github.com/btzy/nativefiledialog-extended/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: 443697a857c4efacbe08cdaf5182724fa9d9b9a79b8feff2a1601bde1df46b07
 
 build:
   number: ${{ build_num }}
