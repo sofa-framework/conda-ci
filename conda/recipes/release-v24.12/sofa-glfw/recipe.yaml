@@ -23,9 +23,9 @@ build:
   files:
     # SHLIB_EXT is not working here for some reason
     # - ${{ "Library/bin" if win else "lib" }}/**/*$SHLIB_EXT
-    - if: linux
+    - if: unix
       then:
-        - lib/**/*.so
+        - lib/**/*.so*
     - if: osx
       then:
         - lib/**/*.dylib
