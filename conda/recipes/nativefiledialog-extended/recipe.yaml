@@ -52,6 +52,17 @@ tests:
         - nfd
       files: 
         - ${{ "Library/" if win }}lib/cmake/nfd/nfd-config.cmake
+  - files:
+      recipe:
+        - test/
+    requirements:
+      run:
+        - ${{ stdlib('c') }}
+        - ${{ compiler('cxx') }}
+        - cmake
+        - ninja
+    script: run_test
+
 about:
   homepage: https://github.com/btzy/nativefiledialog-extended
   summary: Cross platform (Windows, Mac, Linux) native file dialog library with C and C++ bindings, based on mlabbe/nativefiledialog.
