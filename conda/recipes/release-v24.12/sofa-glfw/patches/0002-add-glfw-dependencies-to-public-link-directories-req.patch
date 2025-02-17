@@ -1,0 +1,40 @@
+From 914b5138591b16a16fb95c4f961552cfe001d432 Mon Sep 17 00:00:00 2001
+From: Olivier Roussel <olivier.roussel@inria.fr>
+Date: Mon, 17 Feb 2025 15:24:36 +0100
+Subject: [PATCH] add glfw dependencies to public link directories requirements
+ of SofaGLFW
+
+---
+ SofaGLFW/CMakeLists.txt  | 2 +-
+ SofaImGui/CMakeLists.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/SofaGLFW/CMakeLists.txt b/SofaGLFW/CMakeLists.txt
+index 770d355..eb86818 100644
+--- a/SofaGLFW/CMakeLists.txt
++++ b/SofaGLFW/CMakeLists.txt
+@@ -61,7 +61,7 @@ endif()
+ add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES})
+ 
+ target_link_libraries(${PROJECT_NAME} PUBLIC Sofa.GL Sofa.Simulation.Graph Sofa.Component.Visual)
+-target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
++target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
+ target_include_directories(${PROJECT_NAME} PUBLIC 
+     $<BUILD_INTERFACE:${glfw_SOURCE_DIR}/include>  
+     $<INSTALL_INTERFACE:include>
+diff --git a/SofaImGui/CMakeLists.txt b/SofaImGui/CMakeLists.txt
+index af56aa1..392eba7 100644
+--- a/SofaImGui/CMakeLists.txt
++++ b/SofaImGui/CMakeLists.txt
+@@ -135,7 +135,7 @@ set(IMGUI_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources ${imgui_SOURCE_DIR} $
+ add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES} ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
+ target_include_directories(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCE_DIR})
+ target_link_libraries(${PROJECT_NAME} PUBLIC SofaGLFW Sofa.GL.Component.Rendering3D ${CMAKE_DL_LIBS})
+-target_link_libraries(${PROJECT_NAME} PRIVATE nfd::nfd glfw)
++target_link_libraries(${PROJECT_NAME} PRIVATE nfd::nfd)
+ 
+ find_package(SofaPython3 QUIET)
+ if(SofaPython3_FOUND)
+-- 
+2.34.1
+
