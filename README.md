@@ -3,8 +3,6 @@
 CI generating conda packages and conda-based CI tools for SOFA.
 Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anaconda.org/sofa-framework/repo).
 
-It is recommanded you use the following latest SOFA release conda packages. If you are looking for nightly build packages instead, check [here](https://github.com/sofa-framework/conda-ci/blob/master/nightly.md).
-
 ## Build status for latest release
 
 ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/libsofa?label=SOFA%20release&color=4dc71f)
