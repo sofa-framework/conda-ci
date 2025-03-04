@@ -42,14 +42,14 @@ Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anacond
 #### Full SOFA core install with SofaPython3 plugin
 
 ```
-conda install sofa-app sofa-python3 --channel sofa-framework
+conda install sofa-app sofa-python3 --channel sofa-framework --channel conda-forge
 ```
 
 Or
 #### Full SOFA core install with all packaged plugins
 
 ```
-conda install sofa-app sofa-python3 sofa-stlib sofa-modelorderreduction sofa-beamadapter sofa-softrobots sofa-cosserat --channel sofa-framework
+conda install sofa-app sofa-python3 sofa-stlib sofa-modelorderreduction sofa-beamadapter sofa-softrobots sofa-cosserat --channel sofa-framework --channel conda-forge
 ```
 ### Testing install
 
