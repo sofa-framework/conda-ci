@@ -51,7 +51,7 @@ requirements:
     - sofa-gl ==${{ version }}
     - if: not(linux and aarch64)
       then:
-        - sofa-gui-qt ==${{ version }}
+        - sofa-qt ==${{ version }}
     - eigen
     - libboost-headers
     - glew
@@ -66,7 +66,7 @@ requirements:
     - ${{ pin_compatible('sofa-gl', lower_bound='x.x', upper_bound='x.x') }}
     - if: not(linux and aarch64)
       then:
-        - ${{ pin_compatible('sofa-gui-qt', lower_bound='x.x', upper_bound='x.x') }}
+        - ${{ pin_compatible('sofa-qt', lower_bound='x.x', upper_bound='x.x') }}
     - ${{ pin_compatible('numpy') }}
     - python
   run_exports:

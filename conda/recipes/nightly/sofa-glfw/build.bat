@@ -1,19 +1,18 @@
 setlocal EnableDelayedExpansion
-@echo on
 
+mkdir build
+cd build
 
-rmdir /S /Q build-sofa-gl
-
-mkdir build-sofa-gl
-cd build-sofa-gl
-
-:: Configure
+::Configure
 cmake %CMAKE_ARGS% ^
   -B . ^
-  -S %SRC_DIR%\Sofa\GUI\Qt ^
+  -S %SRC_DIR% ^
   -G Ninja ^
+  -DPLUGIN_SOFAGLFW:BOOL=ON ^
+  -DPLUGIN_SOFAIMGUI:BOOL=ON ^
   -DCMAKE_BUILD_TYPE:STRING=Release ^
-  -DSOFA_ALLOW_FETCH_DEPENDENCIES:BOOL=OFF
+  -DPython_EXECUTABLE:PATH="%PREFIX%\python.exe" ^
+  -DSP3_PYTHON_PACKAGES_DIRECTORY:PATH="..\..\lib\site-packages"
 if errorlevel 1 exit 1
 
 :: Build.

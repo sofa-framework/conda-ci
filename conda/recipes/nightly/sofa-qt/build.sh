@@ -8,14 +8,14 @@ if [[ $target_platform == osx* ]] ; then
     CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
-rm -rf build-sofa-gui-qt
+rm -rf build
 
-mkdir build-sofa-gui-qt
-cd build-sofa-gui-qt
+mkdir build
+cd build
 
 cmake ${CMAKE_ARGS} \
   -B . \
-  -S ../Sofa/GUI/Qt \
+  -S .. \
   -DCMAKE_INSTALL_RPATH:PATH=${PREFIX}/lib \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DSOFA_ALLOW_FETCH_DEPENDENCIES:BOOL=OFF
