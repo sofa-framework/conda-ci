@@ -19,7 +19,7 @@ jobs:
     secrets: inherit
   build-publish-sofa-glfw:
     uses: ./.github/workflows/nightly-sofa-glfw.yml
-    needs: build-publish-sofa
+    needs: [build-publish-sofa, build-publish-sofa-python3]
     secrets: inherit
   build-publish-sofa-qt:
     uses: ./.github/workflows/nightly-sofa-qt.yml
