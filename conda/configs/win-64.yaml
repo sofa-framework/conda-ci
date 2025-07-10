@@ -1,7 +1,5 @@
 c_stdlib:
 - vs
-channel_sources:
-- conda-forge
 target_platform:
 - win-64
 c_compiler:
