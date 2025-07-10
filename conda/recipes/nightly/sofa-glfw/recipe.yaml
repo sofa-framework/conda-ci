@@ -14,10 +14,6 @@ source:
   git: https://github.com/sofa-framework/SofaGLFW.git
   branch: master
 
-  # patches:
-    # - patches/0001-use-find-package-or-fetch-for-dependencies.patch
-    # - patches/0002-add-glfw-dependencies-to-public-link-directories-req.patch
-
 build:
   number: ${{ build_num }}
   string: nightly_py${{ python | version_to_buildstring }}h${{ hash }}

@@ -148,44 +148,6 @@ outputs:
       license_file:
         - LICENSE-LGPL.md
 
-  # - package:
-  #     name: sofa-app
-  #   build:
-  #     script: scripts/build-sofa-app
-  #   requirements:
-  #     build:
-  #       - ${{ compiler('cxx') }}
-  #       - ${{ stdlib('c') }}
-  #       - cmake
-  #       - if: unix
-  #         then: make
-  #       - if: win
-  #         then: ninja
-  #     host:
-  #       - ${{ pin_subpackage('sofa-devel', exact=True) }}
-  #       # - if: not(linux and aarch64)
-  #         # then:
-  #           # - ${{ pin_subpackage('sofa-gui-qt', exact=True) }}
-  #       - eigen
-  #       - libboost-headers
-  #       - cxxopts
-  #     run:
-  #       - ${{ pin_subpackage('libsofa', exact=True) }}
-  #       # - if: not(linux and aarch64)
-  #         # then:
-  #         # - ${{ pin_subpackage('sofa-gui-qt', exact=True) }}
-  #   tests:
-  #     - package_contents:
-  #         bin:
-  #           - runSofa
-  #   about:
-  #     summary: Applications and ressources for the SOFA framework
-  #     description: Application (runSofa) and ressources (examples and share) for SOFA,
-  #      a real-time multi-physics simulator with an emphasis on medical simulation and robotics.
-  #     license: GPL-2.0-or-later
-  #     license_file:
-  #       - applications/projects/LICENSE.GPL.txt
-
 extra:
   recipe-maintainers:
     - olivier-roussel
