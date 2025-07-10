@@ -9,6 +9,10 @@ jobs:
   build-publish-sofa:
     uses: ./.github/workflows/nightly-sofa.yml
     secrets: inherit
+  build-publish-sofa-qt:
+    uses: ./.github/workflows/nightly-sofa-qt.yml
+    needs: build-publish-sofa
+    secrets: inherit
   build-publish-sofa-beamadapter:
     uses: ./.github/workflows/nightly-sofa-beamadapter.yml
     needs: build-publish-sofa
@@ -19,10 +23,6 @@ jobs:
     secrets: inherit
   build-publish-sofa-glfw:
     uses: ./.github/workflows/nightly-sofa-glfw.yml
-    needs: [build-publish-sofa, build-publish-sofa-python3]
-    secrets: inherit
-  build-publish-sofa-qt:
-    uses: ./.github/workflows/nightly-sofa-qt.yml
     needs: [build-publish-sofa, build-publish-sofa-python3]
     secrets: inherit
   build-publish-sofa-app:
