@@ -4,7 +4,7 @@ on:
   - workflow_dispatch
 
 jobs:
-  build-publish-sofa-beamadapter:
+  build-publish-sofa-glfw:
     strategy:
       fail-fast: false
       matrix:
@@ -13,6 +13,7 @@ jobs:
                  {platform: "osx-64", runner: "macos-13"},
                  {platform: "osx-arm64", runner: "macos-14"},
                  {platform: "win-64", runner: "windows-latest"}]
+        python: ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
     uses: ./.github/workflows/build_publish_package.yml
     with:

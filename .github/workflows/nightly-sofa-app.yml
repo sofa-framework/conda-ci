@@ -4,7 +4,7 @@ on:
   - workflow_dispatch
 
 jobs:
-  build-publish-sofa-beamadapter:
+  build-publish-sofa-app:
     strategy:
       fail-fast: false
       matrix:

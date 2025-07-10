@@ -4,7 +4,7 @@ on:
   - workflow_dispatch
 
 jobs:
-  build-publish-sofa-softrobots:
+  build-publish-sofa-softrobotsinverse:
     strategy:
       fail-fast: false
       matrix:
