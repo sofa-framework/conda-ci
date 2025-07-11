@@ -16,7 +16,7 @@ source:
 
 build:
   number: ${{ build_num }}
-  string: nightly_py${{ python | version_to_buildstring }}h${{ hash }}
+  string: nightly_h${{ hash }}
   skip:
     - linux and aarch64
 
