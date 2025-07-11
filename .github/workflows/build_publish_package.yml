@@ -27,7 +27,7 @@ on:
 
 jobs:
   build-publish-sofa:
-    name: "Build and publish  ${{ inputs.package-name }} - ${{ inputs.platform }} (py${{ inputs.python }} ) conda packages on ${{ inputs.runner }}"
+    name: "${{ inputs.package-name }} - ${{ inputs.platform }} (py${{ inputs.python }} ) conda packages on ${{ inputs.runner }}"
     runs-on: ${{ inputs.runner }}
     steps:
     - uses: actions/checkout@v4
