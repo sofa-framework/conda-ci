@@ -8,6 +8,28 @@ if [[ $target_platform == osx* ]] ; then
     CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
+# SceneChecking application
+# ----------
+rm -rf build-scene-checking
+
+mkdir build-scene-checking
+cd build-scene-checking
+
+# We have to manually set the Rpath for other SOFA libs to the lib/ directory using
+# the CMAKE_INSTALL_RPATH cmake variable, as SOFA CMakeLists are not designed 
+# initially for a per-component compilation & installation
+cmake ${CMAKE_ARGS} \
+  -B . \
+  -S ../applications/projects/SceneChecking/ \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DCMAKE_INSTALL_RPATH:PATH=${PREFIX}/lib
+
+# build
+cmake --build . --parallel ${CPU_COUNT}
+
+# install
+cmake --build . --parallel ${CPU_COUNT} --target install
+
 # runSofa application
 # ----------
 rm -rf build-sofa-app
