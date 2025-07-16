@@ -24,6 +24,8 @@ if errorlevel 1 exit 1
 cmake --build . --parallel "%CPU_COUNT%" --target install
 if errorlevel 1 exit 1
 
+cd ..
+
 :: runSofa application
 rmdir /S /Q build-sofa-app
 

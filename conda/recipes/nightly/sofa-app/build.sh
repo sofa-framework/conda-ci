@@ -31,6 +31,8 @@ cmake --build . --parallel ${CPU_COUNT}
 # install
 cmake --build . --parallel ${CPU_COUNT} --target install
 
+cd ..
+
 # runSofa application
 # ----------
 rm -rf build-sofa-app
