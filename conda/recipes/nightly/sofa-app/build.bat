@@ -12,6 +12,7 @@ cmake %CMAKE_ARGS% ^
   -B . ^
   -S %SRC_DIR%\applications\projects\SceneChecking ^
   -G Ninja ^
+  -DSCENECHECKING_BUILD_TESTS=OFF ^
   -DCMAKE_BUILD_TYPE:STRING=Release
 if errorlevel 1 exit 1
 

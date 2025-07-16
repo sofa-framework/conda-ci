@@ -22,6 +22,7 @@ cmake ${CMAKE_ARGS} \
   -B . \
   -S ../applications/projects/SceneChecking/ \
   -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DSCENECHECKING_BUILD_TESTS=OFF \
   -DCMAKE_INSTALL_RPATH:PATH=${PREFIX}/lib
 
 # build
