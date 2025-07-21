@@ -6,6 +6,9 @@ rmdir /S /Q build
 mkdir build
 cd build
 
+echo %CMAKE_ARGS%
+echo !CMAKE_ARGS!
+
 :: Configure
 cmake %CMAKE_ARGS% ^
   -B . ^
