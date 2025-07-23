@@ -9,43 +9,11 @@ jobs:
   build-publish-sofa:
     uses: ./.github/workflows/nightly-sofa.yml
     secrets: inherit
-  build-publish-sofa-qt:
-    uses: ./.github/workflows/nightly-sofa-qt.yml
-    needs: build-publish-sofa
-    secrets: inherit
-  build-publish-sofa-beamadapter:
-    uses: ./.github/workflows/nightly-sofa-beamadapter.yml
-    needs: build-publish-sofa
-    secrets: inherit
   build-publish-sofa-python3:
     uses: ./.github/workflows/nightly-sofa-python3.yml
     needs: build-publish-sofa
-    secrets: inherit
-  build-publish-sofa-glfw:
-    uses: ./.github/workflows/nightly-sofa-glfw.yml
-    needs: [build-publish-sofa, build-publish-sofa-python3]
     secrets: inherit
   build-publish-sofa-app:
     uses: ./.github/workflows/nightly-sofa-app.yml
     needs: [build-publish-sofa, build-publish-sofa-glfw]
     secrets: inherit
-  build-publish-sofa-stlib:
-    uses: ./.github/workflows/nightly-sofa-stlib.yml
-    needs: [build-publish-sofa, build-publish-sofa-python3]
-    secrets: inherit
-  build-publish-sofa-modelorderreduction:
-    uses: ./.github/workflows/nightly-sofa-modelorderreduction.yml
-    needs: [build-publish-sofa, build-publish-sofa-python3]
-    secrets: inherit
-  build-publish-sofa-softrobots:
-    uses: ./.github/workflows/nightly-sofa-softrobots.yml
-    needs: [build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-stlib]
-    secrets: inherit
-  build-publish-sofa-softrobotsinverse:
-    uses: ./.github/workflows/nightly-sofa-softrobotsinverse.yml
-    needs: [build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-stlib, build-publish-sofa-softrobots]
-    secrets: inherit
-  # build-publish-sofa-cosserat:
-  #   uses: ./.github/workflows/nightly-sofa-cosserat.yml
-  #   needs: [build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-stlib, build-publish-sofa-softrobots]
-  #   secrets: inherit
