@@ -13,7 +13,3 @@ jobs:
     uses: ./.github/workflows/nightly-sofa-python3.yml
     needs: build-publish-sofa
     secrets: inherit
-  build-publish-sofa-app:
-    uses: ./.github/workflows/nightly-sofa-app.yml
-    needs: [build-publish-sofa, build-publish-sofa-glfw]
-    secrets: inherit
