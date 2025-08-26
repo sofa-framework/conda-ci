@@ -1,4 +1,4 @@
-From 698d8e0bdc2b604fa955afbcb580af2486133546 Mon Sep 17 00:00:00 2001
+From 99f9545ba1519df44fd14ca26bfd8ca4ab097f0a Mon Sep 17 00:00:00 2001
 From: Olivier Roussel <olivier.roussel@inria.fr>
 Date: Mon, 25 Aug 2025 16:46:25 +0200
 Subject: [PATCH] debugging compile error
@@ -8,7 +8,7 @@ Subject: [PATCH] debugging compile error
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Sofa/GUI/Common/src/sofa/gui/common/GUIManager.h b/Sofa/GUI/Common/src/sofa/gui/common/GUIManager.h
-index c6fcb634d9..2d0537ba67 100644
+index c6fcb634d9..b3263d6005 100644
 --- a/Sofa/GUI/Common/src/sofa/gui/common/GUIManager.h
 +++ b/Sofa/GUI/Common/src/sofa/gui/common/GUIManager.h
 @@ -65,12 +65,12 @@ public:
@@ -16,13 +16,13 @@ index c6fcb634d9..2d0537ba67 100644
      static std::string ListSupportedGUI(char separator);
      static void RegisterParameters(ArgumentParser* parser);
 -    static int createGUI(sofa::simulation::NodeSPtr groot = nullptr, const char* filename = nullptr);
-+    static int createGUI(sofa::simulation::NodeSPtr groot, const char* filename = nullptr);
++    static int createGUI(sofa::simulation::NodeSPtr groot = sofa::simulation::NodeSPtr{}, const char* filename = nullptr);
      static void closeGUI();
  
      /// @name Static methods for direct access to GUI
      /// @{
 -    static int MainLoop(sofa::simulation::NodeSPtr groot = nullptr, const char* filename = nullptr);
-+    static int MainLoop(sofa::simulation::NodeSPtr groot, const char* filename = nullptr);
++    static int MainLoop(sofa::simulation::NodeSPtr groot = sofa::simulation::NodeSPtr{}, const char* filename = nullptr);
  
      static void Redraw();
  
