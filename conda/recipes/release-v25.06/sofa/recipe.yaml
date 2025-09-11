@@ -1,0 +1,153 @@
+context:
+  name: sofa
+  version: 25.06.00
+  build_num: 0
+
+recipe:
+  name: ${{ name }}
+  version: ${{ version }}
+
+build:
+  number: ${{ build_num }}
+
+cache:
+  source:
+    git: https://github.com/sofa-framework/sofa.git
+    branch: v25.06
+
+  build:
+    script: scripts/build-cache
+
+  requirements:
+    build:
+      - ${{ compiler('cxx') }}
+      - ${{ stdlib('c') }}
+      - cmake
+      - if: unix
+        then: make
+      - if: win
+        then: ninja
+    host:
+      - libboost-headers
+      - zlib
+      - tinyxml2
+      - eigen
+      - cxxopts
+      - gtest
+
+outputs:
+  - package:
+      name: libsofa
+    build:
+      script: scripts/install-core
+      files:
+        - ${{ "Library/" if win }}lib/${{ "lib" if not win }}Sofa*
+        - ${{ "Library/" if win }}plugins/**/lib
+        - if: win
+          then:
+            - Library/bin/*
+            - Library/plugins/**/bin
+        # for copying activation/deactivation scripts
+        - etc/conda/*
+    requirements:
+      run:
+        - zlib
+      run_exports:
+        - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
+    tests:
+      - package_contents:
+          lib:
+            - Sofa.Core*
+    about:
+      summary: Runtime librairies for the SOFA framework
+      description: Runtime librairies for SOFA, a real-time multi-physics
+       simulator with an emphasis on medical simulation and robotics.
+      license: LGPL-2.1-or-later
+      license_file:
+        - LICENSE-LGPL.md
+        - extlibs/difflib/LICENSE.MIT
+        - extlibs/json/LICENSE.MIT
+        - extlibs/stb/LICENSE.MIT
+
+  - package:
+      name: sofa-devel
+    build:
+      files:
+        - ${{ "Library/" if win }}include/*
+        - ${{ "Library/" if win }}lib/cmake/Sofa*
+        - ${{ "Library/" if win }}plugins/**/include
+        - ${{ "Library/" if win }}plugins/**/lib/cmake
+    requirements:
+      host:
+        - ${{ pin_subpackage('libsofa', exact=True) }}
+      run:
+        - ${{ pin_subpackage('libsofa', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
+    tests:
+      - package_contents:
+          include:
+            - Sofa.Core/sofa/core/init.h
+          files:
+            - ${{ "Library/" if win }}lib/cmake/Sofa.Core/Sofa.CoreConfig.cmake
+            - ${{ "Library/" if win }}lib/cmake/Sofa.Core/Sofa.CoreConfigVersion.cmake
+    about:
+      summary: Development librairies for the SOFA framework
+      description: Development librairies for SOFA, a real-time multi-physics
+       simulator with an emphasis on medical simulation and robotics.
+      license: LGPL-2.1-or-later
+      license_file:
+        - LICENSE-LGPL.md
+        - extlibs/difflib/LICENSE.MIT
+        - extlibs/json/LICENSE.MIT
+        - extlibs/stb/LICENSE.MIT
+
+  - package:
+      name: sofa-gl
+    build:
+      script: scripts/build-sofa-gl
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - if: unix
+          then: make
+        - if: win 
+          then: ninja
+        - if: linux
+          then: ${{ cdt('mesa-libgl-devel') }}
+      host:
+        - ${{ pin_subpackage('sofa-devel', exact=True) }}
+        - glew
+        - eigen
+        - libboost-headers
+        - if: linux
+          then: libglu
+      run:
+        - ${{ pin_subpackage('libsofa', exact=True) }}
+        - if: linux
+          then: libglu
+      run_exports:
+        - ${{ pin_subpackage('sofa-gl', upper_bound='x.x.x') }}
+    tests:
+      - package_contents:
+          include:
+            - Sofa.GL/sofa/gl/initSofa.GL.h
+          lib:
+            - Sofa.GL*
+          files:
+            - ${{ "Library/" if win }}lib/cmake/Sofa.GL/Sofa.GLConfig.cmake
+            - ${{ "Library/" if win }}lib/cmake/Sofa.GL/Sofa.GLConfigVersion.cmake
+    about:
+      summary: SOFA GL rendering library
+      description: GL rendering library for SOFA, a real-time multi-physics
+       simulator with an emphasis on medical simulation and robotics.
+      license: LGPL-2.1-or-later
+      license_file:
+        - LICENSE-LGPL.md
+
+extra:
+  recipe-maintainers:
+    - olivier-roussel
+    - hugtalbot

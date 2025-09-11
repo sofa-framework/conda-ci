@@ -20,6 +20,6 @@ jobs:
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
       anaconda-channel: sofa-framework
-      recipe-dir: release-v24.12
+      recipe-dir: release-v25.06
     secrets:
-      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
+      anaconda-token: ${{ secrets.ANACONDA_PRERELEASE_TOKEN }}

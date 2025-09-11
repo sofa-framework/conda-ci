@@ -1,0 +1,81 @@
+context:
+  name: sofa-softrobotsinverse
+  version: 25.06.00
+  build_num: 0
+  major: ${{ (version | split('.'))[0] }}
+  minor: ${{ (version | split('.'))[1] }}
+  major_minor: ${{ major }}.${{ minor }}
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  git: https://github.com/SofaDefrost/SoftRobots.Inverse.git
+  branch: v25.06
+
+build:
+  number: ${{ build_num }}
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ stdlib('c') }}
+    - cmake
+    - if: not win
+      then: 
+        - make
+    - if: win
+      then: 
+        - ninja
+    - if: linux
+      then: 
+        - ${{ cdt('mesa-libgl-devel') }}
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - pybind11        
+  host:
+    - sofa-devel ==${{ version }}
+    - sofa-python3 ==${{ version }}
+    - sofa-stlib ==${{ version }}
+    - sofa-softrobots ==${{ version }}
+    - eigen
+    - libboost-headers
+    - cxxopts
+    - pybind11
+    - python
+    - proxsuite
+  run:
+    # we manually pin compatibility between sofa libs and plugins to MAJOR.MINOR versions
+    - ${{ pin_compatible("sofa-devel", lower_bound='x.x', upper_bound='x.x') }}
+    - ${{ pin_compatible("sofa-python3", lower_bound='x.x', upper_bound='x.x') }}
+    - ${{ pin_compatible("sofa-stlib", lower_bound='x.x', upper_bound='x.x') }}
+    - ${{ pin_compatible("sofa-softrobots", lower_bound='x.x', upper_bound='x.x') }}  
+    - python
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound='x.x') }}
+tests:
+  - package_contents:
+      include: 
+        - SoftRobots.Inverse/component/config.h
+      lib: 
+        - SoftRobots.Inverse
+      files: 
+        - ${{ "Library/" if win }}lib/cmake/SoftRobots.Inverse/SoftRobots.InverseConfig.cmake
+        - ${{ "Library/" if win }}lib/cmake/SoftRobots.Inverse/SoftRobots.InverseConfigVersion.cmake
+
+about:
+  homepage: https://github.com/SofaDefrost/SoftRobots.Inverse
+  summary: Sofa plugin containing inverse method for soft robotics.
+  license: AGPL-3.0-only
+  license_file:
+    - LICENSE.AGPLV3.txt
+    - LICENSE.AGPLV3.Clause11.txt
+  repository: https://github.com/SofaDefrost/SoftRobots.Inverse
+
+extra:
+  recipe-maintainers:
+    - olivier-roussel
+    - hugtalbot
