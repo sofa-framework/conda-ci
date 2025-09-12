@@ -15,6 +15,12 @@ cache:
     git: https://github.com/sofa-framework/sofa.git
     branch: v25.06
 
+    patches:
+      # https://github.com/sofa-framework/sofa/pull/5664
+      - patches/0001-GUI-Fix-compilation-with-clang-and-boost-1.89-5664.patch
+      # https://github.com/sofa-framework/sofa/pull/5665
+      - patches/0002-Framework-Fix-compilation-with-clang20-5665.patch
+
   build:
     script: scripts/build-cache
 
