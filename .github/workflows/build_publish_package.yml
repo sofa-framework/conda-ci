@@ -18,11 +18,11 @@ on:
       recipe-dir:
         required: true
         type: string
-      anaconda-channel:
+      channel:
         required: true
         type: string
     secrets:
-      anaconda-token:
+      api-key:
         required: true
 
 jobs:
@@ -64,8 +64,17 @@ jobs:
     - name: Install conda environment
       shell: bash -l {0}
       run: |
-        conda install anaconda-client rattler-build -c conda-forge
-        conda config --set anaconda_upload no
+        conda install rattler-build -c conda-forge
+
+      # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
+    - name: Setup output directory
+      shell: bash -l {0}
+      run: |
+        if [[ ${{ inputs.runner }} == "windows"* ]]; then
+          echo "PKG_DIR=c:/so/bld" >> $GITHUB_ENV
+        else
+          echo "PKG_DIR=$CONDA_PREFIX/rattler-bld" >> $GITHUB_ENV
+        fi
 
     - name: Show conda config
       shell: bash -l {0}
@@ -76,20 +85,29 @@ jobs:
         conda config --show
         printenv | sort
 
-    # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
-    - name: Build & publish sofa conda package
+    - name: Build sofa conda package
       shell: bash -l {0}
       run: |
         conda info
         cd conda/recipes/${{ inputs.recipe-dir }}
-        if [[ ${{ inputs.runner }} == "windows"* ]]; then
-          PKG_DIR=c:/so/bld
-        else
-          PKG_DIR=../../../../rattler-bld
-        fi
         if [ ! -z "${{ inputs.python }}" ]; then
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --variant-config ../../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }} --channel-priority disabled
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --variant-config ../../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
         else
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }} --channel-priority disabled
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
         fi
-        anaconda -t ${{ secrets.anaconda-token }} upload -u ${{ inputs.anaconda-channel }} -l main $PKG_DIR/**/*${{ inputs.package-name }}*.conda --force
+
+    # Remove already existing package if any
+    - name: Remove existing package
+      shell: bash -l {0}
+      run: |
+        cd $PKG_DIR/${{ inputs.platform }}
+        for file in *${{ inputs.package-name }}*.conda; do
+          curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$file -H "Authorization: Bearer ${{ secrets.api-key }}"
+        done
+
+    - name: Publish conda package
+      shell: bash -l {0}
+      run: |
+        for file in $PKG_DIR/**/*${{ inputs.package-name }}*.conda; do
+          rattler-build upload prefix -c ${{ inputs.channel }} --api-key ${{ secrets.api-key }} "$file"
+        done

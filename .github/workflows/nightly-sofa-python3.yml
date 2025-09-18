@@ -20,7 +20,7 @@ jobs:
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
       python: ${{ matrix.python }}
-      anaconda-channel: sofa-framework-nightly
+      channel: sofa-framework-nightly
       recipe-dir: nightly
     secrets:
-      anaconda-token: ${{ secrets.ANACONDA_NIGHTLY_TOKEN }}
+      api-key: ${{ secrets.PREFIXDEV_APIKEY }}
