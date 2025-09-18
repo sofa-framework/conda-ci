@@ -14,6 +14,10 @@ source:
   git: https://github.com/SofaDefrost/SoftRobots.git
   branch: v25.06
 
+  patches:
+    # https://github.com/SofaDefrost/SoftRobots/pull/339
+    - patches/0001-only-requires-Qt5-if-interactive-control-cmake-optio.patch
+
 build:
   number: ${{ build_num }}
 
