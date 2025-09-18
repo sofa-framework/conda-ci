@@ -34,3 +34,11 @@ jobs:
     uses: ./.github/workflows/sofa-cosserat.yml
     needs: [build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-stlib, build-publish-sofa-softrobots]
     secrets: inherit
+  build-publish-sofa-glfw:
+    uses: ./.github/workflows/sofa-glfw.yml
+    needs: [build-publish-sofa, build-publish-sofa-python3]
+    secrets: inherit
+  build-publish-sofa-app:
+    uses: ./.github/workflows/sofa-app.yml
+    needs: [build-publish-sofa, build-publish-sofa-glfw]
+    secrets: inherit
