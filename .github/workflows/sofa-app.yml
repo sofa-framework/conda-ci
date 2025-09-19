@@ -1,25 +1,24 @@
-name: sofa-beamadapter
+name: sofa-app
 on:
   - workflow_call
   - workflow_dispatch
 
 jobs:
-  build-publish-sofa-beamadapter:
+  build-publish-sofa-app:
     strategy:
       fail-fast: false
       matrix:
         target: [{platform: "linux-64", runner: "ubuntu-latest"},
                  {platform: "linux-aarch64", runner: "ubuntu-22.04-arm"},
-                 {platform: "osx-64", runner: "macos-13"},
                  {platform: "osx-arm64", runner: "macos-14"},
                  {platform: "win-64", runner: "windows-latest"}]
 
     uses: ./.github/workflows/build_publish_package.yml
     with:
-      package-name: sofa-beamadapter
+      package-name: sofa-app
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
-      anaconda-channel: sofa-framework
+      anaconda-channel: sofa-framework-prerelease
       recipe-dir: release-v25.06
     secrets:
-      anaconda-token: ${{ secrets.PREFIXDEV_APIKEY }}
+      anaconda-token: ${{ secrets.ANACONDA_PRERELEASE_TOKEN }}
