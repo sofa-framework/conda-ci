@@ -37,6 +37,11 @@ Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anacond
 
 ## Installing SOFA latest release from conda
 
+### Important notes
+
+Since last SOFA release 25.06, the default GUI has changed from Sofa.Qt to Sofa.ImGui.
+Sofa.Qt conda package v25.06 is still not available yet.
+
 ### Quick install (recommanded)
 
 #### Full SOFA core install with SofaPython3 plugin
@@ -56,13 +61,13 @@ conda install sofa-app sofa-python3 sofa-stlib sofa-modelorderreduction sofa-bea
 Run SOFA application with its GUI
 
 ```
-runSofa -l Sofa.GUI.Qt -g qt
+runSofa -l SofaImGui -g imgui
 ```
 
 Run SOFA application with its GUI **and** SofaPython3 plugin
 
 ```
-runSofa -l Sofa.GUI.Qt -g qt -l SofaPython3
+runSofa -l SofaImGui -g imgui -l SofaPython3
 ```
 
 Please open an [issue](https://github.com/sofa-framework/conda-ci/issues) to report any problem.
@@ -107,3 +112,8 @@ conda search libsofa --channel sofa-framework
 There is a bug with the python / libpython version provided by conda and current SofaPython3 (see this [issue](https://github.com/sofa-framework/SofaPython3/issues/393) or related [PR](https://github.com/sofa-framework/SofaPython3/pull/394)).
 
 If you need to use the `runSofa` executable with `SofaPython3` plugin, use the provided `runSofa_with_python script` (installed in the `bin/` directory as well) instead the classical `runSofa`.
+
+## Older releases
+
+Due to some space usage restrictions, we can only store the last release on the [Anaconda channel `sofa-framework`](https://anaconda.org/sofa-framework/repo).
+Previous releases as conda package are available at https://prefix.dev/channels/sofa-framework.
