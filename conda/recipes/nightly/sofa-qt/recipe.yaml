@@ -11,8 +11,8 @@ package:
   version: ${{ version }}
 
 source:
-  git: https://github.com/olivier-roussel/Sofa.Qt.git
-  branch: allow-external-qglviewer
+  git: https://github.com/sofa-framework/Sofa.Qt.git
+  branch: master
 
 build:
   number: ${{ build_num }}
@@ -59,7 +59,7 @@ requirements:
 tests:
   - package_contents:
       include:
-        - Sofa.Qt/sofa/qt/init.h
+        - sofa/qt/init.h
       lib:
         - Sofa.Qt*
       files:
