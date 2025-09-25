@@ -19,7 +19,7 @@ Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anacond
 | ![Static Badge](https://img.shields.io/badge/libsofa-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/libsofa?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/libsofa?label=) |  SOFA core runtime libraries |
 | ![Static Badge](https://img.shields.io/badge/sofa--devel-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-devel?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-devel?label=) |  SOFA core development files (runtime libraries + headers + cmake files) |
 | ![Static Badge](https://img.shields.io/badge/sofa--gl-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-gl?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-gl?label=) |  SOFA.GL rendering library (devel version) |
-| ![Static Badge](https://img.shields.io/badge/sofa--gui--qt-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-gui-qt?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-gui-qt?label=) |  Qt based GUI library for SOFA (devel version) |
+| ![Static Badge](https://img.shields.io/badge/sofa--qt-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-qt?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-qt?label=) |  Qt based GUI library for SOFA (devel version) |
 | ![Static Badge](https://img.shields.io/badge/sofa--app-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-app?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-app?label=) | SOFA runtime binaries (sofaRun) + required resources. Includes all SOFA core packages. |
 
 **External SOFA plugins**
@@ -40,7 +40,6 @@ Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anacond
 ### Important notes
 
 Since last SOFA release 25.06, the default GUI has changed from Sofa.Qt to Sofa.ImGui.
-Sofa.Qt conda package v25.06 is still not available yet.
 
 ### Quick install (recommanded)
 
