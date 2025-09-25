@@ -19,7 +19,6 @@ Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anacond
 | ![Static Badge](https://img.shields.io/badge/libsofa-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/libsofa?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/libsofa?label=) |  SOFA core runtime libraries |
 | ![Static Badge](https://img.shields.io/badge/sofa--devel-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-devel?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-devel?label=) |  SOFA core development files (runtime libraries + headers + cmake files) |
 | ![Static Badge](https://img.shields.io/badge/sofa--gl-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-gl?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-gl?label=) |  SOFA.GL rendering library (devel version) |
-| ![Static Badge](https://img.shields.io/badge/sofa--qt-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-qt?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-qt?label=) |  Qt based GUI library for SOFA (devel version) |
 | ![Static Badge](https://img.shields.io/badge/sofa--app-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-app?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-app?label=) | SOFA runtime binaries (sofaRun) + required resources. Includes all SOFA core packages. |
 
 **External SOFA plugins**
@@ -34,6 +33,7 @@ Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anacond
 | [![Static Badge](https://img.shields.io/badge/sofa--softrobotsinverse-98c610)](https://github.com/SofaDefrost/SoftRobots.Inverse) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-softrobotsinverse?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-softrobotsinverse?label=) |  Plugin containing inverse method for soft robotics |
 | [![Static Badge](https://img.shields.io/badge/sofa--cosserat-98c610)](https://github.com/SofaDefrost/Cosserat) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-cosserat?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-cosserat?label=) |  Plugin to simulate linear structures using Cosserat theory |
 | [![Static Badge](https://img.shields.io/badge/sofa--glfw-98c610)](https://github.com/sofa-framework/SofaGLFW) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-glfw?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-glfw?label=) |  Quick and simple GUI for SOFA, based on GLFW and optionally Dear ImGui |
+| ![Static Badge](https://img.shields.io/badge/sofa--qt-98c610) | ![Conda Version](https://img.shields.io/conda/vn/sofa-framework/sofa-qt?label=) | ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/sofa-qt?label=) |  Qt based GUI library for SOFA (devel version) |
 
 ## Installing SOFA latest release from conda
 
