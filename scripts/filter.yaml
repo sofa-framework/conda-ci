@@ -1,0 +1,5 @@
+filtered:
+- docker_image
+- channel_targets
+- channel_sources
+- target_platform
