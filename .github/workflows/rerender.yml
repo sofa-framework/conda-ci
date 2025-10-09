@@ -6,8 +6,8 @@ on:
 
 jobs:
   rerender:
-    name: Run ${{ matrix.target.name }} using Conda with SOFA ${{ matrix.sofa_branch }}
-    runs-on: ${{ matrix.target.runner }}
+    name: Re-render feedstock ${{ matrix.release }}-${{ matrix.feedstock }}
+    runs-on:  ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
