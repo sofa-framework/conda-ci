@@ -21,4 +21,4 @@ conda smithy rerender --feedstock_config $CONDA_BUILD_CONFIG_FILE --feedstock_di
 
 # filter <recipe_folder>/.ci_support/*.yaml files from unused conda-forge specific fields, i.e.: 
 # docker_image, channel_targets...
-python scripts/filter_configs.py $FEEDSTOCK_DIR/.ci_support/*.yaml scripts/filter.yaml
+python scripts/filter_configs.py scripts/filter.yaml $FEEDSTOCK_DIR/.ci_support/*.yaml
