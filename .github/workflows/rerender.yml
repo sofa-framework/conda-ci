@@ -42,18 +42,18 @@ jobs:
       run: |
         git diff --exit-code -s ${{ env.FEEDSTOCK_DIR }}/.ci_support/*.yaml
         echo "NEEDS_UPDATE=$?" >> $GITHUB_ENV
-        echo $NEEDS_UPDATE
+        echo "NEEDS_UPDATE = $NEEDS_UPDATE"
 
-    - name: Bump recipe build number
-      if: ${{ env.NEEDS_UPDATE == 1 }}
-      run: |
-        python scripts/bump_build_number.py ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
+    # - name: Bump recipe build number
+    #   if: ${{ env.NEEDS_UPDATE == 1 }}
+    #   run: |
+    #     python scripts/bump_build_number.py ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
 
-    - name: Create PR
-      if: ${{ env.NEEDS_UPDATE == 1 }}
-      uses: peter-evans/create-pull-request@v7
-      with:
-        base: master
-        add-paths: |
-            ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
-            ${{ env.FEEDSTOCK_DIR }}/.ci_support/*.yaml
+    # - name: Create PR
+    #   if: ${{ env.NEEDS_UPDATE == 1 }}
+    #   uses: peter-evans/create-pull-request@v7
+    #   with:
+    #     base: master
+    #     add-paths: |
+    #         ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
+    #         ${{ env.FEEDSTOCK_DIR }}/.ci_support/*.yaml
