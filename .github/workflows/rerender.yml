@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: ["release-25.06"]
+        release: ["release-v25.06"]
         feedstock: ["sofa"]
         # release: ["nightly", "release-25.06"]
         # feedstock: ["sofa", "sofa-app", "sofa-beamadapter", "sofa-cosserat", "sofa-glfw", "sofa-modelorderreduction", "sofa-python3", "sofa-qt", "sofa-softrobots", "sofa-softrobotsinverse", "sofa-stlib"]
@@ -44,16 +44,16 @@ jobs:
         echo "NEEDS_UPDATE=$?" >> $GITHUB_ENV
         echo "NEEDS_UPDATE = $NEEDS_UPDATE"
 
-    # - name: Bump recipe build number
-    #   if: ${{ env.NEEDS_UPDATE == 1 }}
-    #   run: |
-    #     python scripts/bump_build_number.py ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
+    - name: Bump recipe build number
+      if: ${{ env.NEEDS_UPDATE == 1 }}
+      run: |
+        python scripts/bump_build_number.py ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
 
-    # - name: Create PR
-    #   if: ${{ env.NEEDS_UPDATE == 1 }}
-    #   uses: peter-evans/create-pull-request@v7
-    #   with:
-    #     base: master
-    #     add-paths: |
-    #         ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
-    #         ${{ env.FEEDSTOCK_DIR }}/.ci_support/*.yaml
+    - name: Create PR
+      if: ${{ env.NEEDS_UPDATE == 1 }}
+      uses: peter-evans/create-pull-request@v7
+      with:
+        base: master
+        add-paths: |
+            ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
+            ${{ env.FEEDSTOCK_DIR }}/.ci_support/*.yaml
