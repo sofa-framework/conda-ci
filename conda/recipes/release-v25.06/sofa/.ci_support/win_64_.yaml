@@ -1,0 +1,12 @@
+c_stdlib:
+- vs
+cxx_compiler:
+- vs2022
+glew:
+- '2.1'
+libboost_headers:
+- '1.86'
+tinyxml2:
+- '11.0'
+zlib:
+- '1'

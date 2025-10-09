@@ -1,0 +1,59 @@
+name: Re-render all
+
+on:
+  workflow_dispatch:
+  # TODO: add cron for this
+
+jobs:
+  rerender:
+    name: Run ${{ matrix.target.name }} using Conda with SOFA ${{ matrix.sofa_branch }}
+    runs-on: ${{ matrix.target.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        release: ["release-25.06"]
+        feedstock: ["sofa"]
+        # release: ["nightly", "release-25.06"]
+        # feedstock: ["sofa", "sofa-app", "sofa-beamadapter", "sofa-cosserat", "sofa-glfw", "sofa-modelorderreduction", "sofa-python3", "sofa-qt", "sofa-softrobots", "sofa-softrobotsinverse", "sofa-stlib"]
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        auto-update-conda: true
+        miniforge-version: latest
+        channels: conda-forge
+
+    - name: Install tools using conda
+      shell: bash -l {0}
+      run: conda install conda-smithy python pyyaml git
+
+    - name: Re-render ${{ matrix.release }}/${{ matrix.feedstock }} using conda smithy and filter configs
+      shell: bash -l {0}
+      run: |
+        CONDA_BUILD_CONFIG_FILE=conda/configs/conda-build.yaml
+        FEEDSTOCK_DIR=conda/recipes/${{ matrix.release }}/${{ matrix.feedstock }}
+        echo "FEEDSTOCK_DIR=$FEEDSTOCK_DIR" >> $GITHUB_ENV
+        bash scripts/rerender.sh $CONDA_BUILD_CONFIG_FILE $FEEDSTOCK_DIR
+
+    - name: Check if at least one config needs update
+      shell: bash -l {0}
+      run: |
+        git diff --exit-code -s ${{ env.FEEDSTOCK_DIR }}/.ci_support/*.yaml
+        echo "NEEDS_UPDATE=$?" >> $GITHUB_ENV
+        echo $NEEDS_UPDATE
+
+    - name: Bump recipe build number
+      if: ${{ env.NEEDS_UPDATE == 1 }}
+      run: |
+        python scripts/bump_build_number.py ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
+
+    - name: Create PR
+      if: ${{ env.NEEDS_UPDATE == 1 }}
+      uses: peter-evans/create-pull-request@v7
+      with:
+        base: master
+        add-paths: |
+            ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
+            ${{ env.FEEDSTOCK_DIR }}/.ci_support/*.yaml
