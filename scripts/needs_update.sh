@@ -2,7 +2,7 @@
 
 set -e
 
-$FEEDSTOCK_DIR =$1
+$FEEDSTOCK_DIR=$1
 
 git diff --exit-code -s $FEEDSTOCK_DIR/.ci_support/*.yaml
 
