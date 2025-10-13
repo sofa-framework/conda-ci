@@ -19,6 +19,10 @@ echo "FEEDSTOCK_DIR = $FEEDSTOCK_DIR"
 
 conda smithy rerender --feedstock_config $CONDA_BUILD_CONFIG_FILE --feedstock_directory $FEEDSTOCK_DIR
 
+# we have to unstage all modifications that have been automatically staged by conda smithy, before doing any
+# other modifications to them (such as the above filter). Otherwise, we can't perform git diff properly on it.
+git reset
+
 # filter <recipe_folder>/.ci_support/*.yaml files from unused conda-forge specific fields, i.e.: 
 # docker_image, channel_targets...
 python scripts/filter_configs.py scripts/filter.yaml $FEEDSTOCK_DIR/.ci_support/*.yaml
