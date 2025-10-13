@@ -49,13 +49,14 @@ jobs:
       shell: bash -l {0}
       run: |
         set +e
-        git diff --exit-code -s $FEEDSTOCK_DIR/.ci_support/*.yaml
-        if [[ $? -eq 0 ]]; then
-          echo "Feedstock needs update"
-          echo "NEEDS_UPDATE=1" >> $GITHUB_ENV
-        else
+        git diff --exit-code $FEEDSTOCK_DIR/.ci_support/*.yaml
+        NEEDS_UPDATE=$?
+        echo "=== $NEEDS_UPDATE"
+        echo "NEEDS_UPDATE=$NEEDS_UPDATE" >> $GITHUB_ENV
+        if [[ $NEEDS_UPDATE -eq 0 ]]; then
           echo "Feedstock does not need update"
-          echo "NEEDS_UPDATE=0" >> $GITHUB_ENV
+        else
+          echo "Feedstock needs update"
         fi
 
     - name: Bump recipe build number
