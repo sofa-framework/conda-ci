@@ -49,6 +49,7 @@ jobs:
       shell: bash -l {0}
       run: |
         set +e
+        git diff $FEEDSTOCK_DIR/.ci_support/*.yaml
         git diff --exit-code -s $FEEDSTOCK_DIR/.ci_support/*.yaml
         if [[ $? -eq 0 ]]; then
           echo "Feedstock needs update"
