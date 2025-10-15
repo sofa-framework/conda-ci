@@ -77,7 +77,8 @@ jobs:
         committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
         author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
         branch: rebuild_${{ matrix.feedstock }}_${{ matrix.release }}_build_${{ env.NEW_BUILD_NUMBER }}
-        delete-branch: true        
+        delete-branch: true
+        labels: rerender
         add-paths: |
             ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
             ${{ env.FEEDSTOCK_DIR }}/.ci_support/*.yaml
@@ -92,15 +93,3 @@ jobs:
           [1]: https://github.com/peter-evans/create-pull-request
         assignees: olivier-roussel
         reviewers: olivier-roussel
-
-  run-CI:
-    name: Test publish
-    uses: ./.github/workflows/build_publish_package.yml
-    with:
-      package-name: sofa
-      runner: ubuntu-latest
-      platform: linux-64
-      anaconda-channel: sofa-framework-prerelease
-      recipe-dir: release-v25.06
-    secrets:
-      anaconda-token: ${{ secrets.ANACONDA_NIGHTLY_TOKEN }}
