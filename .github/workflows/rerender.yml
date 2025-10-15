@@ -72,7 +72,7 @@ jobs:
       uses: peter-evans/create-pull-request@v7
       with:
         base: master
-        token: ${{ secrets.FORGE_RERENDER_TOKEN }}
+        token: ${{ secrets.TEST_PAT }}
         commit-message: Rebuild ${{ matrix.feedstock }}-${{ matrix.release }} build number ${{ env.NEW_BUILD_NUMBER }}
         committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
         author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
