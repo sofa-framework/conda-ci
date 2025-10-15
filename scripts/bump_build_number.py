@@ -1,4 +1,5 @@
 import yaml
+import json
 import sys
 
 def keys_exists(element, *keys):
@@ -30,31 +31,40 @@ if __name__ == "__main__":
     if keys_exists(recipe, "context", "build_num"):
       try:
         old_build_number = int(recipe["context"]["build_num"])
-        print("Found context.build_num = ", old_build_number)
         new_build_number = old_build_number + 1
+        print(json.dumps({"old_build_number": old_build_number,
+                          "new_build_number": new_build_number,
+                          "key": "context-build_num",
+                          "status": "ok"}))
         old_str = "build_num: " + str(old_build_number)
         new_str = "build_num: " + str(new_build_number)
         foundBuildNumber = True
       except ValueError:
-        print("Recipe ", recipe_file, " has context.build_num key, but value is not a number: ", recipe["context"]["build_num"])
+        print("Recipe ", recipe_file, " has context.build_num key, but value is not a number: ", recipe["context"]["build_num"], file=sys.stderr)
     # otherwise try build.number key
     if foundBuildNumber == False:
       if keys_exists(recipe, "build", "number"):
         try:
           old_build_number = int(recipe["build"]["number"])
-          print("Found build.number = ", old_build_number)
           new_build_number = old_build_number + 1
+          print(json.dumps({"old_build_number": old_build_number,
+                            "new_build_number": new_build_number,
+                            "key": "build-number",
+                            "status": "ok"}))
           old_str = "number: " + str(old_build_number)
           new_str = "number: " + str(new_build_number)
           foundBuildNumber = True
         except ValueError:
-          print("Recipe ", recipe_file, " has build.number key, but value is not a number: ", recipe["build"]["number"])
+          print("Recipe ", recipe_file, " has build.number key, but value is not a number: ", recipe["build"]["number"], file=sys.stderr)
+    if foundBuildNumber == False:
+        print("Recipe ", recipe_file, " has no valid build number field", file=sys.stderr)
+        sys.exit(1)
 
   # Safely read the input filename using 'with'
   with open(recipe_file, "r") as file:
     file_str = file.read()
     if old_str not in file_str:
-      print("Error: ", old_str, " not found in ", recipe_file)
+      print("Error: ", old_str, " not found in ", recipe_file, file=sys.stderr)
       sys.exit(1)
 
   # Safely write the changed content, if found in the file
