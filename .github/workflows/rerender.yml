@@ -93,13 +93,14 @@ jobs:
         assignees: olivier-roussel
         reviewers: olivier-roussel
 
-    - name: Test publish    
-      uses: ./.github/workflows/build_publish_package.yml
-      with:
-        package-name: sofa
-        runner: ubuntu-latest
-        platform: linux-64
-        anaconda-channel: sofa-framework-prerelease
-        recipe-dir: release-v25.06
-      secrets:
-        anaconda-token: ${{ secrets.ANACONDA_NIGHTLY_TOKEN }}
+  run-CI:
+    name: Test publish
+    uses: ./.github/workflows/build_publish_package.yml
+    with:
+      package-name: sofa
+      runner: ubuntu-latest
+      platform: linux-64
+      anaconda-channel: sofa-framework-prerelease
+      recipe-dir: release-v25.06
+    secrets:
+      anaconda-token: ${{ secrets.ANACONDA_NIGHTLY_TOKEN }}
