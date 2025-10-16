@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         release: ["release-v25.06"]
-        feedstock: ["sofa", "sofa-app"]
+        feedstock: ["sofa", "sofa-python3"]
         # release: ["nightly", "release-25.06"]
         # feedstock: ["sofa", "sofa-app", "sofa-beamadapter", "sofa-cosserat", "sofa-glfw", "sofa-modelorderreduction", "sofa-python3", "sofa-qt", "sofa-softrobots", "sofa-softrobotsinverse", "sofa-stlib"]
     steps:
