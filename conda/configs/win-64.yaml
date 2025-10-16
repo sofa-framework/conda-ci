@@ -1,8 +1,0 @@
-c_stdlib:
-- vs
-target_platform:
-- win-64
-c_compiler:
-- vs2022
-cxx_compiler:
-- vs2022
