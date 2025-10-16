@@ -77,7 +77,8 @@ jobs:
         commit-message: Rebuild ${{ matrix.feedstock }}-${{ matrix.release }} build number ${{ env.NEW_BUILD_NUMBER }}
         committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
         author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
-        branch: ${{ env.BRANCH_NAME }}
+        branch: foo-branch
+        # branch: ${{ env.BRANCH_NAME }}
         delete-branch: true
         labels: rerender
         add-paths: |
@@ -93,7 +94,7 @@ jobs:
           [1]: https://github.com/peter-evans/create-pull-request
 
   build-packages:
-    uses: ./.github/workflows/build_publish_package.yml
+    uses: ./.github/workflows/build_publish_package.yml@foo-branch
     with:
       package-name: ${{ matrix.feedstock }}
     # TODO: matrix build
