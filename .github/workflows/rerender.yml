@@ -93,7 +93,7 @@ jobs:
           [1]: https://github.com/peter-evans/create-pull-request
 
   build-packages:
-    uses: ./.github/workflows/build_publish_package.yml@${{ env.BRANCH_NAME }}
+    uses: ./.github/workflows/build_publish_package.yml
     with:
       package-name: ${{ matrix.feedstock }}
     # TODO: matrix build
