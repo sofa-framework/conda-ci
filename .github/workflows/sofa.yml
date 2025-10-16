@@ -5,8 +5,8 @@ on:
   pull_request:
     types:
       - opened
-    branches:
-      - 'rerender/**'
+    paths:
+      - '**/release-v25.06/sofa/.ci_support/*.yaml'
 
 jobs:
   build-publish-sofa:
