@@ -2,9 +2,6 @@ name: sofa-stlib
 on:
   workflow_call:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - '**/release-v25.06/sofa-stlib/.ci_support/*.yaml'
 
 jobs:
   build-publish-sofa-stlib:
