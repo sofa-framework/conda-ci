@@ -1,8 +1,10 @@
 name: sofa-app
 on:
-  - workflow_call
-  - workflow_dispatch
-
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '**/release-v25.06/sofa-app/.ci_support/*.yaml'
 jobs:
   build-publish-sofa-app:
     strategy:
@@ -10,7 +12,8 @@ jobs:
       matrix:
         target: [{platform: "linux-64", runner: "ubuntu-latest"},
                  {platform: "linux-aarch64", runner: "ubuntu-22.04-arm"},
-                 {platform: "osx-arm64", runner: "macos-14"},
+                 {platform: "osx-64", runner: "macos-15"},
+                 {platform: "osx-arm64", runner: "macos-15"},
                  {platform: "win-64", runner: "windows-latest"}]
 
     uses: ./.github/workflows/build_publish_package.yml
@@ -18,7 +21,7 @@ jobs:
       package-name: sofa-app
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
-      anaconda-channel: sofa-framework
+      channel: sofa-framework
       recipe-dir: release-v25.06
     secrets:
-      anaconda-token: ${{ secrets.ANACONDA_TOKEN }}
+      api-key: ${{ secrets.PREFIXDEV_APIKEY }}
