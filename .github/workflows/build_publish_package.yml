@@ -4,22 +4,22 @@ on:
   workflow_call:
     inputs:
       package-name:
-        required: true
+        required: false
         type: string
       runner:
         required: true
         type: string
       platform:
-        required: true
+        required: false
         type: string        
       python:
         required: false
         type: string
       recipe-dir:
-        required: true
+        required: false
         type: string
       anaconda-channel:
-        required: true
+        required: false
         type: string
     secrets:
       anaconda-token:
