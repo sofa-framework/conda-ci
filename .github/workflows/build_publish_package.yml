@@ -23,7 +23,7 @@ on:
         type: string
     secrets:
       anaconda-token:
-        required: true
+        required: false
 
 jobs:
   build-publish-sofa:
@@ -76,20 +76,20 @@ jobs:
         conda config --show
         printenv | sort
 
-    # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
-    - name: Build & publish sofa conda package
-      shell: bash -l {0}
-      run: |
-        conda info
-        cd conda/recipes/${{ inputs.recipe-dir }}
-        if [[ ${{ inputs.runner }} == "windows"* ]]; then
-          PKG_DIR=c:/so/bld
-        else
-          PKG_DIR=../../../../rattler-bld
-        fi
-        if [ ! -z "${{ inputs.python }}" ]; then
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --variant-config ../../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }} --channel-priority disabled
-        else
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }} --channel-priority disabled
-        fi
-        anaconda -t ${{ secrets.anaconda-token }} upload -u ${{ inputs.anaconda-channel }} -l main $PKG_DIR/**/*${{ inputs.package-name }}*.conda --force
+    # # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
+    # - name: Build & publish sofa conda package
+    #   shell: bash -l {0}
+    #   run: |
+    #     conda info
+    #     cd conda/recipes/${{ inputs.recipe-dir }}
+    #     if [[ ${{ inputs.runner }} == "windows"* ]]; then
+    #       PKG_DIR=c:/so/bld
+    #     else
+    #       PKG_DIR=../../../../rattler-bld
+    #     fi
+    #     if [ ! -z "${{ inputs.python }}" ]; then
+    #       rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --variant-config ../../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }} --channel-priority disabled
+    #     else
+    #       rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c ${{ inputs.anaconda-channel }} --channel-priority disabled
+    #     fi
+    #     anaconda -t ${{ secrets.anaconda-token }} upload -u ${{ inputs.anaconda-channel }} -l main $PKG_DIR/**/*${{ inputs.package-name }}*.conda --force
