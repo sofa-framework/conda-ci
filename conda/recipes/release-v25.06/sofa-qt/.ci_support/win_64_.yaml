@@ -1,0 +1,10 @@
+c_stdlib:
+- vs
+cxx_compiler:
+- vs2022
+ffmpeg:
+- '7'
+libboost_headers:
+- '1.86'
+qt_main:
+- '5.15'

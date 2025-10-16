@@ -1,0 +1,18 @@
+c_stdlib:
+- sysroot
+c_stdlib_version:
+- '2.17'
+cdt_name:
+- cos7
+cxx_compiler:
+- gxx
+cxx_compiler_version:
+- '13'
+libboost_headers:
+- '1.86'
+pin_run_as_build:
+  python:
+    max_pin: x.x
+    min_pin: x.x
+python:
+- 3.10.* *_cpython
