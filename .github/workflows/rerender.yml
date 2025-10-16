@@ -29,9 +29,9 @@ jobs:
       shell: bash -l {0}
       run: conda install conda-smithy python pyyaml git
 
-    - name: Debug output linux config before
-      shell: bash -l {0}
-      run: cat conda/recipes/${{ matrix.release }}/${{ matrix.feedstock }}/.ci_support/linux_64_.yaml
+    # - name: Debug output linux config before
+    #   shell: bash -l {0}
+    #   run: cat conda/recipes/${{ matrix.release }}/${{ matrix.feedstock }}/.ci_support/linux_64_.yaml
 
     - name: Re-render ${{ matrix.release }}/${{ matrix.feedstock }} using conda smithy and filter configs
       shell: bash -l {0}
@@ -41,9 +41,9 @@ jobs:
         echo "FEEDSTOCK_DIR=$FEEDSTOCK_DIR" >> $GITHUB_ENV
         bash scripts/rerender.sh $CONDA_BUILD_CONFIG_FILE $FEEDSTOCK_DIR
 
-    - name: Debug output linux config after
-      shell: bash -l {0}
-      run: cat conda/recipes/${{ matrix.release }}/${{ matrix.feedstock }}/.ci_support/linux_64_.yaml
+    # - name: Debug output linux config after
+    #   shell: bash -l {0}
+    #   run: cat conda/recipes/${{ matrix.release }}/${{ matrix.feedstock }}/.ci_support/linux_64_.yaml
 
     - name: Check if at least one config needs update
       shell: bash -l {0}
@@ -66,7 +66,7 @@ jobs:
         NEW_BUILD_NUMBER=$(echo "$RESULT" | jq -r '.new_build_number')
         echo "==== NEW_BUILD_NUMBER = $NEW_BUILD_NUMBER"
         echo "NEW_BUILD_NUMBER=$NEW_BUILD_NUMBER" >> $GITHUB_ENV
-        echo "BRANCH_NAME=rerender/${{ matrix.feedstock }}/${{ matrix.release }}_build_${{ env.NEW_BUILD_NUMBER }}" >> $GITHUB_ENV
+        echo "BRANCH_NAME=rerender/${{ matrix.feedstock }}/${{ matrix.release }}/build_$NEW_BUILD_NUMBER" >> $GITHUB_ENV
 
     - name: Create PR
       if: ${{ env.NEEDS_UPDATE == 1 }}
@@ -74,7 +74,7 @@ jobs:
       with:
         base: master
         token: ${{ secrets.TEST_PAT }}
-        commit-message: Rebuild ${{ matrix.feedstock }}-${{ matrix.release }} build number ${{ env.NEW_BUILD_NUMBER }}
+        commit-message: Rebuild ${{ matrix.feedstock }}/${{ matrix.release }} build number ${{ env.NEW_BUILD_NUMBER }}
         committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
         author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
         branch: ${{ env.BRANCH_NAME }}
@@ -83,7 +83,7 @@ jobs:
         add-paths: |
             ${{ env.FEEDSTOCK_DIR }}/recipe/recipe.yaml
             ${{ env.FEEDSTOCK_DIR }}/.ci_support/*.yaml
-        title: '[Rebuild] Rebuild ${{ matrix.feedstock }}-${{ matrix.release }} build ${{ env.NEW_BUILD_NUMBER }}'
+        title: '[Rebuild] Rebuild ${{ matrix.feedstock }}/${{ matrix.release }} build ${{ env.NEW_BUILD_NUMBER }}'
         body: |
           Rebuild feedstock ${{ matrix.feedstock }}:
             - version ${{ matrix.release }}
