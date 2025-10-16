@@ -91,11 +91,24 @@ jobs:
       run: |
         conda info
         cd conda/recipes/${{ inputs.recipe-dir }}
-         if [ ! -z "${{ inputs.python }}" ]; then
-           rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --variant-config ../../configs/python-${{ inputs.python }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
-         else
-           rattler-build build --recipe ${{ inputs.package-name }}/recipe.yaml --variant-config ../../configs/${{ inputs.platform }}.yaml --output-dir $PKG_DIR --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
-         fi
+        # remap given platform to config filename conda-forge standard
+        CONFIG_FILE_SPEC=`echo  ${{ inputs.platform }} | sed 's/-/_/g'`_
+        if [ ! -z "${{ inputs.python }}" ]; then
+          CONFIG_FILE_SPEC=${CONFIG_FILE_SPEC}python${{ inputs.python }}
+          echo "Config file spec: $CONFIG_FILE_SPEC for platform: ${{ inputs.platform }} (with python ${{ inputs.python }})"
+        else
+          echo "Config file spec: $CONFIG_FILE_SPEC for platform: ${{ inputs.platform }} (no python)"
+        fi
+        CONFIG_FILE=`find ${{ inputs.package-name }}/.ci_support -name "$CONFIG_FILE_SPEC*"`
+        if [ -z "$CONFIG_FILE" ] ; then
+          echo "Could not find configuration matching specs $CONFIG_FILE_SPEC for ${{ inputs.recipe-dir }}/${{ inputs.package-name }}"
+          echo "It is likely some platform / python-version combination specified in the feedstock parent workflow is deprecated and not anymore supported by conda-forge"
+          echo "Here is the list of available configuration files for the feedstock ${{ inputs.recipe-dir }}/${{ inputs.package-name }}:"
+          echo `ls -l ${{ inputs.package-name }}/.ci_support`
+          exit 1
+        fi
+        echo "Config file used for building package: $CONFIG_FILE"
+        rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir $PKG_DIR --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
 
     # Remove already existing package if any
     - name: Remove existing package
