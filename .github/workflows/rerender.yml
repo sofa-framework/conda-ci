@@ -29,10 +29,6 @@ jobs:
       shell: bash -l {0}
       run: conda install conda-smithy python pyyaml git
 
-    # - name: Debug output linux config before
-    #   shell: bash -l {0}
-    #   run: cat conda/recipes/${{ matrix.release }}/${{ matrix.feedstock }}/.ci_support/linux_64_.yaml
-
     - name: Re-render ${{ matrix.release }}/${{ matrix.feedstock }} using conda smithy and filter configs
       shell: bash -l {0}
       run: |
@@ -40,10 +36,6 @@ jobs:
         FEEDSTOCK_DIR=conda/recipes/${{ matrix.release }}/${{ matrix.feedstock }}
         echo "FEEDSTOCK_DIR=$FEEDSTOCK_DIR" >> $GITHUB_ENV
         bash scripts/rerender.sh $CONDA_BUILD_CONFIG_FILE $FEEDSTOCK_DIR
-
-    # - name: Debug output linux config after
-    #   shell: bash -l {0}
-    #   run: cat conda/recipes/${{ matrix.release }}/${{ matrix.feedstock }}/.ci_support/linux_64_.yaml
 
     - name: Check if at least one config needs update
       shell: bash -l {0}
