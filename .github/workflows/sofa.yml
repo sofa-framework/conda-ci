@@ -5,6 +5,8 @@ on:
   pull_request:
     types:
       - opened
+    branches:
+      - 'rerender/**'
 
 jobs:
   build-publish-sofa:
