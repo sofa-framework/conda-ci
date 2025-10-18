@@ -11,7 +11,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '18'
 glew:
-- '2.2'
+- '2.1'
 libboost_headers:
 - '1.86'
 macos_machine:
