@@ -1,14 +1,15 @@
 ## About
 
 CI generating conda packages and conda-based CI tools for SOFA.
-Packages are uploaded on the [Anaconda channel `sofa-framework`](https://anaconda.org/sofa-framework/repo).
+
+**Important notes**
+Packages are now hosted on Prefix.dev: [`sofa-framework`](https://prefix.dev/channels/sofa-framework). The new channel to be used is:
+`https://prefix.dev/sofa-framework`. Please do *not* use the old Anaconda channel `sofa-framework` (packages will be removed from Anaconda servers soon). 
 
 ## Build status for latest release
 
-![Conda Version](https://img.shields.io/conda/vn/sofa-framework/libsofa?label=SOFA%20release&color=4dc71f)
-![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsofa-framework%2Fconda-ci%2Frefs%2Fheads%2Fmaster%2F.github%2Fworkflows%2Fsofa-python3.yml&query=%24.jobs.build-publish-sofa-python3.strategy.matrix.python&label=Python%20versions) ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/libsofa?label=Supported%20platforms)
- 
-[![sofa](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa.yml) [![sofa-python3](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-python3.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-python3.yml) [![sofa-stlib](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-stlib.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-stlib.yml) [![sofa-modelorderreduction](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-modelorderreduction.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-modelorderreduction.yml) [![sofa-beamadapter](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-beamadapter.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-beamadapter.yml) [![sofa-softrobots](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-softrobots.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-softrobots.yml) [![sofa-softrobotsinverse](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-softrobotsinverse.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-softrobotsinverse.yml) [![sofa-cosserat](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-cosserat.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-cosserat.yml) [![sofa-glfw](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-glfw.yml/badge.svg)](https://github.com/sofa-framework/conda-ci/actions/workflows/sofa-glfw.yml)
+![Conda Version](https://img.shields.io/badge/SOFA%20release%20-%20v25.06-green)
+![Dynamic YAML Badge](Python versions - 3.10,3.11,3.12,3.13-blue) ![Conda Platform](https://img.shields.io/conda/pn/sofa-framework/libsofa?label=Supported%20platforms)
 
 ## Available conda packages
 
