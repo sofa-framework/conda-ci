@@ -1,0 +1,57 @@
+name: rerender-all-packages
+on:
+  workflow_dispatch:
+  # pull_request:
+  #   paths:
+  #     - '**/release-*/**/.ci_support/*.yaml'
+
+jobs:
+  rerender-sofa:
+    uses: ./.github/workflows/rerender-package.yml
+    with:
+      package: sofa
+      release: release-v25.06
+    secrets: inherit
+  # rerender-sofa-beamadapter:
+  #   uses: ./.github/workflows/rerender-package.yml
+  #   with:
+  #     package: sofa-beamadapter
+  #     release: release-v25.06
+  #   needs: rerender-sofa
+  #   secrets: inherit
+  rerender-sofa-python3:
+    uses: ./.github/workflows/rerender-package.yml
+    with:
+      package: sofa-python3
+      release: release-v25.06
+      requires-prs: ${{ needs.rerender-sofa.outputs.output-pr}}
+    needs: rerender-sofa
+    secrets: inherit
+  # rerender-sofa-stlib:
+  #   uses: ./.github/workflows/sofa-stlib.yml
+  #   needs: [rerender-sofa, rerender-sofa-python3]
+  #   secrets: inherit
+  # rerender-sofa-modelorderreduction:
+  #   uses: ./.github/workflows/sofa-modelorderreduction.yml
+  #   needs: [rerender-sofa, rerender-sofa-python3]
+  #   secrets: inherit
+  # rerender-sofa-softrobots:
+  #   uses: ./.github/workflows/sofa-softrobots.yml
+  #   needs: [rerender-sofa, rerender-sofa-python3, rerender-sofa-stlib]
+  #   secrets: inherit
+  # rerender-sofa-softrobotsinverse:
+  #   uses: ./.github/workflows/sofa-softrobotsinverse.yml
+  #   needs: [rerender-sofa, rerender-sofa-python3, rerender-sofa-stlib, rerender-sofa-softrobots]
+  #   secrets: inherit
+  # rerender-sofa-cosserat:
+  #   uses: ./.github/workflows/sofa-cosserat.yml
+  #   needs: [rerender-sofa, rerender-sofa-python3, rerender-sofa-stlib, rerender-sofa-softrobots]
+  #   secrets: inherit
+  # rerender-sofa-glfw:
+  #   uses: ./.github/workflows/sofa-glfw.yml
+  #   needs: [rerender-sofa, rerender-sofa-python3]
+  #   secrets: inherit
+  # rerender-sofa-app:
+  #   uses: ./.github/workflows/sofa-app.yml
+  #   needs: [rerender-sofa, rerender-sofa-glfw]
+  #   secrets: inherit

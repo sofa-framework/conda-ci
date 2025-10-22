@@ -1,9 +1,9 @@
 name: sofa-all-packages
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - '**/release-*/**/.ci_support/*.yaml'
+  # pull_request:
+  #   paths:
+  #     - '**/release-*/**/.ci_support/*.yaml'
 
 jobs:
   build-publish-sofa:

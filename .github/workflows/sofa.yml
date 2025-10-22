@@ -2,8 +2,26 @@ name: sofa
 on:
   workflow_call:
   workflow_dispatch:
+  pull_request:
+    types:
+    - opened
+    - labeled
+    - unlabeled
+    paths:
+      - '**/release-*/sofa/.ci_support/*.yaml'
 
 jobs:
+  check-depends-on-PR:
+    if: contains(github.event.pull_request.labels.*.name, 'depends-on')
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Fail in case Pull Request is labeled with "depends-on"
+        run: |
+          echo "Pull Request has a depends-on label and is blocked."
+          echo "Merge listed PRs in comment first and unlabel this PR."
+          exit 1
+
   build-publish-sofa:
     strategy:
       fail-fast: false
