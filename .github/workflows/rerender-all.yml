@@ -11,6 +11,7 @@ jobs:
     with:
       package: sofa
       release: release-v25.06
+      requires-prs: ""
     secrets: inherit
   # rerender-sofa-beamadapter:
   #   uses: ./.github/workflows/rerender-package.yml
@@ -24,7 +25,7 @@ jobs:
     with:
       package: sofa-python3
       release: release-v25.06
-      requires-prs: ${{ needs.rerender-sofa.outputs.output-pr}}
+      requires-prs: ${{ needs.rerender-sofa.outputs.output-pr }}
     needs: rerender-sofa
     secrets: inherit
   # rerender-sofa-stlib:
