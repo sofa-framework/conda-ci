@@ -28,10 +28,14 @@ jobs:
       requires-prs: ${{ needs.rerender-sofa.outputs.output-pr }}
     needs: rerender-sofa
     secrets: inherit
-  # rerender-sofa-stlib:
-  #   uses: ./.github/workflows/sofa-stlib.yml
-  #   needs: [rerender-sofa, rerender-sofa-python3]
-  #   secrets: inherit
+  rerender-sofa-stlib:
+    uses: ./.github/workflows/rerender-package.yml
+    with:
+      package: sofa-stlib
+      release: release-v25.06
+      requires-prs: ${{ needs.rerender-sofa.outputs.output-pr }} ${{ needs.rerender-sofa-python3.outputs.output-pr }}
+    needs: [rerender-sofa, rerender-sofa-python3]
+    secrets: inherit
   # rerender-sofa-modelorderreduction:
   #   uses: ./.github/workflows/sofa-modelorderreduction.yml
   #   needs: [rerender-sofa, rerender-sofa-python3]
