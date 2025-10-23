@@ -2,13 +2,13 @@ name: debug-label
 on:
   workflow_call:
   workflow_dispatch:
-  pull_request:
-    types:
-    - opened
-    - reopened
-    - unlabeled
-    paths:
-      - '**/release-*/sofa-python3/.ci_support/*.yaml'
+  # pull_request:
+  #   types:
+  #   - opened
+  #   - reopened
+  #   - unlabeled
+  #   paths:
+  #     - '**/release-*/sofa-python3/.ci_support/*.yaml'
 
 jobs:
   check-depends-on-PR:

@@ -12,9 +12,7 @@ on:
 
 jobs:
   check-depends-on-PR:
-    if: contains(github.event.pull_request.labels.*.name, 'depends-on')
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Fail in case Pull Request is opened with label "depends-on"
         if: ${{ contains(github.event.pull_request.labels.*.name, 'depends-on') }}
