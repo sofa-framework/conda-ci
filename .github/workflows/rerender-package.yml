@@ -13,7 +13,7 @@ on:
         required: true
         type: string
     outputs:
-      fooouput:
+      pr-number:
         description: "Generated PR number if any"
         value: ${{ jobs.rerender.outputs.pr-number }}
 

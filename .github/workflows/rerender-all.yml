@@ -27,7 +27,7 @@ jobs:
     steps:
     - name: Debug output
       shell: bash -l {0}
-      run: echo ${{ needs.job1.outputs.fooouput }} ${{ needs.job1.outputs.secondword }}
+      run: echo ${{ needs.job1.outputs.pr-number }}
   # rerender-sofa-python3:
   #   needs: rerender-sofa
   #   uses: ./.github/workflows/rerender-package.yml
