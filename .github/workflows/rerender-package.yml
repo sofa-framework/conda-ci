@@ -14,7 +14,7 @@ on:
         type: string
     outputs:
       output-pr:
-        value: ${{ jobs.rerender.output-pr-number }}
+        value: ${{ jobs.rerender.outputs.output-pr-number }}
 
 jobs:
   rerender:
