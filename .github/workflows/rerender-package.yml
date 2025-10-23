@@ -73,12 +73,12 @@ jobs:
     - name: Debug - Dummy Create PR [no requirements]
       # id: create-pr-no-require
       if: ${{ env.NEEDS_UPDATE == 1 && inputs.requires-prs == '' }}
-      run: "-- Creating PR with no requirements"
+      run: echo "-- Creating PR with no requirements"
 
     - name: Debug - Dummy Create PR [requires PRs ${{ inputs.requires-prs }} ]
       # id: create-pr-requires
       if: ${{ env.NEEDS_UPDATE == 1 && inputs.requires-prs != '' }}
-      run: "-- Creating PR that requires PRs ${{ inputs.requires-prs }}"
+      run: echo "-- Creating PR that requires PRs ${{ inputs.requires-prs }}"
 
     - name: Debug - Output required PRs
       # id: set-outputs
