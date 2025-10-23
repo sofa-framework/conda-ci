@@ -7,7 +7,7 @@ on:
   #     - '**/release-*/**/.ci_support/*.yaml'
 
 jobs:
-  job1:
+  rerender-sofa:
     uses: ./.github/workflows/rerender-package.yml
     with:
       package: sofa
@@ -23,11 +23,11 @@ jobs:
   #   secrets: inherit
   debug-ouput:
     runs-on:  ubuntu-latest
-    needs: job1
+    needs: rerender-sofa
     steps:
     - name: Debug output
       shell: bash -l {0}
-      run: echo ${{ needs.job1.outputs.pr-number }}
+      run: echo ${{ needs.rerender-sofa.outputs.pr-number }}
   # rerender-sofa-python3:
   #   needs: rerender-sofa
   #   uses: ./.github/workflows/rerender-package.yml
