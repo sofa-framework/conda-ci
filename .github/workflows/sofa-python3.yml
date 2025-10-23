@@ -2,11 +2,11 @@ name: sofa-python3
 on:
   workflow_call:
   workflow_dispatch:
-  pull_request:
-    types:
-    - opened
-    - reopened
-    - unlabeled
+  # pull_request:
+  #   types:
+  #   - opened
+  #   - reopened
+  #   - unlabeled
     # paths:
     #   - '**/release-*/sofa-python3/.ci_support/*.yaml'
 
