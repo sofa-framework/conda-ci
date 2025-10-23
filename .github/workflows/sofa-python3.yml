@@ -7,8 +7,8 @@ on:
     - opened
     - reopened
     - unlabeled
-    paths:
-      - '**/release-*/sofa-python3/.ci_support/*.yaml'
+    # paths:
+    #   - '**/release-*/sofa-python3/.ci_support/*.yaml'
 
 jobs:
   check-depends-on-PR:
