@@ -84,7 +84,7 @@ jobs:
         add-paths: |
             ${{ env.PACKAGE_DIR }}/recipe/recipe.yaml
             ${{ env.PACKAGE_DIR }}/.ci_support/*.yaml
-        title: '[Rebuild] Rebuild ${{ inputs.package }}/${{ inputs.release }} build ${{ env.NEW_BUILD_NUMBER }}'
+        title: 'Rebuild ${{ inputs.package }}/${{ inputs.release }} build ${{ env.NEW_BUILD_NUMBER }}'
         body: |
           Rebuild package ${{ inputs.package }}:
             - version ${{ inputs.release }}
@@ -109,7 +109,7 @@ jobs:
         add-paths: |
             ${{ env.PACKAGE_DIR }}/recipe/recipe.yaml
             ${{ env.PACKAGE_DIR }}/.ci_support/*.yaml
-        title: '[Rebuild] Rebuild ${{ inputs.package }}/${{ inputs.release }} build ${{ env.NEW_BUILD_NUMBER }}'
+        title: 'Rebuild ${{ inputs.package }}/${{ inputs.release }} build ${{ env.NEW_BUILD_NUMBER }}'
         body: |
           Rebuild package ${{ inputs.package }}:
             - version: ${{ inputs.release }}
