@@ -81,7 +81,7 @@ jobs:
       run: echo "-- Creating PR that requires PRs ${{ inputs.requires-prs }}"
 
     - name: Debug - Output required PRs
-      # id: set-outputs
+      id: set-outputs
       if: ${{ env.NEEDS_UPDATE == 1 }}
       run: echo "output-pr-number=42" >> $GITHUB_OUTPUT
 
