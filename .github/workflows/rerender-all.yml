@@ -20,21 +20,28 @@ jobs:
   #     release: release-v25.06
   #   needs: rerender-sofa
   #   secrets: inherit
+  debug-ouput:
+    needs: rerender-sofa
+    runs-on:  ubuntu-latest
+    steps:
+    - name: Debug output
+      shell: bash -l {0}
+      run: echo "======== ${{ needs.rerender-sofa.outputs.output-pr }}"
   rerender-sofa-python3:
+    needs: rerender-sofa
     uses: ./.github/workflows/rerender-package.yml
     with:
       package: sofa-python3
       release: release-v25.06
       requires-prs: ${{ needs.rerender-sofa.outputs.output-pr }}
-    needs: rerender-sofa
     secrets: inherit
   rerender-sofa-stlib:
+    needs: [rerender-sofa, rerender-sofa-python3]
     uses: ./.github/workflows/rerender-package.yml
     with:
       package: sofa-stlib
       release: release-v25.06
       requires-prs: ${{ needs.rerender-sofa.outputs.output-pr }} ${{ needs.rerender-sofa-python3.outputs.output-pr }}
-    needs: [rerender-sofa, rerender-sofa-python3]
     secrets: inherit
   # rerender-sofa-modelorderreduction:
   #   uses: ./.github/workflows/sofa-modelorderreduction.yml
