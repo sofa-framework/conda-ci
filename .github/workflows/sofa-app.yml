@@ -17,10 +17,16 @@ jobs:
     continue-on-error: true
     steps:
       - name: Fail in case Pull Request is opened with label "depends-on"
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'depends-on') }}
         run: |
           echo "Pull Request was open with a depends-on label and is blocked."
           echo "Merge listed PRs in comment first and unlabel this PR."
           exit 1
+
+      - name: Succeed otherwise
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'depends-on') }}
+        run: |
+          echo "Pull Request was not opened with a depends-on label, continuing..."
 
   build-publish-sofa-app:
     strategy:
