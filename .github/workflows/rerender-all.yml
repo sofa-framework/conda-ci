@@ -37,7 +37,7 @@ jobs:
       requires-prs: |
         ${{ needs.rerender-sofa.outputs.pr-number }} 
         ${{ needs.rerender-sofa-python3.outputs.pr-number }}
-  #   secrets: inherit
+    secrets: inherit
   # rerender-sofa-modelorderreduction:
   #   needs: [rerender-sofa, rerender-sofa-python3]
   #   uses: ./.github/workflows/rerender-package.yml

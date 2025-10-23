@@ -6,7 +6,7 @@ on:
     types:
     - opened
     - reopened
-    - labeled
+    - unlabeled
     paths:
       - '**/release-*/sofa-python3/.ci_support/*.yaml'
 
