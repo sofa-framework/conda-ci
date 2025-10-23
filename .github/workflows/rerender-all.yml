@@ -28,14 +28,14 @@ jobs:
     - name: Debug output
       shell: bash -l {0}
       run: echo ${{ needs.rerender-sofa.outputs.pr-number }}
-  # rerender-sofa-python3:
-  #   needs: rerender-sofa
-  #   uses: ./.github/workflows/rerender-package.yml
-  #   with:
-  #     package: sofa-python3
-  #     release: release-v25.06
-  #     requires-prs: ${{ needs.rerender-sofa.outputs.output-pr }}
-  #   secrets: inherit
+  rerender-sofa-python3:
+    needs: rerender-sofa
+    uses: ./.github/workflows/rerender-package.yml
+    with:
+      package: sofa-python3
+      release: release-v25.06
+      requires-prs: ${{ needs.rerender-sofa.outputs.pr-number }}
+    secrets: inherit
   # rerender-sofa-stlib:
   #   needs: [rerender-sofa, rerender-sofa-python3]
   #   uses: ./.github/workflows/rerender-package.yml
