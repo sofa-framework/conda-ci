@@ -14,19 +14,19 @@ jobs:
   check-depends-on-PR:
     runs-on: ubuntu-latest
     steps:
-      - name: Fail if depends-on
+      - name: Fail if rerender
         shell: bash -l {0}
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'depends-on') }}
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'rerender') }}
         run: |
-          echo "Pull Request was open with a depends-on label and is blocked."
+          echo "Pull Request was open with a rerender label and is blocked."
           echo "Merge listed PRs in comment first and unlabel this PR."
           exit 1
 
       - name: Continue otherwise
         shell: bash -l {0}
-        if: ${{ !contains(github.event.pull_request.labels.*.name, 'depends-on') }}
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'rerender') }}
         run: |
-          echo "Pull Request was not opened with a depends-on label, continuing..."
+          echo "Pull Request was not opened with a rerender label, continuing..."
 
   build-publish-sofa:
     runs-on: ubuntu-latest
