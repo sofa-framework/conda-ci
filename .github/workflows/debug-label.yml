@@ -34,5 +34,4 @@ jobs:
     steps:
       - name: Run CI
         shell: bash -l {0}
-        run: |
-          echo "Running CI...""
+        run: echo "Running CI...""
