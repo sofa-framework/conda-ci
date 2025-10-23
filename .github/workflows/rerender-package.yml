@@ -71,11 +71,11 @@ jobs:
       run: echo "${{ inputs.requires-prs }}"
 
     - name: Debug - No requires
-      if: ${{ inputs.requires-prs }} == ""
+      if: ${{ inputs.requires-prs == '' }} 
       run: echo "--- No requires"
 
     - name: Debug - Requires
-      if: ${{ inputs.requires-prs }} != ""
+      if: ${{ inputs.requires-prs != '' }}
       run: echo "--- Requires"
 
     - name: Debug - Output required PRs
