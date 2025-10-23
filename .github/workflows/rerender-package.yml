@@ -21,7 +21,7 @@ jobs:
     name: Re-render package ${{ inputs.package }}-${{ inputs.release }} (requires ${{ inputs.requires-prs }} )
     runs-on:  ubuntu-latest
     outputs:
-      output-pr-number: ${{ steps.set-outputs.outputs.pull-request-number }}
+      output-pr-number: ${{ steps.dummystep.outputs.foo }}
     steps:
     - uses: actions/checkout@v4
 
@@ -81,9 +81,9 @@ jobs:
       run: echo "-- Creating PR that requires PRs ${{ inputs.requires-prs }}"
 
     - name: Debug - Output required PRs
-      id: set-outputs
-      if: ${{ env.NEEDS_UPDATE == 1 }}
-      run: echo "output-pr-number=42" >> $GITHUB_OUTPUT
+      id: dummystep
+      # if: ${{ env.NEEDS_UPDATE == 1 }}
+      run: echo "foo=42" >> $GITHUB_OUTPUT
 
     # - name: Create PR [no requirements]
     #   id: create-pr-no-require
