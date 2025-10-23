@@ -15,14 +15,14 @@ on:
     outputs:
       fooouput:
         description: "Generated PR number if any"
-        value: ${{ jobs.rerender.outputs.output1 }}
+        value: ${{ jobs.rerender.outputs.pr-number }}
 
 jobs:
   rerender:
     name: Re-render package ${{ inputs.package }}-${{ inputs.release }} (requires ${{ inputs.requires-prs }} )
     runs-on:  ubuntu-latest
     outputs:
-      output1: ${{ steps.set-outputs.outputs.output-pr-number }}
+      pr-number: ${{ steps.set-outputs.outputs.output-pr-number }}
     steps:
     - uses: actions/checkout@v4
 
