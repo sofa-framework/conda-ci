@@ -18,7 +18,7 @@ on:
         value: ${{ jobs.rerender.outputs.output1 }}
       secondword:
         description: "The second output string"
-        value: ${{ jobs.example_job.outputs.output2 }}
+        value: ${{ jobs.rerender.outputs.output2 }}
 
 jobs:
   rerender:
