@@ -123,11 +123,13 @@ jobs:
 
     - name: Output required PRs
       id: set-outputs
-      # if: ${{ steps.create-pr.outputs.pull-request-number }}
       if: ${{ env.NEEDS_UPDATE == 1 }}
       run: |
         if [ -z "${{ inputs.requires-prs }}" ]; then
           echo "output-pr-number=${{ steps.create-pr-no-require.outputs.pull-request-number }}" >> $GITHUB_OUTPUT
+          echo "Set output output-pr-number to ${{ steps.create-pr-no-require.outputs.pull-request-number }} (no requires case)"
         else
           echo "output-pr-number=${{ steps.create-pr-requires.outputs.pull-request-number }}" >> $GITHUB_OUTPUT
+          echo "Set output output-pr-number to ${{ steps.create-pr-requires.outputs.pull-request-number }} (requires case)"
         fi
+        echo $GITHUB_OUTPUT
