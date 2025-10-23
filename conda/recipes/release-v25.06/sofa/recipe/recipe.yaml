@@ -1,7 +1,7 @@
 context:
   name: sofa
   version: 25.06.00
-  build_num: 1
+  build_num: 2
 
 recipe:
   name: ${{ name }}
