@@ -15,23 +15,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fail if depends-on
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'depends-on') }}
         shell: bash -l {0}
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'depends-on') }}
         run: |
           echo "Pull Request was open with a depends-on label and is blocked."
           echo "Merge listed PRs in comment first and unlabel this PR."
           exit 1
 
       - name: Continue otherwise
-        if: ${{ !contains(github.event.pull_request.labels.*.name, 'depends-on') }}
         shell: bash -l {0}
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'depends-on') }}
         run: |
           echo "Pull Request was not opened with a depends-on label, continuing..."
 
   build-publish-sofa:
     runs-on: ubuntu-latest
     needs: check-depends-on-PR
-    shell: bash -l {0}
     steps:
       - name: Run CI
         shell: bash -l {0}
