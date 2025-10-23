@@ -13,15 +13,20 @@ on:
         required: true
         type: string
     outputs:
-      output-pr:
-        value: ${{ jobs.rerender.outputs.output-pr-number }}
+      fooouput:
+        description: "Generated PR number if any"
+        value: ${{ jobs.rerender.outputs.output1 }}
+      secondword:
+        description: "The second output string"
+        value: ${{ jobs.example_job.outputs.output2 }}
 
 jobs:
   rerender:
     name: Re-render package ${{ inputs.package }}-${{ inputs.release }} (requires ${{ inputs.requires-prs }} )
     runs-on:  ubuntu-latest
     outputs:
-      output-pr-number: ${{ steps.dummystep.outputs.foo }}
+      output1: ${{ steps.dummystep.outputs.foo }}
+      output2: ${{ steps.dummystep.outputs.secondword }}
     steps:
     - uses: actions/checkout@v4
 
@@ -83,7 +88,9 @@ jobs:
     - name: Debug - Output required PRs
       id: dummystep
       # if: ${{ env.NEEDS_UPDATE == 1 }}
-      run: echo "foo=42" >> $GITHUB_OUTPUT
+      run: |
+        echo "foo=42" >> $GITHUB_OUTPUT
+        echo "secondword=world" >> $GITHUB_OUTPUT
 
     # - name: Create PR [no requirements]
     #   id: create-pr-no-require
