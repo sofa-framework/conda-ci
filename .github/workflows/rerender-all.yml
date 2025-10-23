@@ -2,9 +2,7 @@ name: rerender-all-packages
 
 on:
   workflow_dispatch:
-  # pull_request:
-  #   paths:
-  #     - '**/release-*/**/.ci_support/*.yaml'
+  # TODO: cron this
 
 jobs:
   rerender-sofa:
@@ -14,20 +12,14 @@ jobs:
       release: release-v25.06
       requires-prs: ""
     secrets: inherit
-  # rerender-sofa-beamadapter:
-  #   uses: ./.github/workflows/rerender-package.yml
-  #   with:
-  #     package: sofa-beamadapter
-  #     release: release-v25.06
-  #   needs: rerender-sofa
-  #   secrets: inherit
-  debug-ouput:
-    runs-on: ubuntu-latest
+  rerender-sofa-beamadapter:
     needs: rerender-sofa
-    steps:
-    - name: Debug output
-      shell: bash -l {0}
-      run: echo ${{ needs.rerender-sofa.outputs.pr-number }}
+    uses: ./.github/workflows/rerender-package.yml
+    with:
+      package: sofa-beamadapter
+      release: release-v25.06
+      requires-prs: ${{ needs.rerender-sofa.outputs.pr-number }}
+    secrets: inherit
   rerender-sofa-python3:
     needs: rerender-sofa
     uses: ./.github/workflows/rerender-package.yml
@@ -42,7 +34,9 @@ jobs:
     with:
       package: sofa-stlib
       release: release-v25.06
-      requires-prs: ${{ needs.rerender-sofa.outputs.pr-number }} ${{ needs.rerender-sofa-python3.outputs.pr-number }}
+      requires-prs: |
+        ${{ needs.rerender-sofa.outputs.pr-number }} 
+        ${{ needs.rerender-sofa-python3.outputs.pr-number }}
     secrets: inherit
   # rerender-sofa-modelorderreduction:
   #   uses: ./.github/workflows/sofa-modelorderreduction.yml

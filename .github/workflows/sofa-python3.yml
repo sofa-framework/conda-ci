@@ -5,8 +5,8 @@ on:
   pull_request:
     types:
     - opened
+    - reopened
     - labeled
-    - unlabeled
     paths:
       - '**/release-*/sofa-python3/.ci_support/*.yaml'
 
@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - name: Fail in case Pull Request is labeled with "depends-on"
+      - name: Fail in case Pull Request is opened with label "depends-on"
         run: |
-          echo "Pull Request has a depends-on label and is blocked."
+          echo "Pull Request was open with a depends-on label and is blocked."
           echo "Merge listed PRs in comment first and unlabel this PR."
           exit 1
 
@@ -34,6 +34,7 @@ jobs:
         python: ["3.10", "3.11", "3.12", "3.13"]
 
     uses: ./.github/workflows/build_publish_package.yml
+    needs: check-depends-on-PR
     with:
       package-name: sofa-python3
       runner: ${{ matrix.target.runner }}
