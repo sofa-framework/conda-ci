@@ -1,0 +1,24 @@
+name: nightly-rerender-all-packages
+
+on:
+  workflow_dispatch:
+  # call every sunday at 10am
+  # schedule:
+  #   - cron: 0 10 * * 0
+
+jobs:
+  rerender-sofa:
+    uses: ./.github/workflows/rerender-package.yml
+    with:
+      package: sofa
+      release: nightly
+      requires-prs: ""
+    secrets: inherit
+  rerender-sofa-python3:
+    needs: rerender-sofa
+    uses: ./.github/workflows/rerender-package.yml
+    with:
+      package: sofa-python3
+      release: nightly
+      requires-prs: ${{ needs.rerender-sofa.outputs.pr-number }}
+    secrets: inherit

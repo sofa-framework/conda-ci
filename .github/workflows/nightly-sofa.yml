@@ -1,9 +1,31 @@
 name: nightly-sofa
 on:
-  - workflow_call
-  - workflow_dispatch
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    types:
+    - opened
+    - reopened
+    - unlabeled
+    paths:
+      - '**/nightly/sofa/.ci_support/*.yaml'
 
 jobs:
+  check-depends-on-PR:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail in case Pull Request is opened with label "depends-on"
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'depends-on') }}
+        run: |
+          echo "Pull Request was open with a depends-on label and is blocked."
+          echo "Merge listed PRs in comment first and unlabel this PR."
+          exit 1
+
+      - name: Succeed otherwise
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'depends-on') }}
+        run: |
+          echo "Pull Request was not opened with a depends-on label, continuing..."
+
   build-publish-sofa:
     strategy:
       fail-fast: false
@@ -14,6 +36,7 @@ jobs:
                  {platform: "win-64", runner: "windows-latest"}]
 
     uses: ./.github/workflows/build_publish_package.yml
+    needs: check-depends-on-PR
     with:
       package-name: sofa
       runner: ${{ matrix.target.runner }}
@@ -21,4 +44,4 @@ jobs:
       channel: sofa-framework-nightly
       recipe-dir: nightly
     secrets:
-      anaconda-token: ${{ secrets.ANACONDA_NIGHTLY_TOKEN }}
+      api-key: ${{ secrets.PREFIXDEV_APIKEY }}
