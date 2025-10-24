@@ -9,9 +9,9 @@ c_stdlib_version:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '18'
+- '19'
 glew:
-- '2.1'
+- '2.2'
 libboost_headers:
 - '1.86'
 macos_machine:
