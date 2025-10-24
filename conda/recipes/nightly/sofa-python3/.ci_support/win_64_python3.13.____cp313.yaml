@@ -1,0 +1,16 @@
+c_stdlib:
+- vs
+cxx_compiler:
+- vs2022
+glew:
+- '2.1'
+libboost_headers:
+- '1.86'
+numpy:
+- '2'
+pin_run_as_build:
+  python:
+    max_pin: x.x
+    min_pin: x.x
+python:
+- 3.13.* *_cp313
