@@ -1,7 +1,7 @@
 context:
   name: sofa-glfw
   version: 25.06.00
-  build_num: 2
+  build_num: 3
   major: ${{ (version | split('.'))[0] }}
   minor: ${{ (version | split('.'))[1] }}
   major_minor: ${{ major }}.${{ minor }}
@@ -16,19 +16,6 @@ source:
 
 build:
   number: ${{ build_num }}
-  files:
-    # SHLIB_EXT is not working here for some reason
-    # - ${{ "Library/bin" if win else "lib" }}/**/*$SHLIB_EXT
-    - if: unix
-      then:
-        - lib/**/*.so*
-    - if: osx
-      then:
-        - lib/**/*.dylib
-    - if: win
-      then:
-        - Library/bin/**/*.dll
-        - Library/lib/**/*.lib
 
 requirements:
   build:
