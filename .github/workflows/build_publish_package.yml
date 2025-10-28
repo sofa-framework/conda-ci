@@ -43,6 +43,7 @@ jobs:
         activate-environment: c:\so
         auto-update-conda: true
         miniforge-version: latest
+        conda-remove-defaults: "true"
 
     - name: Install miniconda [Linux x64 & macOS]
       if: contains(inputs.runner, 'windows') == false && !(contains(inputs.runner, 'ubuntu') && contains(inputs.runner, 'arm'))
@@ -51,6 +52,7 @@ jobs:
         activate-environment: sofa-conda-ci
         auto-update-conda: true
         miniforge-version: latest
+        conda-remove-defaults: "true"
 
     - name: Install miniconda [Linux aarch64]
       if: contains(inputs.runner, 'ubuntu') && contains(inputs.runner, 'arm')
@@ -60,6 +62,7 @@ jobs:
         auto-update-conda: true
         miniforge-version: latest
         architecture: aarch64
+        conda-remove-defaults: "true"
 
     - name: Install conda environment
       shell: bash -l {0}
@@ -108,13 +111,13 @@ jobs:
           exit 1
         fi
         echo "Config file used for building package: $CONFIG_FILE"
-        rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir $PKG_DIR --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
+        rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir ${{ env.PKG_DIR }} --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
 
     # Remove already existing package if any
     - name: Remove existing package
       shell: bash -l {0}
       run: |
-        cd $PKG_DIR/${{ inputs.platform }}
+        cd ${{ env.PKG_DIR }}/${{ inputs.platform }}
         for file in *${{ inputs.package-name }}*.conda; do
           curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$file -H "Authorization: Bearer ${{ secrets.api-key }}"
         done
@@ -122,6 +125,6 @@ jobs:
     - name: Publish conda package
       shell: bash -l {0}
       run: |
-        for file in $PKG_DIR/**/*${{ inputs.package-name }}*.conda; do
+        for file in ${{ env.PKG_DIR }}/**/*${{ inputs.package-name }}*.conda; do
           rattler-build upload prefix -c ${{ inputs.channel }} --api-key ${{ secrets.api-key }} "$file"
         done
