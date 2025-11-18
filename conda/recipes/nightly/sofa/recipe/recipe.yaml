@@ -1,7 +1,7 @@
 context:
   name: sofa
   version: 25.06.99
-  build_num: 1
+  build_num: 2
 
 recipe:
   name: ${{ name }}
@@ -15,6 +15,10 @@ cache:
   source:
     git: https://github.com/sofa-framework/sofa.git
     branch: master
+
+    patches:
+      # https://github.com/sofa-framework/sofa/pull/5775
+      - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
 
   build:
     script: scripts/build-cache
@@ -35,6 +39,7 @@ cache:
       - eigen
       - cxxopts
       - gtest
+      - nlohmann_json
 
 outputs:
   - package:
@@ -51,8 +56,6 @@ outputs:
         # for copying activation/deactivation scripts
         - etc/conda/*
     requirements:
-      run:
-        - zlib
       run_exports:
         - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
     tests:
@@ -67,7 +70,6 @@ outputs:
       license_file:
         - LICENSE-LGPL.md
         - extlibs/difflib/LICENSE.MIT
-        - extlibs/json/LICENSE.MIT
         - extlibs/stb/LICENSE.MIT
 
   - package:
@@ -82,6 +84,8 @@ outputs:
       host:
         - ${{ pin_subpackage('libsofa', exact=True) }}
       run:
+        - libboost-headers
+        - eigen      
         - ${{ pin_subpackage('libsofa', exact=True) }}
       run_exports:
         - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
@@ -89,9 +93,13 @@ outputs:
       - package_contents:
           include:
             - Sofa.Core/sofa/core/init.h
-          files:
-            - ${{ "Library/" if win }}lib/cmake/Sofa.Core/Sofa.CoreConfig.cmake
-            - ${{ "Library/" if win }}lib/cmake/Sofa.Core/Sofa.CoreConfigVersion.cmake
+      - script:
+        - cmake-package-check Sofa.Core
+        requirements:
+          run:
+            - cmake-package-check
+            - ${{ compiler('c') }}
+            - ${{ compiler('cxx') }}
     about:
       summary: Development librairies for the SOFA framework
       description: Development librairies for SOFA, a real-time multi-physics
@@ -100,7 +108,6 @@ outputs:
       license_file:
         - LICENSE-LGPL.md
         - extlibs/difflib/LICENSE.MIT
-        - extlibs/json/LICENSE.MIT
         - extlibs/stb/LICENSE.MIT
 
   - package:
@@ -116,19 +123,23 @@ outputs:
           then: make
         - if: win 
           then: ninja
-        - if: linux
-          then: ${{ cdt('mesa-libgl-devel') }}
       host:
         - ${{ pin_subpackage('sofa-devel', exact=True) }}
         - glew
         - eigen
         - libboost-headers
         - if: linux
-          then: libglu
+          then: 
+            - libglu
+            - libgl-devel
       run:
-        - ${{ pin_subpackage('libsofa', exact=True) }}
+        - ${{ pin_subpackage('sofa-devel', exact=True) }}
+        - eigen
+        - libboost-headers        
         - if: linux
-          then: libglu
+          then: 
+            - libglu
+            - libgl-devel
       run_exports:
         - ${{ pin_subpackage('sofa-gl', upper_bound='x.x.x') }}
     tests:
@@ -137,9 +148,13 @@ outputs:
             - Sofa.GL/sofa/gl/initSofa.GL.h
           lib:
             - Sofa.GL*
-          files:
-            - ${{ "Library/" if win }}lib/cmake/Sofa.GL/Sofa.GLConfig.cmake
-            - ${{ "Library/" if win }}lib/cmake/Sofa.GL/Sofa.GLConfigVersion.cmake
+      - script:
+        - cmake-package-check Sofa.GL
+        requirements:
+          run:
+            - cmake-package-check
+            - ${{ compiler('c') }}
+            - ${{ compiler('cxx') }}  
     about:
       summary: SOFA GL rendering library
       description: GL rendering library for SOFA, a real-time multi-physics
