@@ -1,51 +1,30 @@
 context:
   name: sofa
   version: 25.06.99
-  build_num: 2
+  build_num: 3
 
 recipe:
   name: ${{ name }}
   version: ${{ version }}
 
+
+source:
+  git: https://github.com/sofa-framework/sofa.git
+  branch: master
+
+  patches:
+    # https://github.com/sofa-framework/sofa/pull/5775
+    - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
+
 build:
   number: ${{ build_num }}
   string: nightly_h${{ hash }}
-
-cache:
-  source:
-    git: https://github.com/sofa-framework/sofa.git
-    branch: master
-
-    patches:
-      # https://github.com/sofa-framework/sofa/pull/5775
-      - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
-
-  build:
-    script: scripts/build-cache
-
-  requirements:
-    build:
-      - ${{ compiler('cxx') }}
-      - ${{ stdlib('c') }}
-      - cmake
-      - if: unix
-        then: make
-      - if: win
-        then: ninja
-    host:
-      - libboost-headers
-      - zlib
-      - tinyxml2
-      - eigen
-      - cxxopts
-      - gtest
-      - nlohmann_json
 
 outputs:
   - package:
       name: libsofa
     build:
-      script: scripts/install-core
+      script: scripts/build-lib
       files:
         - ${{ "Library/" if win }}lib/${{ "lib" if not win }}Sofa*
         - ${{ "Library/" if win }}plugins/**/lib
@@ -56,6 +35,22 @@ outputs:
         # for copying activation/deactivation scripts
         - etc/conda/*
     requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - if: unix
+          then: make
+        - if: win
+          then: ninja
+      host:
+        - libboost-headers
+        - zlib
+        - tinyxml2
+        - eigen
+        - cxxopts
+        - gtest
+        - nlohmann_json
       run_exports:
         - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
     tests:
@@ -75,17 +70,41 @@ outputs:
   - package:
       name: sofa-devel
     build:
+      script: scripts/build-devel
       files:
-        - ${{ "Library/" if win }}include/*
-        - ${{ "Library/" if win }}lib/cmake/Sofa*
-        - ${{ "Library/" if win }}plugins/**/include
-        - ${{ "Library/" if win }}plugins/**/lib/cmake
+      # exclude everything that has been packaged in libsofa subpackage
+        exclude:
+          - ${{ "Library/" if win }}lib/${{ "lib" if not win }}Sofa*
+          - ${{ "Library/" if win }}plugins/**/lib
+          - if: win
+            then:
+              - Library/bin/*
+              - Library/plugins/**/bin
+        include:
+          - ${{ "Library/" if win }}include/*
+          - ${{ "Library/" if win }}lib/cmake/Sofa*
+          - ${{ "Library/" if win }}plugins/**/include
+          - ${{ "Library/" if win }}plugins/**/lib/cmake
     requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - if: unix
+          then: make
+        - if: win
+          then: ninja
       host:
-        - ${{ pin_subpackage('libsofa', exact=True) }}
+        - libboost-headers
+        - zlib
+        - tinyxml2
+        - eigen
+        - cxxopts
+        - gtest
+        - nlohmann_json
       run:
         - libboost-headers
-        - eigen      
+        - eigen
         - ${{ pin_subpackage('libsofa', exact=True) }}
       run_exports:
         - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
@@ -125,21 +144,21 @@ outputs:
           then: ninja
       host:
         - ${{ pin_subpackage('sofa-devel', exact=True) }}
-        - glew
         - eigen
+        - glew
         - libboost-headers
         - if: linux
-          then: 
-            - libglu
+          then:
             - libgl-devel
+            - libglu
       run:
         - ${{ pin_subpackage('sofa-devel', exact=True) }}
         - eigen
-        - libboost-headers        
+        - libboost-headers
         - if: linux
-          then: 
-            - libglu
+          then:
             - libgl-devel
+            - libglu
       run_exports:
         - ${{ pin_subpackage('sofa-gl', upper_bound='x.x.x') }}
     tests:
@@ -154,7 +173,7 @@ outputs:
           run:
             - cmake-package-check
             - ${{ compiler('c') }}
-            - ${{ compiler('cxx') }}  
+            - ${{ compiler('cxx') }}            
     about:
       summary: SOFA GL rendering library
       description: GL rendering library for SOFA, a real-time multi-physics
@@ -163,7 +182,16 @@ outputs:
       license_file:
         - LICENSE-LGPL.md
 
+about:
+  homepage: https://www.sofa-framework.org/
+  summary: Open-source framework for interactive mechanical simulation, with emphasis on biomechanics and robotics.
+  license: LGPL-2.1-or-later
+  license_file: LICENSE-LGPL.md
+  documentation: https://sofa-framework.github.io/doc/
+  repository: https://github.com/sofa-framework/sofa
+
 extra:
+  feedstock_name: sofa
   recipe-maintainers:
     - olivier-roussel
     - hugtalbot
