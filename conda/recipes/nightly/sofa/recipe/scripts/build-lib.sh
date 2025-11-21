@@ -1,5 +1,4 @@
-#!/bin/sh
-
+#!/bin/bash
 set -ex
 
 if [[ $target_platform == osx* ]] ; then
@@ -25,3 +24,11 @@ cmake --build . --parallel ${CPU_COUNT}
 
 # install
 cmake --build . --parallel ${CPU_COUNT} --target install
+
+# Copy the [de]activate scripts to $PREFIX/etc/conda/[de]activate.d.
+# This will allow them to be run on environment activation.
+for CHANGE in "activate" "deactivate"
+do
+    mkdir -p "${PREFIX}/etc/conda/${CHANGE}.d"
+    cp "${RECIPE_DIR}/${CHANGE}.sh" "${PREFIX}/etc/conda/${CHANGE}.d/${PKG_NAME}_${CHANGE}.sh"
+done
