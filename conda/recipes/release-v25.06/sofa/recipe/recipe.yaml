@@ -1,7 +1,7 @@
 context:
   name: sofa
   version: 25.06.00
-  build_num: 3
+  build_num: 4
 
 recipe:
   name: ${{ name }}
@@ -10,45 +10,23 @@ recipe:
 build:
   number: ${{ build_num }}
 
-cache:
-  source:
-    git: https://github.com/sofa-framework/sofa.git
-    branch: v25.06
+source:
+  git: https://github.com/sofa-framework/sofa.git
+  branch: v25.06
 
-    patches:
-      # https://github.com/sofa-framework/sofa/pull/5664
-      - patches/0001-GUI-Fix-compilation-with-clang-and-boost-1.89-5664.patch
-      # https://github.com/sofa-framework/sofa/pull/5665
-      - patches/0002-Framework-Fix-compilation-with-clang20-5665.patch
-      # https://github.com/sofa-framework/sofa/pull/5775
-      - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
-
-  build:
-    script: scripts/build-cache
-
-  requirements:
-    build:
-      - ${{ compiler('cxx') }}
-      - ${{ stdlib('c') }}
-      - cmake
-      - if: unix
-        then: make
-      - if: win
-        then: ninja
-    host:
-      - libboost-headers
-      - zlib
-      - tinyxml2
-      - eigen
-      - cxxopts
-      - gtest
-      - nlohmann_json
+  patches:
+    # https://github.com/sofa-framework/sofa/pull/5664
+    - patches/0001-GUI-Fix-compilation-with-clang-and-boost-1.89-5664.patch
+    # https://github.com/sofa-framework/sofa/pull/5665
+    - patches/0002-Framework-Fix-compilation-with-clang20-5665.patch
+    # https://github.com/sofa-framework/sofa/pull/5775
+    - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
 
 outputs:
   - package:
       name: libsofa
     build:
-      script: scripts/install-core
+      script: scripts/build-lib
       files:
         - ${{ "Library/" if win }}lib/${{ "lib" if not win }}Sofa*
         - ${{ "Library/" if win }}plugins/**/lib
@@ -59,6 +37,22 @@ outputs:
         # for copying activation/deactivation scripts
         - etc/conda/*
     requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - if: unix
+          then: make
+        - if: win
+          then: ninja
+      host:
+        - libboost-headers
+        - zlib
+        - tinyxml2
+        - eigen
+        - cxxopts
+        - gtest
+        - nlohmann_json    
       run_exports:
         - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
     tests:
@@ -78,17 +72,42 @@ outputs:
   - package:
       name: sofa-devel
     build:
+      script: scripts/build-devel
       files:
-        - ${{ "Library/" if win }}include/*
-        - ${{ "Library/" if win }}lib/cmake/Sofa*
-        - ${{ "Library/" if win }}plugins/**/include
-        - ${{ "Library/" if win }}plugins/**/lib/cmake
+        # exclude everything that has been packaged in libsofa subpackage
+        exclude:
+          - ${{ "Library/" if win }}lib/${{ "lib" if not win }}Sofa*
+          - ${{ "Library/" if win }}plugins/**/lib
+          - if: win
+            then:
+              - Library/bin/*
+              - Library/plugins/**/bin
+        include:
+          - ${{ "Library/" if win }}include/*
+          - ${{ "Library/" if win }}lib/cmake/Sofa*
+          - ${{ "Library/" if win }}plugins/**/include
+          - ${{ "Library/" if win }}plugins/**/lib/cmake
     requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - if: unix
+          then: make
+        - if: win
+          then: ninja
       host:
-        - ${{ pin_subpackage('libsofa', exact=True) }}
+        - libboost-headers
+        - zlib
+        - tinyxml2
+        - eigen
+        - cxxopts
+        - gtest
+        - nlohmann_json
       run:
         - libboost-headers
         - eigen
+        - zlib
         - ${{ pin_subpackage('libsofa', exact=True) }}
       run_exports:
         - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
