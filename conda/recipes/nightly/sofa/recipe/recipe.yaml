@@ -7,6 +7,9 @@ recipe:
   name: ${{ name }}
   version: ${{ version }}
 
+build:
+  number: ${{ build_num }}
+  string: nightly_h${{ hash }}
 
 source:
   git: https://github.com/sofa-framework/sofa.git
@@ -15,10 +18,6 @@ source:
   patches:
     # https://github.com/sofa-framework/sofa/pull/5775
     - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
-
-build:
-  number: ${{ build_num }}
-  string: nightly_h${{ hash }}
 
 outputs:
   - package:
