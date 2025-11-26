@@ -15,10 +15,6 @@ source:
   git: https://github.com/sofa-framework/sofa.git
   branch: master
 
-  patches:
-    # https://github.com/sofa-framework/sofa/pull/5775
-    - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
-
 outputs:
   - package:
       name: libsofa
