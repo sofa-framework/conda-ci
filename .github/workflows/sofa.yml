@@ -13,6 +13,8 @@ on:
 jobs:
   check-depends-on-PR:
     runs-on: ubuntu-latest
+    # skip if event is closing PR without merging
+    if: ${{ !(github.event.action == 'closed' && github.event_name == 'pull_request' && github.event.pull_request.merged == false) }}
     steps:
       - name: Fail in case Pull Request is opened with label "depends-on"
         if: ${{ contains(github.event.pull_request.labels.*.name, 'depends-on') }}
@@ -37,6 +39,8 @@ jobs:
                  {platform: "win-64", runner: "windows-latest"}]
 
     uses: ./.github/workflows/build_publish_package.yml
+    # skip if event is closing PR without merging
+    if: ${{ !(github.event.action == 'closed' && github.event_name == 'pull_request' && github.event.pull_request.merged == false) }}
     needs: check-depends-on-PR
     with:
       package-name: sofa
@@ -44,5 +48,7 @@ jobs:
       platform: ${{ matrix.target.platform }}
       channel: sofa-framework
       recipe-dir: release-v25.06
+      # only publish packages on pull request merging OR when called manually through workflow_dispatch OR workflow call 
+      publish-package: ${{ (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) ||  github.event_name == 'workflow_dispatch' ||  github.event_name == 'workflow_call' }}
     secrets:
       api-key: ${{ secrets.PREFIXDEV_APIKEY }}

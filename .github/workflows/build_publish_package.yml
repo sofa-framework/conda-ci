@@ -21,6 +21,9 @@ on:
       channel:
         required: true
         type: string
+      publish-package:
+        required: true
+        type: boolean
     secrets:
       api-key:
         required: true
@@ -115,6 +118,7 @@ jobs:
 
     # Remove already existing package if any
     - name: Remove existing package
+      if: ${{ inputs.publish-package == true }}
       shell: bash -l {0}
       run: |
         cd ${{ env.PKG_DIR }}/${{ inputs.platform }}
@@ -123,6 +127,7 @@ jobs:
         done
 
     - name: Publish conda package
+      if: ${{ inputs.publish-package == true }}
       shell: bash -l {0}
       run: |
         for file in ${{ env.PKG_DIR }}/**/*${{ inputs.package-name }}*.conda; do
