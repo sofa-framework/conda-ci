@@ -23,7 +23,7 @@ requirements:
     - cmake
     - ninja
   host:
-    - sofa-devel ==${{ version }}
+    - sofa-devel ${{ major_minor }}.*
     - eigen
     - libboost-headers
   run_exports:
