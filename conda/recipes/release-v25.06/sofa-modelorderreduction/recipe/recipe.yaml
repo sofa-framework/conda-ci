@@ -1,8 +1,6 @@
 context:
   name: sofa-modelorderreduction
   version: "25.06.00"
-  major: ${{ (version | split('.'))[0] }}
-  minor: ${{ (version | split('.'))[1] }}
   major_minor: ${{ (version | split('.'))[:2] | join('.') }}
 
 package:
@@ -10,8 +8,8 @@ package:
   version: ${{ version }}
 
 source:
-  url: https://github.com/SofaDefrost/ModelOrderReduction/archive/refs/tags/release-v${{ major }}.${{ minor }}.tar.gz
-  sha256: 214481e12b0038a8b0fddaa18b4b36528b737df2714866d18a843e2a0ad952d4
+  url: https://github.com/SofaDefrost/ModelOrderReduction/archive/refs/tags/release-v${{ major_minor }}.tar.gz
+  sha256: 8b7c2b13fd6d92d71031894434bf4a987b2f79b06ad801ca892bc9704d1a4464
 
 build:
   number: 3
@@ -42,9 +40,9 @@ requirements:
 
 tests:
   - package_contents:
-      include: 
+      include:
         - ModelOrderReduction/config.h
-      lib: 
+      lib:
         - ModelOrderReduction
   - script:
       - cmake-package-check ModelOrderReduction
