@@ -1,18 +1,14 @@
 context:
   name: sofa
-  version: 25.06.00
-  build_num: 5
+  version: "25.06.00"
 
 recipe:
   name: ${{ name }}
   version: ${{ version }}
 
-build:
-  number: ${{ build_num }}
-
 source:
-  git: https://github.com/sofa-framework/sofa.git
-  branch: v25.06
+  url: https://github.com/sofa-framework/sofa/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: a3a9345d71c3c62c26a0abddf18f7cbbd481bba5f095c92c0956f33530b50e69
 
   patches:
     # https://github.com/sofa-framework/sofa/pull/5664
@@ -21,6 +17,9 @@ source:
     - patches/0002-Framework-Fix-compilation-with-clang20-5665.patch
     # https://github.com/sofa-framework/sofa/pull/5775
     - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
+
+build:
+  number: 6
 
 outputs:
   - package:
@@ -108,6 +107,7 @@ outputs:
         - libboost-headers
         - eigen
         - zlib
+        - cxxopts
         - ${{ pin_subpackage('libsofa', exact=True) }}
       run_exports:
         - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
@@ -116,7 +116,19 @@ outputs:
           include:
             - Sofa.Core/sofa/core/init.h
       - script:
+        - cmake-package-check Sofa.Component
         - cmake-package-check Sofa.Core
+        - cmake-package-check Sofa.Config
+        - cmake-package-check Sofa.DefaultType
+        - cmake-package-check Sofa.Framework
+        - cmake-package-check Sofa.GUI
+        - cmake-package-check Sofa.Helper
+        - cmake-package-check Sofa.LinearAlgebra
+        - cmake-package-check Sofa.SimpleApi
+        - cmake-package-check Sofa.Simulation
+        - cmake-package-check Sofa.Testing
+        - cmake-package-check Sofa.Topology
+        - cmake-package-check Sofa.Type
         requirements:
           run:
             - cmake-package-check
