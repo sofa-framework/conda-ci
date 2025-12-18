@@ -1,17 +1,15 @@
 context:
   name: sofa-softrobots
   version: "25.06.00"
-  major: ${{ (version | split('.'))[0] }}
-  minor: ${{ (version | split('.'))[1] }}
-  major_minor: ${{ major }}.${{ minor }}
+  major_minor: ${{ (version | split('.'))[:2] | join('.') }}
 
 package:
   name: ${{ name }}
   version: ${{ version }}
 
 source:
-  url: https://github.com/SofaDefrost/SoftRobots/archive/refs/tags/release-v${{ major }}.${{ minor }}.tar.gz
-  sha256: 14ccc8eccf8c4aad3572f3f63d4228bf32c21d7f9f5402e95da6c1e00aa38f5e
+  url: https://github.com/SofaDefrost/SoftRobots/archive/refs/tags/release-v${{ major_minor }}.tar.gz
+  sha256: 87d9d693851315de2c369cfcc8ce3324dc7ca949887604b5041a0d3a26f0b590
 
   patches:
     # https://github.com/SofaDefrost/SoftRobots/pull/339
@@ -40,15 +38,17 @@ requirements:
     - python
     - pybind11
   run:
+    # sofa-softrobots is a devel library so it needs sofa-devel at runtime
+    - sofa-devel ${{ major_minor }}.*
     - python
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
 tests:
   - package_contents:
-      include: 
+      include:
         - SoftRobots/component/initSoftRobots.h
-      lib: 
+      lib:
         - SoftRobots
   - script:
       - cmake-package-check SoftRobots
