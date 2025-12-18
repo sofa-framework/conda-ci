@@ -35,16 +35,12 @@ requirements:
     - sofa-devel ${{ major_minor }}.*
     - sofa-gl ${{ major_minor }}.*
     - eigen
-    - libboost-headers
-    - glew
-    - cxxopts
     - python
     - numpy
     - pybind11
   run:
     - python
     - pybind11
-    - cxxopts    
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
