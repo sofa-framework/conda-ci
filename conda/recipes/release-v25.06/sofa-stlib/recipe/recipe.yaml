@@ -27,8 +27,6 @@ requirements:
         - pybind11
   host:
     - sofa-python3 ${{ major_minor }}.*
-    - eigen
-    - libboost-headers
     - python
     - pybind11
   run:
