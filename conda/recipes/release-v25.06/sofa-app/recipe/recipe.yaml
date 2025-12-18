@@ -23,9 +23,7 @@ requirements:
   host:
     - sofa-devel ${{ major_minor }}.*
     - sofa-glfw ${{ major_minor }}.*
-    - eigen
-    - libboost-headers
-    - cxxopts        
+    - cxxopts
 
 tests:
   - package_contents:
