@@ -161,7 +161,6 @@ outputs:
         - ${{ pin_subpackage('sofa-devel', exact=True) }}
         - eigen
         - glew
-        - libboost-headers
         - if: linux
           then: 
             - libglu
@@ -169,7 +168,6 @@ outputs:
       run:
         - ${{ pin_subpackage('sofa-devel', exact=True) }}
         - eigen
-        - libboost-headers
         - if: linux
           then:
             - libglu
