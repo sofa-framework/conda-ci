@@ -31,10 +31,8 @@ requirements:
         - pybind11
   host:
     - sofa-devel ${{ major_minor }}.*
+    - sofa-python3 ${{ major_minor }}.*
     - sofa-stlib ${{ major_minor }}.*
-    - eigen
-    - libboost-headers
-    - cxxopts
     - python
     - pybind11
   run:
