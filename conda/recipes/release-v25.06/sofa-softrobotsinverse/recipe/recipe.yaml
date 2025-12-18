@@ -28,7 +28,6 @@ requirements:
   host:
     - sofa-devel ${{ major_minor }}.*
     - sofa-python3 ${{ major_minor }}.*
-    - sofa-stlib ${{ major_minor }}.*
     - sofa-softrobots ${{ major_minor }}.*
     - eigen
     - proxsuite
@@ -37,6 +36,7 @@ requirements:
   run:
     # sofa-softrobotsinverse is a devel library so it needs sofa-devel at runtime
     - sofa-devel ${{ major_minor }}.*  
+    - sofa-stlib ${{ major_minor }}.*
     - proxsuite
     - python
   run_exports:
