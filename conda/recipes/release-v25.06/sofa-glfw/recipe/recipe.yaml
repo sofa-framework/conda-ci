@@ -13,19 +13,6 @@ source:
 
 build:
   number: 4
-  files:
-    # SHLIB_EXT is not working here for some reason
-    # - ${{ "Library/bin" if win else "lib" }}/**/*$SHLIB_EXT
-    - if: unix
-      then:
-        - lib/**/*.so*
-    - if: osx
-      then:
-        - lib/**/*.dylib
-    - if: win
-      then:
-        - Library/bin/**/*.dll
-        - Library/lib/**/*.lib
 
 requirements:
   build:
@@ -43,23 +30,25 @@ requirements:
     - sofa-python3 ${{ major_minor }}.*
     - sofa-gl ${{ major_minor }}.*
     - nativefiledialog-extended
-    - libboost-headers
-    - eigen
-    - cxxopts
     - glfw
     - pybind11
     - python
+  run:
+    # sofa-glfw is a devel library so it needs sofa-devel at runtime
+    - sofa-devel ${{ major_minor }}.*
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
 tests:
   - package_contents:
-      # include: # TODO
+      include:
+        - SofaGLFW/config.h
+        - SofaImGui/config.h
       lib: 
         - SofaGLFW
         - SofaImGui
   - script:
-      - cmake-package-check SofaGLFW
+      - cmake-package-check SofaGLFW SofaImGui
     requirements:
       run:
         - cmake-package-check
