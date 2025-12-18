@@ -28,12 +28,11 @@ requirements:
   host:
     - sofa-devel ${{ major_minor }}.*
     - sofa-python3 ${{ major_minor }}.*
-    - eigen
-    - libboost-headers
-    - cxxopts
     - python
     - pybind11
   run:
+    # sofa-modelorderreduction is a devel library so it needs sofa-devel at runtime
+    - sofa-devel ${{ major_minor }}.*
     - python
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
