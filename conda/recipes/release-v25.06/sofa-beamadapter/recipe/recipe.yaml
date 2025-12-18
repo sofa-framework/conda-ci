@@ -23,7 +23,6 @@ requirements:
   host:
     - sofa-devel ${{ major_minor }}.*
     - eigen
-    - libboost-headers
   run:
     # sofa-beamadapter is a devel library so it needs sofa-devel at runtime
     - sofa-devel ${{ major_minor }}.*
