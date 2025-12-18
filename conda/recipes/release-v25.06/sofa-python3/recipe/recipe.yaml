@@ -56,7 +56,10 @@ tests:
         - SofaPython3
   - python:
       imports:
-        - Sofa.Core
+        - Sofa
+        - SofaRuntime
+        - SofaTypes
+        - SofaExporter
   - script:
       - cmake-package-check SofaPython3
     requirements:
