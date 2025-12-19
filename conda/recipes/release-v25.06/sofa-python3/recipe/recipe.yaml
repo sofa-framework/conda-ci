@@ -14,6 +14,8 @@ source:
   patches:
     # See comments in sofa conda package recipe at file
     # scripts/hotfix-sofa-run-macos.sh for more details.
+    # This hotfix breaks python module installation on Windows, so we
+    # only apply on macOS.
     - if: osx
       then:
         - patches/0001-hotfix-for-libpython-linking-on-macOS.patch
