@@ -1,12 +1,15 @@
+c_compiler:
+- gcc
+c_compiler_version:
+- '14'
 c_stdlib:
 - sysroot
 c_stdlib_version:
 - '2.17'
-cdt_name:
-- conda
 cxx_compiler:
 - gxx
 cxx_compiler_version:
 - '14'
-libboost_headers:
-- '1.86'
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
