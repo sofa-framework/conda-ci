@@ -1,6 +1,6 @@
+c_compiler:
+- vs2022
 c_stdlib:
 - vs
 cxx_compiler:
 - vs2022
-libboost_headers:
-- '1.86'
