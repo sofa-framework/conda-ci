@@ -21,7 +21,7 @@ source:
         - patches/0001-hotfix-for-libpython-linking-on-macOS.patch
 
 build:
-  number: 3
+  number: 4
 
 requirements:
   build:
