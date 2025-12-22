@@ -11,8 +11,11 @@ source:
   url: https://github.com/sofa-framework/SofaGLFW/archive/refs/tags/release-v${{ major_minor }}.tar.gz
   sha256: 97aac0871967495f5002d0a43cd0374772c8ea72adbfaa3be4e9431f5d056297
 
+  patches:
+    - patches/0001-remove-imgui.h-from-ImgGuiGUIEngine-header.patch
+
 build:
-  number: 4
+  number: 5
 
 requirements:
   build:
@@ -30,12 +33,14 @@ requirements:
     - sofa-python3 ${{ major_minor }}.*
     - sofa-gl ${{ major_minor }}.*
     - nativefiledialog-extended
+    - simpleini
     - glfw
     - pybind11
     - python
   run:
     # sofa-glfw is a devel library so it needs sofa-devel at runtime
     - sofa-devel ${{ major_minor }}.*
+    - simpleini
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
