@@ -7,6 +7,7 @@ on:
     - opened
     - reopened
     - unlabeled
+    - closed
     paths:
       - '**/nightly/sofa-python3/.ci_support/*.yaml'
 
