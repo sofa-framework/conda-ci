@@ -5,7 +5,7 @@ c_stdlib:
 cxx_compiler:
 - vs2022
 glew:
-- '2.2'
+- '2.3'
 libboost_headers:
 - '1.86'
 tinyxml2:
