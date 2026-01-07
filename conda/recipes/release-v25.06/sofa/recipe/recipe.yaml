@@ -19,7 +19,7 @@ source:
     - patches/0003-use-find-or-fetch-mechanism-for-nlohmann-json.patch
 
 build:
-  number: 6
+  number: 7
 
 outputs:
   - package:
