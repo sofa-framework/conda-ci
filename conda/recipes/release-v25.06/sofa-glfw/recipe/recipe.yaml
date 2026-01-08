@@ -13,9 +13,10 @@ source:
 
   patches:
     - patches/0001-remove-imgui.h-from-ImgGuiGUIEngine-header.patch
+    - patches/0002-hide-SimpleIni-to-impl-and-do-not-expose-private-hea.patch
 
 build:
-  number: 5
+  number: 6
 
 requirements:
   build:
@@ -33,14 +34,12 @@ requirements:
     - sofa-python3 ${{ major_minor }}.*
     - sofa-gl ${{ major_minor }}.*
     - nativefiledialog-extended
-    - simpleini
     - glfw
     - pybind11
     - python
   run:
     # sofa-glfw is a devel library so it needs sofa-devel at runtime
     - sofa-devel ${{ major_minor }}.*
-    - simpleini
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
