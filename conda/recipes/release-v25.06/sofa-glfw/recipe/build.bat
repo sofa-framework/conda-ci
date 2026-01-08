@@ -28,6 +28,9 @@ cd ..
 mkdir build-test
 cmake %CMAKE_ARGS% ^
   -B build-test ^
-  -S %SRC_DIR%\SofaImGui\extensions\SofaImGui.Camera
+  -S %SRC_DIR%\SofaImGui\extensions\SofaImGui.Camera ^
+  -DCMAKE_VERBOSE_MAKEFILE=ON
+if errorlevel 1 exit 1
 
 cmake --build build-test --parallel "%CPU_COUNT%"
+if errorlevel 1 exit 1
