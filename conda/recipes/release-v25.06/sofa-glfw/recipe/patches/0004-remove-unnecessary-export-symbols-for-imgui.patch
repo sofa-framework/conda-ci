@@ -1,0 +1,27 @@
+From acd7973e59d7b758fc72351b2546c8dbefd6ae2b Mon Sep 17 00:00:00 2001
+From: Olivier Roussel <olivier.roussel@inria.fr>
+Date: Fri, 9 Jan 2026 14:26:24 +0100
+Subject: [PATCH] remove unnecessary export symbols for imgui
+
+---
+ SofaImGui/CMakeLists.txt | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/SofaImGui/CMakeLists.txt b/SofaImGui/CMakeLists.txt
+index 33bab61..af8286f 100644
+--- a/SofaImGui/CMakeLists.txt
++++ b/SofaImGui/CMakeLists.txt
+@@ -147,10 +147,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC SofaGLFW Sofa.GL.Component.Renderin
+ target_link_libraries(${PROJECT_NAME} PRIVATE nfd)
+ target_link_libraries(${PROJECT_NAME} PRIVATE SimpleIni::SimpleIni)
+ 
+-# setup the same API exports for imgui
+-target_compile_definitions(${PROJECT_NAME} PUBLIC IMGUI_API=SOFAIMGUI_API)
+-target_compile_definitions(${PROJECT_NAME} PUBLIC IMGUI_USER_CONFIG=<SofaImGui/config.h>)
+-
+ find_package(SofaPython3 QUIET)
+ if(SofaPython3_FOUND)
+     add_subdirectory(bindings)
+-- 
+2.43.0
+
