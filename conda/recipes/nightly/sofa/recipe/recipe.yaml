@@ -1,7 +1,7 @@
 context:
   name: sofa
   version: 25.06.99
-  build_num: 3
+  build_num: 4
 
 recipe:
   name: ${{ name }}
@@ -46,6 +46,7 @@ outputs:
         - cxxopts
         - gtest
         - nlohmann_json
+        - tight-inclusion
       run_exports:
         - ${{ pin_subpackage('libsofa', upper_bound='x.x.x') }}
     tests:
@@ -97,6 +98,7 @@ outputs:
         - cxxopts
         - gtest
         - nlohmann_json
+        - tight-inclusion
       run:
         - libboost-headers
         - eigen
