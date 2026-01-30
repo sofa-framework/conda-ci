@@ -103,7 +103,7 @@ jobs:
       run: |
         cd conda/recipes/${{ inputs.recipe-dir }}
         # if a git SHA1 has been provided, use it
-        if [ ! -z "${{ inputs.git-sha }}" && ! -z "${{ inputs.git-commit-date }}" ]; then
+        if [[ ! -z "${{ inputs.git-sha }}" && ! -z "${{ inputs.git-commit-date }}" ]]; then
           sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/$BAR/g" recipe.yaml.in > recipe.yaml
         fi
         # output configured recipe
