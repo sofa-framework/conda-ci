@@ -2,6 +2,7 @@ name: nightly-sofa-python3
 on:
   workflow_call:
   workflow_dispatch:
+  repository_dispatch:
   pull_request:
     types:
     - opened
