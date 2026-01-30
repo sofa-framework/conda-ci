@@ -106,6 +106,9 @@ jobs:
         if [ ! -z "${{ inputs.git-sha }}" && ! -z "${{ inputs.git-commit-date }}" ]; then
           sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/$BAR/g" recipe.yaml.in > recipe.yaml
         fi
+        # output configured recipe
+        echo "==== Configured recipe:"
+        cat recipe.yaml
 
     # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
     - name: Build conda package
