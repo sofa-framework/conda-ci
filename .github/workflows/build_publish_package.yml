@@ -101,10 +101,10 @@ jobs:
       if: ${{ inputs.recipe-dir == 'nightly' }}
       shell: bash -l {0}
       run: |
-        cd conda/recipes/${{ inputs.recipe-dir }}
+        cd conda/recipes/${{ inputs.recipe-dir }}/${{ inputs.package-name }}/recipe
         # if a git SHA1 has been provided, use it
         if [[ ! -z "${{ inputs.git-sha }}" && ! -z "${{ inputs.git-commit-date }}" ]]; then
-          sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/$BAR/g" recipe.yaml.in > recipe.yaml
+          sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/${{ inputs.git-commit-date }}/g" recipe.yaml.in > recipe.yaml
         fi
         # output configured recipe
         echo "==== Configured recipe:"
