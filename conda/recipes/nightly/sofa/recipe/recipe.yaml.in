@@ -1,7 +1,8 @@
 context:
   name: sofa
-  version: 25.06.99
-  build_num: 4
+  version: 26.06.dev%DATE_YYYYMMDD%
+  build_num: 0
+  git_sha: %GIT_SHA%
 
 recipe:
   name: ${{ name }}
@@ -9,11 +10,11 @@ recipe:
 
 build:
   number: ${{ build_num }}
-  string: nightly_h${{ hash }}
+  string: "dev_${{ git_sha[:7] }}"
 
 source:
   git: https://github.com/sofa-framework/sofa.git
-  branch: master
+  rev: ${{ git_sha }}
 
 outputs:
   - package:

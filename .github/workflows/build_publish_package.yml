@@ -24,6 +24,12 @@ on:
       publish-package:
         required: true
         type: boolean
+      git-sha:
+        required: false
+        type: string
+      git-commit-date:
+        required: false
+        type: string
     secrets:
       api-key:
         required: true
@@ -90,6 +96,16 @@ jobs:
         conda config --show-sources
         conda config --show
         printenv | sort
+
+    - name: Configure recipe (if devel)
+      if: ${{ inputs.recipe-dir == 'nightly' }}
+      shell: bash -l {0}
+      run: |
+        cd conda/recipes/${{ inputs.recipe-dir }}
+        # if a git SHA1 has been provided, use it
+        if [ ! -z "${{ inputs.git-sha }}" && ! -z "${{ inputs.git-commit-date }}" ]; then
+          sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/$BAR/g" recipe.yaml.in > recipe.yaml
+        fi
 
     # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
     - name: Build conda package

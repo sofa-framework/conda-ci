@@ -1,8 +1,8 @@
 name: nightly-sofa-all-packages
 on:
-  schedule:
+  # schedule:
     # Nightly launches at 1:15
-    - cron:  '15 1 * * *'
+    # - cron:  '15 1 * * *'
   workflow_dispatch:
 
 jobs:
