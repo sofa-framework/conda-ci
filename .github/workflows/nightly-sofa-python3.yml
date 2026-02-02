@@ -2,6 +2,17 @@ name: nightly-sofa-python3
 on:
   workflow_call:
   workflow_dispatch:
+   inputs:
+      git-sha:
+        description: 'Git commit SHA1'
+        required: true
+        type: string
+        default: 'master'
+      git-commit-date:
+        description: 'Git commit date'
+        required: true
+        type: string
+        default: 'NODATE' # for testing  
   repository_dispatch:
     types: [build-nightly-sofa-python3]
   pull_request:
@@ -31,6 +42,29 @@ jobs:
         run: |
           echo "Pull Request was not opened with a depends-on label, continuing..."
 
+  extract-params:
+    runs-on: ubuntu-latest
+    outputs:
+      git-sha: ${{ steps.params.outputs.git-sha }}
+      git-commit-date: ${{ steps.params.outputs.git-commit-date }}
+
+    steps:
+      - name: Extract parameters
+        id: params
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "git-sha=${{ inputs.git-sha }}" >> $GITHUB_OUTPUT
+            echo "git-commit-date=${{ inputs.git-commit-date }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            echo "git-sha=${{ github.event.client_payload.commit_hash }}" >> $GITHUB_OUTPUT
+            echo "git-commit-date=${{ github.event.client_payload.commit_date }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check parameters
+        run: |
+          echo "✓ git-sha: ${{ steps.params.outputs.git-sha }}"
+          echo "✓ git-commit-date: ${{ steps.params.outputs.git-commit-date }}"
+
   build-publish-sofa-python3:
     strategy:
       fail-fast: false
@@ -44,7 +78,7 @@ jobs:
     uses: ./.github/workflows/build_publish_package.yml
     # skip if event is closing PR without merging
     if: ${{ !(github.event.action == 'closed' && github.event_name == 'pull_request' && github.event.pull_request.merged == false) }}
-    needs: check-depends-on-PR
+    needs: [check-depends-on-PR, extract-params]
     with:
       package-name: sofa-python3
       runner: ${{ matrix.target.runner }}
