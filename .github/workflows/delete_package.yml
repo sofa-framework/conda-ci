@@ -1,0 +1,33 @@
+name: delete conda package from prefix.dev hosted channel
+on:
+  workflow_call:
+  workflow_dispatch:
+   inputs:
+      channel:
+        description: 'Channel'
+        required: true
+        options: [sofa-framework-nightly]
+        default: 'sofa-framework-nightly'
+      platform:
+        description: 'Platform'
+        required: true
+        type: choice
+        options: [linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
+        default: 'linux-64'
+      filename:
+        description: 'File name (including .conda extension)'
+        required: true
+        type: string
+jobs:
+  remove-conda-package-from-prefix:
+    name:  "packages on ${{ inputs.runner }}"
+    runs-on: ubuntu-slim
+    steps:
+    # - uses: actions/checkout@v4
+    #   with:
+    #     submodules: recursive
+
+    - name: Remove existing package
+      shell: bash -l {0}
+      run: |
+        curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/${{ inputs.filename }} -H "Authorization: Bearer ${{ secrets.api-key }}"
