@@ -35,7 +35,7 @@ jobs:
       matrix:
         target: [{platform: "linux-64", runner: "ubuntu-latest"},
                  {platform: "osx-64", runner: "macos-15-intel"},
-                 {platform: "osx-arm64", runner: "macos-15"},
+                 {platform: "osx-arm64", runner: "macos-latest"},
                  {platform: "win-64", runner: "windows-latest"}]
 
     uses: ./.github/workflows/build_publish_package.yml

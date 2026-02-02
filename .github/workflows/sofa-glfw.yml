@@ -35,9 +35,9 @@ jobs:
       fail-fast: false
       matrix:
         target: [{platform: "linux-64", runner: "ubuntu-latest"},
-                  {platform: "linux-aarch64", runner: "ubuntu-22.04-arm"},
+                  {platform: "linux-aarch64", runner: "ubuntu-24.04-arm"},
                   {platform: "osx-64", runner: "macos-15-intel"},
-                  {platform: "osx-arm64", runner: "macos-15"},
+                  {platform: "osx-arm64", runner: "macos-latest"},
                   {platform: "win-64", runner: "windows-latest"}]
         python: ["3.10", "3.11", "3.12", "3.13"]
 
