@@ -57,9 +57,8 @@ requirements:
     - numpy
     - pybind11
   run:
-    # we manually pin compatibility between sofa libs and plugins to MAJOR.MINOR versions
-    - ${{ pin_compatible('sofa-devel', lower_bound='x.x', upper_bound='x.x') }}
-    - ${{ pin_compatible('sofa-gl', lower_bound='x.x', upper_bound='x.x') }}
+    - sofa-devel ${{ major_minor }}.dev*
+    - sofa-gl ${{ major_minor }}.dev*
     - ${{ pin_compatible('numpy') }}
     - python
   run_exports:
