@@ -88,5 +88,7 @@ jobs:
       recipe-dir: devel
       # only publish packages on pull request merging OR when called manually through workflow_dispatch OR workflow call OR repository_dispatch
       publish-package: ${{ (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) ||  github.event_name == 'workflow_dispatch' ||  github.event_name == 'workflow_call' ||  github.event_name == 'repository_dispatch' }}
+      git-sha: ${{ needs.extract-params.outputs.git-sha }}
+      git-commit-date: ${{ needs.extract-params.outputs.git-commit-date }}
     secrets:
       api-key: ${{ secrets.PREFIXDEV_APIKEY }}
