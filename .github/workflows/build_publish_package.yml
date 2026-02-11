@@ -98,7 +98,7 @@ jobs:
         printenv | sort
 
     - name: Configure recipe (if devel)
-      if: ${{ inputs.recipe-dir == 'nightly' }}
+      if: ${{ inputs.recipe-dir == 'devel' }}
       shell: bash -l {0}
       run: |
         cd conda/recipes/${{ inputs.recipe-dir }}/${{ inputs.package-name }}/recipe

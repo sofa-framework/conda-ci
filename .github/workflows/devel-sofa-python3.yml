@@ -1,4 +1,4 @@
-name: nightly-sofa-python3
+name: devel-sofa-python3
 on:
   workflow_call:
   workflow_dispatch:
@@ -14,7 +14,7 @@ on:
         type: string
         default: 'NODATE' # for testing  
   repository_dispatch:
-    types: [build-nightly-sofa-python3]
+    types: [build-devel-sofa-python3]
   pull_request:
     types:
     - opened
@@ -22,7 +22,7 @@ on:
     - unlabeled
     - closed
     paths:
-      - '**/nightly/sofa-python3/.ci_support/*.yaml'
+      - '**/devel/sofa-python3/.ci_support/*.yaml'
 
 jobs:
   check-depends-on-PR:
@@ -84,8 +84,8 @@ jobs:
       runner: ${{ matrix.target.runner }}
       platform: ${{ matrix.target.platform }}
       python: ${{ matrix.python }}
-      channel: sofa-framework-nightly
-      recipe-dir: nightly
+      channel: sofa-framework-devel
+      recipe-dir: devel
       # only publish packages on pull request merging OR when called manually through workflow_dispatch OR workflow call OR repository_dispatch
       publish-package: ${{ (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) ||  github.event_name == 'workflow_dispatch' ||  github.event_name == 'workflow_call' ||  github.event_name == 'repository_dispatch' }}
     secrets:

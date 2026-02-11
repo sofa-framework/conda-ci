@@ -1,4 +1,4 @@
-name: nightly-rerender-all-packages
+name: devel-rerender-all-packages
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/rerender-package.yml
     with:
       package: sofa
-      release: nightly
+      release: devel
       requires-prs: ""
     secrets: inherit
   rerender-sofa-python3:
@@ -19,6 +19,6 @@ jobs:
     uses: ./.github/workflows/rerender-package.yml
     with:
       package: sofa-python3
-      release: nightly
+      release: devel
       requires-prs: ${{ needs.rerender-sofa.outputs.pr-number }}
     secrets: inherit
