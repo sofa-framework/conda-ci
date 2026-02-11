@@ -86,7 +86,7 @@ jobs:
       python: ${{ matrix.python }}
       channel: sofa-framework-nightly
       recipe-dir: nightly
-      # only publish packages on pull request merging OR when called manually through workflow_dispatch OR workflow call 
-      publish-package: ${{ (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) ||  github.event_name == 'workflow_dispatch' ||  github.event_name == 'workflow_call' }}
+      # only publish packages on pull request merging OR when called manually through workflow_dispatch OR workflow call OR repository_dispatch
+      publish-package: ${{ (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) ||  github.event_name == 'workflow_dispatch' ||  github.event_name == 'workflow_call' ||  github.event_name == 'repository_dispatch' }}
     secrets:
       api-key: ${{ secrets.PREFIXDEV_APIKEY }}
