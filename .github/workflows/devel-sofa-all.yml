@@ -1,0 +1,17 @@
+name: devel-sofa-all
+on:
+  # schedule:
+    # Nightly launches at 1:15
+    # - cron:  '15 1 * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [build-devel-sofa-all]
+
+jobs:
+  build-publish-sofa:
+    uses: ./.github/workflows/nightly-sofa.yml
+    secrets: inherit
+  build-publish-sofa-python3:
+    uses: ./.github/workflows/nightly-sofa-python3.yml
+    needs: build-publish-sofa
+    secrets: inherit
