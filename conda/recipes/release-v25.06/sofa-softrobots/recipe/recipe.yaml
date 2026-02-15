@@ -16,7 +16,7 @@ source:
     - patches/0001-only-requires-Qt5-if-interactive-control-cmake-optio.patch
 
 build:
-  number: 4
+  number: 5
 
 requirements:
   build:
