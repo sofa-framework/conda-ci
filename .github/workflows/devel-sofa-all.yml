@@ -4,14 +4,73 @@ on:
     # Nightly launches at 1:15
     # - cron:  '15 1 * * *'
   workflow_dispatch:
+   inputs:
+      sofa-git-sha:
+        description: 'SOFA git commit SHA1'
+        required: true
+        type: string
+        default: 'master'
+      sofa-git-commit-date:
+        description: 'SOFA git commit date'
+        required: true
+        type: string
+        default: 'NODATE' # for testing
+      sofa-python3-git-sha:
+        description: 'sofa-python3 git commit SHA1'
+        required: true
+        type: string
+        default: 'master'
+      sofa-python3-git-commit-date:
+        description: 'sofa-python3 git commit date'
+        required: true
+        type: string
+        default: 'NODATE' # for testing  
   repository_dispatch:
     types: [build-devel-sofa-all]
 
 jobs:
+  extract-params:
+    runs-on: ubuntu-slim
+    outputs:
+      sofa-git-sha: ${{ steps.params.outputs.sofa-git-sha }}
+      sofa-git-commit-date: ${{ steps.params.outputs.sofa-git-commit-date }}
+      sofa-python3-git-sha: ${{ steps.params.outputs.sofa-python3-git-sha }}
+      sofa-python3-git-commit-date: ${{ steps.params.outputs.sofa-python3-git-commit-date }}
+
+    steps:
+      - name: Extract parameters
+        id: params
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "sofa-git-sha=${{ inputs.sofa-git-sha }}" >> $GITHUB_OUTPUT
+            echo "sofa-git-commit-date=${{ inputs.sofa-git-commit-date }}" >> $GITHUB_OUTPUT
+            echo "sofa-python3-git-sha=${{ inputs.sofa-python3-git-sha }}" >> $GITHUB_OUTPUT
+            echo "sofa-python3-git-commit-date=${{ inputs.sofa-python3-git-commit-date }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            echo "sofa-git-sha=${{ github.event.client_payload.sofa_commit_hash }}" >> $GITHUB_OUTPUT
+            echo "sofa-git-commit-date=${{ github.event.client_payload.sofa_commit_date }}" >> $GITHUB_OUTPUT
+            echo "sofa-python3-git-sha=${{ github.event.client_payload.sofa_python3_commit_hash }}" >> $GITHUB_OUTPUT
+            echo "sofa-python3-git-commit-date=${{ github.event.client_payload.sofa_python3_commit_date }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check parameters
+        run: |
+          echo "✓ sofa-git-sha: ${{ steps.params.outputs.sofa-git-sha }}"
+          echo "✓ sofa-git-commit-date: ${{ steps.params.outputs.sofa-git-commit-date }}"
+          echo "✓ sofa-python3-git-sha: ${{ steps.params.outputs.sofa-python3-git-sha }}"
+          echo "✓ sofa-python3-git-commit-date: ${{ steps.params.outputs.sofa-python3-git-commit-date }}"
+
   build-publish-sofa:
-    uses: ./.github/workflows/nightly-sofa.yml
+    uses: ./.github/workflows/devel-sofa.yml
+    needs: extract-params
+    with:
+      git-sha: ${{ needs.extract-params.outputs.sofa-git-sha }}
+      git-commit-date: ${{ needs.extract-params.outputs.sofa-git-commit-date }}
     secrets: inherit
   build-publish-sofa-python3:
-    uses: ./.github/workflows/nightly-sofa-python3.yml
-    needs: build-publish-sofa
+    uses: ./.github/workflows/devel-sofa-python3.yml
+    needs: [build-publish-sofa, extract-params]
+    with:
+      git-sha: ${{ needs.extract-params.outputs.sofa-python3-git-sha }}
+      git-commit-date: ${{ needs.extract-params.outputs.sofa-python3-git-commit-date }}    
     secrets: inherit
