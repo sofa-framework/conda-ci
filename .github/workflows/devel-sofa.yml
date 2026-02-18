@@ -26,7 +26,7 @@ on:
 
 jobs:
   check-depends-on-PR:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     # skip if event is closing PR without merging
     if: ${{ !(github.event.action == 'closed' && github.event_name == 'pull_request' && github.event.pull_request.merged == false) }}
     steps:
@@ -43,7 +43,7 @@ jobs:
           echo "Pull Request was not opened with a depends-on label, continuing..."
 
   extract-params:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     outputs:
       git-sha: ${{ steps.params.outputs.git-sha }}
       git-commit-date: ${{ steps.params.outputs.git-commit-date }}
