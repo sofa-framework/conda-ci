@@ -78,7 +78,7 @@ jobs:
 
   build-publish-sofa:
     uses: ./.github/workflows/devel-sofa.yml
-    continue-on-error: true
+    if: always()
     needs: extract-params
     with:
       git-sha: ${{ needs.extract-params.outputs.sofa-git-sha }}
@@ -87,7 +87,6 @@ jobs:
 
   build-publish-sofa-python3:
     uses: ./.github/workflows/devel-sofa-python3.yml
-    continue-on-error: true
     needs: [build-publish-sofa, extract-params]
     if: ${{ needs.build-publish-sofa.result == 'success' }}
     with:
