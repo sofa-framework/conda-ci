@@ -96,7 +96,7 @@ jobs:
 
   notify-end:
     runs-on: ubuntu-slim
-    if: ${{ github.event_name == 'repository_dispatch' }}
+    if: ${{ always() && github.event_name == 'repository_dispatch' }}
     needs: [extract-params, build-publish-sofa, build-publish-sofa-python3]
     steps:
       - name: Get status from package build
