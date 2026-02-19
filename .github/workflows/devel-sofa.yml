@@ -1,8 +1,17 @@
 name: devel-sofa
 on:
   workflow_call:
+    inputs:
+      git-sha:
+        description: 'Git commit SHA1'
+        required: true
+        type: string
+      git-commit-date:
+        description: 'Git commit date'
+        required: true
+        type: string
   workflow_dispatch:
-   inputs:
+    inputs:
       git-sha:
         description: 'Git commit SHA1'
         required: true

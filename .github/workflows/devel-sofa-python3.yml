@@ -1,6 +1,15 @@
 name: devel-sofa-python3
 on:
   workflow_call:
+   inputs:
+      git-sha:
+        description: 'Git commit SHA1'
+        required: true
+        type: string
+      git-commit-date:
+        description: 'Git commit date'
+        required: true
+        type: string
   workflow_dispatch:
    inputs:
       git-sha:
