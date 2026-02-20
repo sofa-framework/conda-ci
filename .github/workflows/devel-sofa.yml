@@ -65,8 +65,8 @@ jobs:
             echo "git-sha=${{ inputs.git-sha }}" >> $GITHUB_OUTPUT
             echo "git-commit-date=${{ inputs.git-commit-date }}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
-            echo "git-sha=${{ github.event.client_payload.commit_hash }}" >> $GITHUB_OUTPUT
-            echo "git-commit-date=${{ github.event.client_payload.commit_date }}" >> $GITHUB_OUTPUT
+            echo "git-sha=${{ github.event.client_payload.sofa_commit_hash }}" >> $GITHUB_OUTPUT
+            echo "git-commit-date=${{ github.event.client_payload.sofa_commit_date }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Check parameters
