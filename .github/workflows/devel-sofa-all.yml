@@ -103,9 +103,9 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ needs.build-publish-sofa.result }}" == "success" && "${{ needs.build-publish-sofa-sofa-python3.result }}" == "success" ]]; then
-            echo "COMMIT_STATUS=success >> $GITHUB_ENV
+            echo "COMMIT_STATUS=success" >> $GITHUB_ENV
           else
-            echo "COMMIT_STATUS=failure >> $GITHUB_ENV
+            echo "COMMIT_STATUS=failure" >> $GITHUB_ENV
           fi
 
       - name: Notify commit end
