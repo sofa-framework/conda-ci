@@ -27,7 +27,7 @@ jobs:
       id: get_package_filenames
       uses: actions/github-script@v5
       with:
-        github-token: ${{ secrets.PREFIXDEV_APIKEY }}
+        github-token: ${{ secrets.PERF_REG_TOKEN }}
         script: |
           const query = `
             query {
@@ -44,7 +44,7 @@ jobs:
           const response = await github.graphql(query);
           return response;
       env:
-        GH_GRAPHQL_TOKEN: ${{ secrets.PREFIXDEV_APIKEY }}
+        GH_GRAPHQL_TOKEN: ${{ secrets.PERF_REG_TOKEN }}
         
     - name: echo output
       run: echo "Response is ${{ steps.get_package_filenames.outputs.result }}"
