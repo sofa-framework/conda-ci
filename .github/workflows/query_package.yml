@@ -18,37 +18,35 @@ on:
         description: 'Package name'
         required: true
         type: string
+        default: 'libsofa'
 jobs:
   remove-conda-package-from-prefix:
     name:  "packages on ${{ inputs.runner }}"
     runs-on: ubuntu-slim
     steps:
-    - name: Query prefix graphql api
-      id: get_package_filenames
-      uses: actions/github-script@v5
-      with:
-        github-token: ${{ secrets.PERF_REG_TOKEN }}
-        script: |
-          const query = `
-            query {
-                package(channelName: "sofa-framework-devel", name: "libsofa") {
-                  variants(limit: 300) {
-                    page {
-                      filename
-                      platform
-                    }
-                  }
-                }
-              }
-            }`;
-          const response = await github.graphql(query);
-          return response;
-      env:
-        GH_GRAPHQL_TOKEN: ${{ secrets.PERF_REG_TOKEN }}
-        
-    - name: echo output
-      run: echo "Response is ${{ steps.get_package_filenames.outputs.result }}"
-    
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install -y jq
+
+    - name: Query prefix.dev GraphQL API
+      id: query
+      run: |
+        response=$(curl -s -X POST https://prefix.dev/graphql \
+          -H "Content-Type: application/json" \
+          -d '{
+            "query": "query { channel(name: \"sofa-framework\") { packages(first: 100) { nodes { name versions(first: 50) { nodes { version files { filename size sha256 } } } } } } }"
+          }')
+
+        echo "$response" > response.json
+
+    - name: Extract libsofa files
+      run: |
+        jq '.data.channel.packages.nodes[]
+            | select(.name=="libsofa")
+            | .versions.nodes[]
+            | .files[]' response.json > libsofa-files.json
+
+        echo "Found files:"
+        cat libsofa-files.json
     # - name: Remove existing package
     #   shell: bash -l {0}
     #   run: |
