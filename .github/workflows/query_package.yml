@@ -24,29 +24,18 @@ jobs:
     name:  "packages on ${{ inputs.runner }}"
     runs-on: ubuntu-slim
     steps:
-    - name: Install jq
-      run: sudo apt-get update && sudo apt-get install -y jq
+      - uses: actions/checkout@v4
 
-    - name: Query prefix.dev GraphQL API
-      id: query
-      run: |
-        response=$(curl -s -X POST https://prefix.dev/graphql \
-          -H "Content-Type: application/json" \
-          -d '{
-            "query": "query { channel(name: \"sofa-framework\") { packages(first: 100) { nodes { name versions(first: 50) { nodes { version files { filename size sha256 } } } } } } }"
-          }')
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-        echo "$response" > response.json
+      - name: Install dependencies
+        run: pip install requests
 
-    - name: Extract libsofa files
-      run: |
-        jq '.data.channel.packages.nodes[]
-            | select(.name=="libsofa")
-            | .versions.nodes[]
-            | .files[]' response.json > libsofa-files.json
-
-        echo "Found files:"
-        cat libsofa-files.json
+      - name: Run query
+        run: python .github/workflows/fetch_packages_names.py
     # - name: Remove existing package
     #   shell: bash -l {0}
     #   run: |
