@@ -1,0 +1,55 @@
+name: query conda package from prefix.dev hosted channel
+on:
+  workflow_call:
+  workflow_dispatch:
+   inputs:
+      channel:
+        description: 'Channel'
+        required: true
+        options: [sofa-framework-devel]
+        default: 'sofa-framework-devel'
+      platform:
+        description: 'Platform'
+        required: true
+        type: choice
+        options: [linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
+        default: 'linux-64'
+      package:
+        description: 'Package name'
+        required: true
+        type: string
+jobs:
+  remove-conda-package-from-prefix:
+    name:  "packages on ${{ inputs.runner }}"
+    runs-on: ubuntu-slim
+    steps:
+    - name: Query prefix graphql api
+      id: get_package_filenames
+      uses: actions/github-script@v5
+      with:
+        github-token: ${{ secrets.PREFIXDEV_APIKEY }}
+        script: |
+          const query = `
+            query {
+                package(channelName: "sofa-framework-devel", name: "libsofa") {
+                  variants(limit: 300) {
+                    page {
+                      filename
+                      platform
+                    }
+                  }
+                }
+              }
+            }`;
+          const response = await github.graphql(query);
+          return response;
+      env:
+        GH_GRAPHQL_TOKEN: ${{ secrets.PREFIXDEV_APIKEY }}
+        
+    - name: echo output
+      run: echo "Response is ${{ steps.get_package_filenames.outputs.result }}"
+    
+    # - name: Remove existing package
+    #   shell: bash -l {0}
+    #   run: |
+    #     echo "curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/${{ inputs.filename }} -H \"Authorization: Bearer --secrets--\""
