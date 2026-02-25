@@ -1,18 +1,24 @@
 import requests
-import sys
 import json
+import argparse
 
-QUERY = """
-{
-  package(channelName: "sofa-framework", name: "libsofa") {
-    variants(limit: 300) {
-      page {
+parser = argparse.ArgumentParser()
+parser.add_argument("--channel", required=True)
+parser.add_argument("--package", required=True)
+
+args = parser.parse_args()
+
+QUERY = f"""
+{{
+  package(channelName: "{args.channel}", name: "{args.package}") {{
+    variants(limit: 300) {{
+      page {{
         filename
         platform
-      }
-    }
-  }
-}
+      }}
+    }}
+  }}
+}}
 """
 
 response = requests.post(
@@ -25,16 +31,10 @@ response.raise_for_status()
 resp_json = response.json()
 
 page = resp_json["data"]["package"]["variants"]["page"]
-# print("page size: ", len(page))
 
 results = []
 
 for pkg in page:
-  # print('----')
-  # print('file: ', pkg["filename"])
-  # print('platform: ', pkg["platform"])
   results.append([pkg["platform"], pkg["filename"]])
 
 print(json.dumps(results))
-
-# print(json.dumps(results, indent=2))
