@@ -75,8 +75,9 @@ jobs:
 
     - name: Install conda environment
       shell: bash -l {0}
+      # requests is used to query graphql prefix.dev api with devel packages
       run: |
-        conda install rattler-build -c conda-forge
+        conda install rattler-build requests -c conda-forge
 
       # Same remark here about too long filename bug on windows, we have to force the output directory accordingly on windows
     - name: Setup output directory
@@ -97,7 +98,7 @@ jobs:
         conda config --show
         printenv | sort
 
-    - name: Configure recipe (if devel)
+    - name: Configure recipe [devel]
       if: ${{ inputs.recipe-dir == 'devel' }}
       shell: bash -l {0}
       run: |
@@ -106,7 +107,7 @@ jobs:
         if [[ ! -z "${{ inputs.git-sha }}" && ! -z "${{ inputs.git-commit-date }}" ]]; then
           sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/${{ inputs.git-commit-date }}/g" recipe.yaml.in > recipe.yaml
         fi
-        # output configured recipe
+        # Show configured recipe
         echo "==== Configured recipe:"
         cat recipe.yaml
 
@@ -136,14 +137,23 @@ jobs:
         rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir ${{ env.PKG_DIR }} --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
 
     # Remove already existing package if any
-    - name: Remove existing package
-      if: ${{ inputs.publish-package == true }}
+    # For release packages, we just remove if package with exact name already exists, and we keep previous builds
+    - name: Remove existing package [non-devel]
+      if: ${{ inputs.publish-package == true && inputs.recipe-dir != 'devel' }}
       shell: bash -l {0}
       run: |
         cd ${{ env.PKG_DIR }}/${{ inputs.platform }}
         for file in *${{ inputs.package-name }}*.conda; do
           curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$file -H "Authorization: Bearer ${{ secrets.api-key }}"
         done
+
+    # For devel packages, we only keep last build. So we will remove previous one(s) after successful publish
+    - name: Query existing package(s) [devel]
+      if: ${{ inputs.publish-package == true && inputs.recipe-dir == 'devel' }}
+      id: query_filenames
+      shell: bash -l {0}
+      run: |
+        echo "result=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package ${{ inputs.package }} --platform ${{ inputs.platform }})" >> $GITHUB_OUTPUT
 
     - name: Publish conda package
       if: ${{ inputs.publish-package == true }}
@@ -152,3 +162,13 @@ jobs:
         for file in ${{ env.PKG_DIR }}/**/*${{ inputs.package-name }}*.conda; do
           rattler-build upload prefix -c ${{ inputs.channel }} --api-key ${{ secrets.api-key }} "$file"
         done
+
+    - name: Remove existing package [devel]
+      if: ${{ inputs.publish-package == true && inputs.recipe-dir == 'devel' }}
+      shell: bash -l {0}
+      run: |
+          packages='${{ steps.query_filenames.outputs.result }}'
+
+          echo "$packages" | jq -c '.[]' | while read filename; do
+            curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$filename -H \"Authorization: Bearer ${{ secrets.api-key }}\""
+          done

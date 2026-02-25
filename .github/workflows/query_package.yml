@@ -45,11 +45,4 @@ jobs:
 
           echo "$packages" | jq -c '.[]' | while read package; do
             echo "$package"
-            # platform=$(echo "$package" | jq -r '.[0]')
-            # filename=$(echo "$package" | jq -r '.[1]')
-            # echo "Platform: $platform - Filename: $filename"
           done
-    # - name: Remove existing package
-    #   shell: bash -l {0}
-    #   run: |
-    #     echo "curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/${{ inputs.filename }} -H \"Authorization: Bearer --secrets--\""
