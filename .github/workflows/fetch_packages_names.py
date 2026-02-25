@@ -3,21 +3,12 @@ import sys
 import json
 
 QUERY = """
-query {
-  channel(name: "sofa-framework") {
-    packages(first: 200) {
-      nodes {
-        name
-        versions(first: 100) {
-          nodes {
-            version
-            files {
-              filename
-              size
-              sha256
-            }
-          }
-        }
+{
+  package(channelName: "sofa-framework", name: "libsofa") {
+    variants(limit: 300) {
+      page {
+        filename
+        platform
       }
     }
   }
@@ -31,22 +22,19 @@ response = requests.post(
 
 response.raise_for_status()
 
-data = response.json()
+resp_json = response.json()
 
-print('data:', data)
-packages = data["data"]["channel"]["packages"]["nodes"]
+page = resp_json["data"]["package"]["variants"]["page"]
+# print("page size: ", len(page))
 
 results = []
 
-for pkg in packages:
-    if pkg["name"] == "libsofa":
-        for version in pkg["versions"]["nodes"]:
-            for f in version["files"]:
-                results.append({
-                    "version": version["version"],
-                    "filename": f["filename"],
-                    "size": f["size"],
-                    "sha256": f["sha256"],
-                })
+for pkg in page:
+  # print('----')
+  # print('file: ', pkg["filename"])
+  # print('platform: ', pkg["platform"])
+  results.append([pkg["platform"], pkg["filename"]])
 
-print(json.dumps(results, indent=2))
+print(json.dumps(results))
+
+# print(json.dumps(results, indent=2))

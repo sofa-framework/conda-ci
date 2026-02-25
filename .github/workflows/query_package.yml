@@ -6,7 +6,7 @@ on:
       channel:
         description: 'Channel'
         required: true
-        options: [sofa-framework-devel]
+        options: [sofa-framework, sofa-framework-devel]
         default: 'sofa-framework-devel'
       platform:
         description: 'Platform'
@@ -34,8 +34,20 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Run query
-        run: python .github/workflows/fetch_packages_names.py
+      - name: Query files
+        id: query_filenames
+        run: |
+          echo "result=$(python .github/workflows/fetch_packages_names.py)" >> $GITHUB_OUTPUT
+
+      - name: Loop over results
+        run: |
+          packages='${{ steps.query_filenames.outputs.result }}'
+
+          echo "$packages" | jq -c '.[]' | while read package; do
+            platform=$(echo "$package" | jq -r '.[0]')
+            filename=$(echo "$package" | jq -r '.[1]')
+            echo "Platform: $platform - Filename: $filename"
+          done
     # - name: Remove existing package
     #   shell: bash -l {0}
     #   run: |
