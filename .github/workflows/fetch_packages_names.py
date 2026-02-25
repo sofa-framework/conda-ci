@@ -33,6 +33,7 @@ response.raise_for_status()
 
 data = response.json()
 
+print('data:', data)
 packages = data["data"]["channel"]["packages"]["nodes"]
 
 results = []
