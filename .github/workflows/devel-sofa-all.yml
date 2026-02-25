@@ -102,7 +102,7 @@ jobs:
       - name: Get status from package build
         shell: bash
         run: |
-          if [[ "${{ needs.build-publish-sofa.result }}" == "success" && "${{ needs.build-publish-sofa-sofa-python3.result }}" == "success" ]]; then
+          if [[ "${{ needs.build-publish-sofa.result }}" == "success" && "${{ needs.build-publish-sofa-python3.result }}" == "success" ]]; then
             echo "COMMIT_STATUS=success" >> $GITHUB_ENV
           else
             echo "COMMIT_STATUS=failure" >> $GITHUB_ENV
