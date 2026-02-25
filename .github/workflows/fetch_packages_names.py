@@ -5,16 +5,16 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--channel", required=True)
 parser.add_argument("--package", required=True)
+parser.add_argument("--platform", required=True)
 
 args = parser.parse_args()
 
 QUERY = f"""
 {{
   package(channelName: "{args.channel}", name: "{args.package}") {{
-    variants(limit: 300) {{
+    variants(limit: 300, platform: "{args.platform}") {{
       page {{
         filename
-        platform
       }}
     }}
   }}
@@ -35,6 +35,6 @@ page = resp_json["data"]["package"]["variants"]["page"]
 results = []
 
 for pkg in page:
-  results.append([pkg["platform"], pkg["filename"]])
+  results.append(pkg["filename"])
 
 print(json.dumps(results))

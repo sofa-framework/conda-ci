@@ -37,16 +37,17 @@ jobs:
       - name: Query files
         id: query_filenames
         run: |
-          echo "result=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package ${{ inputs.package }})" >> $GITHUB_OUTPUT
+          echo "result=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package ${{ inputs.package }} --platform ${{ inputs.platform }})" >> $GITHUB_OUTPUT
 
       - name: Loop over results
         run: |
           packages='${{ steps.query_filenames.outputs.result }}'
 
           echo "$packages" | jq -c '.[]' | while read package; do
-            platform=$(echo "$package" | jq -r '.[0]')
-            filename=$(echo "$package" | jq -r '.[1]')
-            echo "Platform: $platform - Filename: $filename"
+            echo "$package"
+            # platform=$(echo "$package" | jq -r '.[0]')
+            # filename=$(echo "$package" | jq -r '.[1]')
+            # echo "Platform: $platform - Filename: $filename"
           done
     # - name: Remove existing package
     #   shell: bash -l {0}
