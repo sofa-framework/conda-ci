@@ -153,7 +153,7 @@ jobs:
       id: query_filenames
       shell: bash -l {0}
       run: |
-        echo "result=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package ${{ inputs.package }} --platform ${{ inputs.platform }})" >> $GITHUB_OUTPUT
+        echo "result=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package ${{ inputs.package-name }} --platform ${{ inputs.platform }})" >> $GITHUB_OUTPUT
 
     - name: Publish conda package
       if: ${{ inputs.publish-package == true }}
