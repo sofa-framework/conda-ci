@@ -49,6 +49,7 @@ jobs:
       platform: ${{ matrix.target.platform }}
       channel: sofa-framework
       recipe-dir: release-v25.06
+      output-packages: "[libsofa, sofa-devel, sofa-gl]"
       # only publish packages on pull request merging OR when called manually through workflow_dispatch OR workflow call 
       publish-package: ${{ (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) ||  github.event_name == 'workflow_dispatch' ||  github.event_name == 'workflow_call' }}
     secrets:

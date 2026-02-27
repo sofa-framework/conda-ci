@@ -24,6 +24,9 @@ on:
       publish-package:
         required: true
         type: boolean
+      output-packages:
+        required: false
+        type: string
       git-sha:
         required: false
         type: string
@@ -89,6 +92,15 @@ jobs:
           echo "PKG_DIR=$CONDA_PREFIX/rattler-bld" >> $GITHUB_ENV
         fi
 
+    - name: Setup output packages
+      shell: bash -l {0}
+      run: |
+        if [ -z "${{ inputs.output-packages }}" ]; then
+          echo "OUTPUT_PKGS=[\'${{ inputs.package-name }}\']" >> $GITHUB_ENV
+        else
+          echo "OUTPUT_PKGS=${{ inputs.output-packages }}" >> $GITHUB_ENV
+        fi
+
     - name: Show conda config
       shell: bash -l {0}
       run: |
@@ -143,8 +155,10 @@ jobs:
       shell: bash -l {0}
       run: |
         cd ${{ env.PKG_DIR }}/${{ inputs.platform }}
-        for file in *${{ inputs.package-name }}*.conda; do
-          curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$file -H "Authorization: Bearer ${{ secrets.api-key }}"
+        for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
+          for file in *$PKG_FILE*.conda; do
+            curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$file -H "Authorization: Bearer ${{ secrets.api-key }}"
+          done
         done
 
     # For devel packages, we only keep last build. So we will remove previous one(s) after successful publish
@@ -153,14 +167,24 @@ jobs:
       id: query_filenames
       shell: bash -l {0}
       run: |
-        echo "result=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package ${{ inputs.package-name }} --platform ${{ inputs.platform }})" >> $GITHUB_OUTPUT
+        result='[]'
+        for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
+            new=$(python fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }})
+            result=$(
+                jq -c --argjson nxt "$new" \
+                  '. + $nxt' <<< "$result"
+            )
+        done
+        echo "$result >> $GITHUB_OUTPUT"
 
     - name: Publish conda package
       if: ${{ inputs.publish-package == true }}
       shell: bash -l {0}
       run: |
-        for file in ${{ env.PKG_DIR }}/**/*${{ inputs.package-name }}*.conda; do
-          rattler-build upload prefix -c ${{ inputs.channel }} --api-key ${{ secrets.api-key }} "$file"
+        for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
+          for file in ${{ env.PKG_DIR }}/**/*$PKG_FILE*.conda; do
+            rattler-build upload prefix -c ${{ inputs.channel }} --api-key ${{ secrets.api-key }} "$file"
+          done
         done
 
     - name: Remove existing package [devel]
