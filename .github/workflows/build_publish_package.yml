@@ -169,7 +169,7 @@ jobs:
       run: |
         result='[]'
         for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
-            new=$(python fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }})
+            new=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }})
             result=$(
                 jq -c --argjson nxt "$new" \
                   '. + $nxt' <<< "$result"
