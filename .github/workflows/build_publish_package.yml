@@ -175,7 +175,7 @@ jobs:
                   '. + $nxt' <<< "$result"
             )
         done
-        echo "$result >> $GITHUB_OUTPUT"
+        echo "result=$result" >> $GITHUB_OUTPUT
 
     - name: Publish conda package
       if: ${{ inputs.publish-package == true }}
