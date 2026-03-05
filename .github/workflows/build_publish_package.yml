@@ -161,7 +161,7 @@ jobs:
           echo "-- PKG_FILE= $PKG_FILE"
           for file in *$PKG_FILE*.conda; do
             echo "---- file= $file"
-            curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$file -H "Authorization: Bearer ${{ secrets.api-key }}"
+            curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$file -H \"Authorization: Bearer ${{ secrets.api-key }}\""
           done
         done
 
