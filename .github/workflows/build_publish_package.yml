@@ -198,5 +198,6 @@ jobs:
           packages='${{ steps.query_filenames.outputs.result }}'
 
           echo "$packages" | jq -c '.[]' | while read filename; do
-            curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$filename -H "Authorization: Bearer ${{ secrets.api-key }}"
+            filename_noquotes=$(echo "$filename" | sed 's/^"//;s/"$//')
+            curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$filename_noquotes -H "Authorization: Bearer ${{ secrets.api-key }}"
           done
