@@ -14,11 +14,14 @@ on:
         type: choice
         options: [linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
         default: 'linux-64'
-      package:
+      package-name:
         description: 'Package name'
         required: true
         type: string
         default: 'libsofa'
+      output-packages:
+        required: false
+        type: string
 jobs:
   remove-conda-package-from-prefix:
     name:  "packages on ${{ inputs.runner }}"
@@ -34,15 +37,40 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Query files
-        id: query_filenames
+      # - name: Query files
+      #   id: query_filenames
+      #   run: |
+      #     echo "result=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package ${{ inputs.package }} --platform ${{ inputs.platform }})" >> $GITHUB_OUTPUT
+
+      - name: Setup output packages
+        shell: bash -l {0}
         run: |
-          echo "result=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package ${{ inputs.package }} --platform ${{ inputs.platform }})" >> $GITHUB_OUTPUT
+          if [ -z "${{ inputs.output-packages }}" ]; then
+            echo "OUTPUT_PKGS=[\'${{ inputs.package-name }}\']" >> $GITHUB_ENV
+          else
+            echo "OUTPUT_PKGS=${{ inputs.output-packages }}" >> $GITHUB_ENV
+          fi
+
+      - name: Query existing package(s) [devel]
+        id: query_filenames
+        shell: bash -l {0}
+        run: |
+          result='[]'
+          for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
+              new=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }})
+              result=$(
+                  jq -c --argjson nxt "$new" \
+                    '. + $nxt' <<< "$result"
+              )
+          done
+          echo "result=$result" >> $GITHUB_OUTPUT
 
       - name: Loop over results
         run: |
           packages='${{ steps.query_filenames.outputs.result }}'
 
-          echo "$packages" | jq -c '.[]' | while read package; do
-            echo "$package"
+          echo "$packages" | jq -c '.[]' | while read filename; do
+            filename_noquotes=$(echo "$filename" | sed 's/^"//;s/"$//')
+            echo "curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$filename_noquotes -H \"Authorization: Bearer ${{ secrets.api-key }}\""
           done
+
