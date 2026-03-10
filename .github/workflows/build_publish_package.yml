@@ -96,7 +96,7 @@ jobs:
       shell: bash -l {0}
       run: |
         if [ -z "${{ inputs.output-packages }}" ]; then
-          echo "OUTPUT_PKGS=[\'${{ inputs.package-name }}\']" >> $GITHUB_ENV
+          echo "OUTPUT_PKGS=\"[${{ inputs.package-name }}]\"" >> $GITHUB_ENV
         else
           echo "OUTPUT_PKGS=${{ inputs.output-packages }}" >> $GITHUB_ENV
         fi
