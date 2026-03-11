@@ -146,7 +146,13 @@ jobs:
           exit 1
         fi
         echo "Config file used for building package: $CONFIG_FILE"
-        rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir ${{ env.PKG_DIR }} --experimental -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
+
+        # For devel packages, we don't want to get packages from sofa-framework-devel channel, only locally (there is a bug after deleting old packages)
+        if [[ ${{ inputs.recipe-dir }} == "devel" ]]; then
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir ${{ env.PKG_DIR }} -c conda-forge
+        else
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir ${{ env.PKG_DIR }} -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
+        fi
 
     # Remove already existing package if any
     # For release packages, we just remove if package with exact name already exists, and we keep previous builds
