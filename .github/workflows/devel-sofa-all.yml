@@ -91,7 +91,8 @@ jobs:
     if: ${{ needs.build-publish-sofa.result == 'success' }}
     with:
       git-sha: ${{ needs.extract-params.outputs.sofa-python3-git-sha }}
-      git-commit-date: ${{ needs.extract-params.outputs.sofa-python3-git-commit-date }}    
+      git-commit-date: ${{ needs.extract-params.outputs.sofa-python3-git-commit-date }}
+      sofa-git-sha: ${{ needs.extract-params.outputs.sofa-git-sha }}
     secrets: inherit
 
   notify-end:

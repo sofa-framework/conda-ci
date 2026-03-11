@@ -10,6 +10,10 @@ on:
         description: 'Git commit date'
         required: true
         type: string
+      sofa-git-sha:
+        description: 'SOFA Git commit SHA1'
+        required: true
+        type: string
   workflow_dispatch:
    inputs:
       git-sha:
@@ -21,7 +25,11 @@ on:
         description: 'Git commit date'
         required: true
         type: string
-        default: 'NODATE' # for testing  
+        default: 'NODATE' # for testing
+      sofa-git-sha:
+        description: 'SOFA Git commit SHA1'
+        required: true
+        type: string
   repository_dispatch:
     types: [build-devel-sofa-python3]
   pull_request:
@@ -64,15 +72,18 @@ jobs:
           if [[ "${{ github.event_name }}" == "workflow_dispatch" || "${{ github.event_name }}" == "workflow_call" ]]; then
             echo "git-sha=${{ inputs.git-sha }}" >> $GITHUB_OUTPUT
             echo "git-commit-date=${{ inputs.git-commit-date }}" >> $GITHUB_OUTPUT
+            echo "sofa-git-sha=${{ inputs.sofa-git-sha }}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
             echo "git-sha=${{ github.event.client_payload.sofa_python3_commit_hash }}" >> $GITHUB_OUTPUT
             echo "git-commit-date=${{ github.event.client_payload.sofa_python3_commit_date }}" >> $GITHUB_OUTPUT
+            echo "sofa-git-sha=${{ github.event.client_payload.sofa_commit_hash }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Check parameters
         run: |
           echo "✓ git-sha: ${{ steps.params.outputs.git-sha }}"
           echo "✓ git-commit-date: ${{ steps.params.outputs.git-commit-date }}"
+          echo "✓ sofa-git-sha: ${{ steps.params.outputs.sofa-git-sha }}"
 
   build-publish-sofa-python3:
     strategy:
@@ -99,5 +110,6 @@ jobs:
       publish-package: ${{ (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true) ||  github.event_name == 'workflow_dispatch' ||  github.event_name == 'workflow_call' ||  github.event_name == 'repository_dispatch' }}
       git-sha: ${{ needs.extract-params.outputs.git-sha }}
       git-commit-date: ${{ needs.extract-params.outputs.git-commit-date }}
+      sofa-git-sha: ${{ needs.extract-params.outputs.sofa-git-sha }}
     secrets:
       api-key: ${{ secrets.PREFIXDEV_APIKEY }}

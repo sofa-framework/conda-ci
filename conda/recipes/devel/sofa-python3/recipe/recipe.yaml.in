@@ -6,6 +6,7 @@ context:
   minor: ${{ (version | split('.'))[1] }}
   major_minor: ${{ major }}.${{ minor }}
   git_sha: %GIT_SHA%
+  sofa_git_sha: %SOFA_GIT_SHA%
 
 package:
   name: ${{ name }}
@@ -47,8 +48,8 @@ requirements:
         - numpy
         - pybind11
   host:
-    - sofa-devel ${{ major_minor }}.dev*
-    - sofa-gl ${{ major_minor }}.dev*
+    - sofa-devel ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}
+    - sofa-gl ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}
     - eigen
     - libboost-headers
     - glew
@@ -57,8 +58,8 @@ requirements:
     - numpy
     - pybind11
   run:
-    - sofa-devel ${{ major_minor }}.dev*
-    - sofa-gl ${{ major_minor }}.dev*
+    - sofa-devel ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}
+    - sofa-gl ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}
     - ${{ pin_compatible('numpy') }}
     - python
   run_exports:

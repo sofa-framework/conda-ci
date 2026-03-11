@@ -33,6 +33,9 @@ on:
       git-commit-date:
         required: false
         type: string
+      sofa-git-sha:
+        required: false
+        type: string
     secrets:
       api-key:
         required: true
@@ -117,7 +120,7 @@ jobs:
         cd conda/recipes/${{ inputs.recipe-dir }}/${{ inputs.package-name }}/recipe
         # if a git SHA1 has been provided, use it
         if [[ ! -z "${{ inputs.git-sha }}" && ! -z "${{ inputs.git-commit-date }}" ]]; then
-          sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/${{ inputs.git-commit-date }}/g" recipe.yaml.in > recipe.yaml
+          sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/${{ inputs.git-commit-date }}/g" -e "s/%GIT_SHA%/${{ inputs.sofa-git-sha }}/g" recipe.yaml.in > recipe.yaml
         fi
         # Show configured recipe
         echo "==== Configured recipe:"
