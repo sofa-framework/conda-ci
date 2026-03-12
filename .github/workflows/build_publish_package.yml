@@ -152,7 +152,7 @@ jobs:
 
         # For devel packages, we don't want to get packages from sofa-framework-devel channel, only locally (there is a bug after deleting old packages)
         if [[ ${{ inputs.recipe-dir }} == "devel" ]]; then
-          rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir ${{ env.PKG_DIR }} -c conda-forge
+          rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir ${{ env.PKG_DIR }} -c conda-forge --channel-priority disabled
         else
           rattler-build build --recipe ${{ inputs.package-name }}/recipe/recipe.yaml --variant-config $CONFIG_FILE --output-dir ${{ env.PKG_DIR }} -c conda-forge -c https://prefix.dev/${{ inputs.channel }} --channel-priority disabled
         fi
