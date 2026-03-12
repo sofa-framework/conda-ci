@@ -1,6 +1,6 @@
 context:
   name: sofa-python3
-  version: "26.06.dev%DATE_YYYYMMDD%"
+  version: "26.6.dev%DATE_YYYYMMDD%"
   build_num: 0
   major: ${{ (version | split('.'))[0] }}
   minor: ${{ (version | split('.'))[1] }}

@@ -1,6 +1,6 @@
 context:
   name: sofa
-  version: "26.06.dev%DATE_YYYYMMDD%"
+  version: "26.6.dev%DATE_YYYYMMDD%"
   build_num: 0
   git_sha: %GIT_SHA%
 
