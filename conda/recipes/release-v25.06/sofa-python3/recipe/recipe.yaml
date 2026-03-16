@@ -23,13 +23,13 @@ source:
 build:
   number: 6
   files:
-    - if: win
-      then:
-        # SofaPython3 as a weird conception of each module, both
-        # a as a python binding module and a SOFA component, so each
-        # is installed twice. This causes problems with duplicates and incorrectly
-        # installed pyd and lib files (both at Library/{lib/bin} and lib/site-packages)
-        exclude:
+    # SofaPython3 as a weird conception of each module, both
+    # a as a python binding module and a SOFA component, so each
+    # is installed twice. This causes problems with duplicates and incorrectly
+    # installed pyd and lib files (both at Library/{lib/bin} and lib/site-packages)
+    exclude:
+      - if: win
+        then:
           - Library/bin/*.pyd
           - lib/site-packages/**/*.lib
 
