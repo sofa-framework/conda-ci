@@ -64,6 +64,7 @@ jobs:
     outputs:
       git-sha: ${{ steps.params.outputs.git-sha }}
       git-commit-date: ${{ steps.params.outputs.git-commit-date }}
+      sofa-git-sha: ${{ steps.params.outputs.sofa-git-sha }}
 
     steps:
       - name: Extract parameters
