@@ -21,7 +21,17 @@ source:
         - patches/0001-hotfix-for-libpython-linking-on-macOS.patch
 
 build:
-  number: 5
+  number: 6
+  files:
+    - if: win
+      then:
+        # SofaPython3 as a weird conception of each module, both
+        # a as a python binding module and a SOFA component, so each
+        # is installed twice. This causes problems with duplicates and incorrectly
+        # installed pyd and lib files (both at Library/{lib/bin} and lib/site-packages)
+        exclude:
+          - Library/bin/*.pyd
+          - lib/site-packages/**/*.lib
 
 requirements:
   build:
