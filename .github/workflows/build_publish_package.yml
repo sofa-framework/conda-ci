@@ -165,11 +165,10 @@ jobs:
       run: |
         cd ${{ env.PKG_DIR }}/${{ inputs.platform }}
         ls -al
-        echo "OUTPUT_PKGS = ${{ env.OUTPUT_PKGS }}"
+        echo "== Packages to be removed: ${{ env.OUTPUT_PKGS }}"
         for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
-          echo "-- PKG_FILE= $PKG_FILE"
           for file in *$PKG_FILE*.conda; do
-            echo "---- file= $file"
+            echo "=== Removing file= $file"
             curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$file -H "Authorization: Bearer ${{ secrets.api-key }}"
           done
         done
@@ -181,10 +180,12 @@ jobs:
       shell: bash -l {0}
       run: |
         result='[]'
+        echo "== Packages to be removed: ${{ env.OUTPUT_PKGS }}"
         for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
-            new=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }})
+            pkg_conda_files=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }})
+            echo "=== Conda files for pkg $PKG_FILE: $pkg_conda_files"
             result=$(
-                jq -c --argjson nxt "$new" \
+                jq -c --argjson nxt "$pkg_conda_files" \
                   '. + $nxt' <<< "$result"
             )
         done
@@ -196,6 +197,7 @@ jobs:
       run: |
         for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
           for file in ${{ env.PKG_DIR }}/**/*$PKG_FILE*.conda; do
+            echo "== Publishing conda package: $file"
             rattler-build upload prefix -c ${{ inputs.channel }} --api-key ${{ secrets.api-key }} "$file"
           done
         done
@@ -205,8 +207,10 @@ jobs:
       shell: bash -l {0}
       run: |
           packages='${{ steps.query_filenames.outputs.result }}'
+          echo "== Going to remove deprecated devel conda packages: $packages"
 
           echo "$packages" | jq -c '.[]' | while read filename; do
             filename_noquotes=$(echo "$filename" | sed 's/^"//;s/"$//')
+            echo "=== Proceeding to package: $filename ($filename_noquotes)"
             curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$filename_noquotes -H "Authorization: Bearer ${{ secrets.api-key }}"
           done
