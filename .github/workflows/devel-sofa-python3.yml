@@ -89,10 +89,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [{platform: "linux-64", runner: "ubuntu-latest"},
-                 {platform: "linux-aarch64", runner: "ubuntu-24.04-arm"},
-                  {platform: "osx-arm64", runner: "macos-latest"},
-                  {platform: "win-64", runner: "windows-latest"}]
+        # target: [{platform: "linux-64", runner: "ubuntu-latest"},
+        #          {platform: "linux-aarch64", runner: "ubuntu-24.04-arm"},
+        #           {platform: "osx-arm64", runner: "macos-latest"},
+        #           {platform: "win-64", runner: "windows-latest"}]
+        # target: [{platform: "linux-64", runner: "ubuntu-latest"},
+        #          {platform: "linux-aarch64", runner: "ubuntu-24.04-arm"},
+        #          {platform: "osx-arm64", runner: "macos-latest"},
+        #          {platform: "win-64", runner: "windows-latest"}]
+        # Restrict to linux-aarch64 for debugging
+        target: [{platform: "linux-aarch64", runner: "ubuntu-24.04-arm"}]                  
         python: ["3.10", "3.12"]
 
     uses: ./.github/workflows/build_publish_package.yml
