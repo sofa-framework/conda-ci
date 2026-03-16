@@ -31,7 +31,6 @@ build:
       - if: win
         then:
           - Library/bin/*.pyd
-          - lib/site-packages/**/*.lib
 
 requirements:
   build:

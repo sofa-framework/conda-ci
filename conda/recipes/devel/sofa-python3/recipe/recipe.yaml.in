@@ -24,7 +24,6 @@ build:
       - if: win
         then:
           - Library/bin/*.pyd
-          - lib/site-packages/**/*.lib
 
 source:
   git: https://github.com/sofa-framework/SofaPython3.git
