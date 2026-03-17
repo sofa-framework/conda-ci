@@ -186,17 +186,6 @@ jobs:
         done
         echo "result=$result" >> $GITHUB_OUTPUT
 
-    - name: Publish conda package
-      if: ${{ inputs.publish-package == true }}
-      shell: bash -l {0}
-      run: |
-        for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
-          for file in ${{ env.PKG_DIR }}/**/*$PKG_FILE*.conda; do
-            echo "== Publishing conda package: $file"
-            rattler-build upload prefix -c ${{ inputs.channel }} --api-key ${{ secrets.api-key }} "$file"
-          done
-        done
-
     - name: Remove existing package [devel]
       if: ${{ inputs.publish-package == true && inputs.recipe-dir == 'devel' }}
       shell: bash -l {0}
@@ -209,3 +198,14 @@ jobs:
             echo "=== Proceeding to package: $filename ($filename_noquotes)"
             curl -X DELETE https://prefix.dev/api/v1/delete/${{ inputs.channel }}/${{ inputs.platform }}/$filename_noquotes -H "Authorization: Bearer ${{ secrets.api-key }}"
           done
+
+    - name: Publish conda package
+      if: ${{ inputs.publish-package == true }}
+      shell: bash -l {0}
+      run: |
+        for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
+          for file in ${{ env.PKG_DIR }}/**/*$PKG_FILE*.conda; do
+            echo "== Publishing conda package: $file"
+            rattler-build upload prefix -c ${{ inputs.channel }} --api-key ${{ secrets.api-key }} "$file"
+          done
+        done
