@@ -21,7 +21,7 @@ source:
         - patches/0001-hotfix-for-libpython-linking-on-macOS.patch
 
 build:
-  number: 6
+  number: 7
   files:
     # SofaPython3 as a weird conception of each module, both
     # a as a python binding module and a SOFA component, so each
@@ -31,6 +31,10 @@ build:
       - if: win
         then:
           - Library/bin/*.pyd
+          - Library/lib/SofaRuntime.lib
+          - Library/lib/SofaExporter.lib
+          - Library/lib/Gui.lib
+          - Library/lib/SofaTypes.lib
 
 requirements:
   build:
