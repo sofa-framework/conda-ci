@@ -64,17 +64,12 @@ requirements:
     - sofa-devel ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}
     - sofa-gl ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}
     - eigen
-    - libboost-headers
-    - glew
-    - cxxopts
     - python
     - numpy
     - pybind11
   run:
-    - sofa-devel ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}
-    - sofa-gl ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}
-    - ${{ pin_compatible('numpy') }}
     - python
+    - pybind11
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
