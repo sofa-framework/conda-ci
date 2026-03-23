@@ -103,6 +103,7 @@ outputs:
       run:
         - libboost-headers
         - eigen
+        - cxxopts
         - zlib
         - ${{ pin_subpackage('libsofa', exact=True) }}
       run_exports:
