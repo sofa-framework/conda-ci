@@ -68,6 +68,10 @@ requirements:
     - numpy
     - pybind11
   run:
+    # We normally should not have to pin run dep for sofa-devel & sofa-gl packages
+    # as they have run_exports, but the dependency solver fail if we don't add them here
+    - sofa-devel ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}
+    - sofa-gl ${{ major_minor }}.dev* dev_${{ sofa_git_sha[:7] }}  
     - python
     - pybind11
   run_exports:
