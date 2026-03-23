@@ -25,6 +25,16 @@ on:
         required: true
         type: string
         default: 'NODATE' # for testing  
+      sofa-glfw-git-sha:
+        description: 'sofa-glfw git commit SHA1'
+        required: true
+        type: string
+        default: 'master'
+      sofa-glfw-git-commit-date:
+        description: 'sofa-glfw git commit date'
+        required: true
+        type: string
+        default: 'NODATE' # for testing  
   repository_dispatch:
     types: [build-devel-sofa-all]
 
@@ -36,6 +46,8 @@ jobs:
       sofa-git-commit-date: ${{ steps.params.outputs.sofa-git-commit-date }}
       sofa-python3-git-sha: ${{ steps.params.outputs.sofa-python3-git-sha }}
       sofa-python3-git-commit-date: ${{ steps.params.outputs.sofa-python3-git-commit-date }}
+      sofa-glfw-git-sha: ${{ steps.params.outputs.sofa-glfw-git-sha }}
+      sofa-glfw-git-commit-date: ${{ steps.params.outputs.sofa-glfw-git-commit-date }}
 
     steps:
       - name: Extract parameters
@@ -46,11 +58,15 @@ jobs:
             echo "sofa-git-commit-date=${{ inputs.sofa-git-commit-date }}" >> $GITHUB_OUTPUT
             echo "sofa-python3-git-sha=${{ inputs.sofa-python3-git-sha }}" >> $GITHUB_OUTPUT
             echo "sofa-python3-git-commit-date=${{ inputs.sofa-python3-git-commit-date }}" >> $GITHUB_OUTPUT
+            echo "sofa-glfw-git-sha=${{ inputs.sofa-glfw-git-sha }}" >> $GITHUB_OUTPUT
+            echo "sofa-glfw-git-commit-date=${{ inputs.sofa-glfw-git-commit-date }}" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" == "repository_dispatch" ]; then
             echo "sofa-git-sha=${{ github.event.client_payload.sofa_commit_hash }}" >> $GITHUB_OUTPUT
             echo "sofa-git-commit-date=${{ github.event.client_payload.sofa_commit_date }}" >> $GITHUB_OUTPUT
             echo "sofa-python3-git-sha=${{ github.event.client_payload.sofa_python3_commit_hash }}" >> $GITHUB_OUTPUT
             echo "sofa-python3-git-commit-date=${{ github.event.client_payload.sofa_python3_commit_date }}" >> $GITHUB_OUTPUT
+            echo "sofa-glfw-git-sha=${{ github.event.client_payload.sofa_glfw_commit_hash }}" >> $GITHUB_OUTPUT
+            echo "sofa-glfw-git-commit-date=${{ github.event.client_payload.sofa_glfw_commit_date }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Check parameters
@@ -59,6 +75,8 @@ jobs:
           echo "✓ sofa-git-commit-date: ${{ steps.params.outputs.sofa-git-commit-date }}"
           echo "✓ sofa-python3-git-sha: ${{ steps.params.outputs.sofa-python3-git-sha }}"
           echo "✓ sofa-python3-git-commit-date: ${{ steps.params.outputs.sofa-python3-git-commit-date }}"
+          echo "✓ sofa-glfw-git-sha: ${{ steps.params.outputs.sofa-glfw-git-sha }}"
+          echo "✓ sofa-glfw-git-commit-date: ${{ steps.params.outputs.sofa-glfw-git-commit-date }}"
 
   notify-begin:
     runs-on: ubuntu-slim
@@ -95,15 +113,25 @@ jobs:
       sofa-git-sha: ${{ needs.extract-params.outputs.sofa-git-sha }}
     secrets: inherit
 
+  build-publish-sofa-glfw:
+    uses: ./.github/workflows/devel-sofa-glfw.yml
+    needs: [build-publish-sofa, build-publish-sofa-python3, extract-params]
+    if: ${{ needs.build-publish-sofa.result == 'success' }}
+    with:
+      git-sha: ${{ needs.extract-params.outputs.sofa-glfw-git-sha }}
+      git-commit-date: ${{ needs.extract-params.outputs.sofa-glfw-git-commit-date }}
+      sofa-git-sha: ${{ needs.extract-params.outputs.sofa-git-sha }}
+    secrets: inherit
+
   notify-end:
     runs-on: ubuntu-slim
     if: ${{ always() && github.event_name == 'repository_dispatch' }}
-    needs: [extract-params, build-publish-sofa, build-publish-sofa-python3]
+    needs: [extract-params, build-publish-sofa, build-publish-sofa-python3, build-publish-sofa-glfw]
     steps:
       - name: Get status from package build
         shell: bash
         run: |
-          if [[ "${{ needs.build-publish-sofa.result }}" == "success" && "${{ needs.build-publish-sofa-python3.result }}" == "success" ]]; then
+          if [[ "${{ needs.build-publish-sofa.result }}" == "success" && "${{ needs.build-publish-sofa-python3.result }}" == "success" && "${{ needs.build-publish-sofa-glfw.result }}" == "success" ]]; then
             echo "COMMIT_STATUS=success" >> $GITHUB_ENV
           else
             echo "COMMIT_STATUS=failure" >> $GITHUB_ENV
