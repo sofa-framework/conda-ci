@@ -34,6 +34,10 @@ on:
         description: 'SOFA Git commit SHA1'
         required: true
         type: string
+      sofa-python3-git-sha:
+        description: 'SofaPython3 Git commit SHA1'
+        required: true
+        type: string        
   repository_dispatch:
     types: [build-devel-sofa-glfw]
   pull_request:
@@ -69,6 +73,7 @@ jobs:
       git-sha: ${{ steps.params.outputs.git-sha }}
       git-commit-date: ${{ steps.params.outputs.git-commit-date }}
       sofa-git-sha: ${{ steps.params.outputs.sofa-git-sha }}
+      sofa-python3-git-sha: ${{ steps.params.outputs.sofa-python3-git-sha }}
 
     steps:
       - name: Extract parameters
@@ -78,10 +83,12 @@ jobs:
             echo "git-sha=${{ inputs.git-sha }}" >> $GITHUB_OUTPUT
             echo "git-commit-date=${{ inputs.git-commit-date }}" >> $GITHUB_OUTPUT
             echo "sofa-git-sha=${{ inputs.sofa-git-sha }}" >> $GITHUB_OUTPUT
+            echo "sofa-python3-git-sha=${{ inputs.sofa-python3-git-sha }}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
             echo "git-sha=${{ github.event.client_payload.sofa_glfw_commit_hash }}" >> $GITHUB_OUTPUT
             echo "git-commit-date=${{ github.event.client_payload.sofa_glfw_commit_date }}" >> $GITHUB_OUTPUT
             echo "sofa-git-sha=${{ github.event.client_payload.sofa_commit_hash }}" >> $GITHUB_OUTPUT
+            echo "sofa-python3-git-sha=${{ github.event.client_payload.sofa_python3_commit_hash }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Check parameters
@@ -89,6 +96,7 @@ jobs:
           echo "✓ git-sha: ${{ steps.params.outputs.git-sha }}"
           echo "✓ git-commit-date: ${{ steps.params.outputs.git-commit-date }}"
           echo "✓ sofa-git-sha: ${{ steps.params.outputs.sofa-git-sha }}"
+          echo "✓ sofa-python3-git-sha: ${{ steps.params.outputs.sofa-python3-git-sha }}"
 
   build-publish-sofa-glfw:
     strategy:
@@ -116,5 +124,6 @@ jobs:
       git-sha: ${{ needs.extract-params.outputs.git-sha }}
       git-commit-date: ${{ needs.extract-params.outputs.git-commit-date }}
       sofa-git-sha: ${{ needs.extract-params.outputs.sofa-git-sha }}
+      sofa-python3-git-sha: ${{ needs.extract-params.outputs.sofa-python3-git-sha }}
     secrets:
       api-key: ${{ secrets.PREFIXDEV_APIKEY }}
