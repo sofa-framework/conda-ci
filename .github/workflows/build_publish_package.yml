@@ -36,6 +36,9 @@ on:
       sofa-git-sha:
         required: false
         type: string
+      sofa-python3-git-sha:
+        required: false
+        type: string
     secrets:
       api-key:
         required: true
@@ -120,7 +123,7 @@ jobs:
         cd conda/recipes/${{ inputs.recipe-dir }}/${{ inputs.package-name }}/recipe
         # if a git SHA1 has been provided, use it
         if [[ ! -z "${{ inputs.git-sha }}" && ! -z "${{ inputs.git-commit-date }}" ]]; then
-          sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/${{ inputs.git-commit-date }}/g" -e "s/%SOFA_GIT_SHA%/${{ inputs.sofa-git-sha }}/g" recipe.yaml.in > recipe.yaml
+          sed -e "s/%GIT_SHA%/${{ inputs.git-sha }}/g" -e "s/%DATE_YYYYMMDD%/${{ inputs.git-commit-date }}/g" -e "s/%SOFA_GIT_SHA%/${{ inputs.sofa-git-sha }}/g" -e "s/%SOFA_PYTHON3_GIT_SHA%/${{ inputs.sofa-python3-git-sha }}/g" recipe.yaml.in > recipe.yaml
         fi
         # Show configured recipe
         echo "==== Configured recipe:"
@@ -177,7 +180,11 @@ jobs:
         result='[]'
         echo "== Packages to be removed: ${{ env.OUTPUT_PKGS }}"
         for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
-            pkg_conda_files=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }})
+            if [ ! -z "${{ inputs.python }}" ]; then
+              pkg_conda_files=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }} --python ${{ inputs.python }})
+            else
+              pkg_conda_files=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }})
+            fi
             echo "=== Conda files for pkg $PKG_FILE: $pkg_conda_files"
             result=$(
                 jq -c --argjson nxt "$pkg_conda_files" \

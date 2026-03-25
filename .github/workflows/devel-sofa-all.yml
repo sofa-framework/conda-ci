@@ -121,6 +121,7 @@ jobs:
       git-sha: ${{ needs.extract-params.outputs.sofa-glfw-git-sha }}
       git-commit-date: ${{ needs.extract-params.outputs.sofa-glfw-git-commit-date }}
       sofa-git-sha: ${{ needs.extract-params.outputs.sofa-git-sha }}
+      sofa-python3-git-sha: ${{ needs.extract-params.outputs.sofa-python3-git-sha }}
     secrets: inherit
 
   notify-end:
