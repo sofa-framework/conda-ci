@@ -181,7 +181,7 @@ jobs:
         echo "== Packages to be removed: ${{ env.OUTPUT_PKGS }}"
         for PKG_FILE in $(echo "${{ env.OUTPUT_PKGS }}" | tr -d '[]' | tr ',' '\n' | xargs); do
             if [ ! -z "${{ inputs.python }}" ]; then
-              pkg_conda_files=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }}) --python ${{ inputs.python }}
+              pkg_conda_files=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }} --python ${{ inputs.python }})
             else
               pkg_conda_files=$(python .github/workflows/fetch_packages_names.py --channel ${{ inputs.channel }} --package $PKG_FILE --platform ${{ inputs.platform }})
             fi
