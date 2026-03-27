@@ -65,8 +65,8 @@ jobs:
             echo "sofa-git-commit-date=${{ github.event.client_payload.sofa_commit_date }}" >> $GITHUB_OUTPUT
             echo "sofa-python3-git-sha=${{ github.event.client_payload.sofa_python3_commit_hash }}" >> $GITHUB_OUTPUT
             echo "sofa-python3-git-commit-date=${{ github.event.client_payload.sofa_python3_commit_date }}" >> $GITHUB_OUTPUT
-            echo "sofa-glfw-git-sha=${{ github.event.client_payload.sofa_glfw_commit_hash }}" >> $GITHUB_OUTPUT
-            echo "sofa-glfw-git-commit-date=${{ github.event.client_payload.sofa_glfw_commit_date }}" >> $GITHUB_OUTPUT
+            echo "sofa-glfw-git-sha=${{ github.event.client_payload.sofaglfw_commit_hash }}" >> $GITHUB_OUTPUT
+            echo "sofa-glfw-git-commit-date=${{ github.event.client_payload.sofaglfw_commit_date }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Check parameters
