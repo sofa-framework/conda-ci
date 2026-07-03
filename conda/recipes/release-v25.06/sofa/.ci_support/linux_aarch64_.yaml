@@ -13,7 +13,7 @@ cxx_compiler_version:
 glew:
 - '2.3'
 libboost_headers:
-- '1.88'
+- '1.86'
 tinyxml2:
 - '11.0'
 zip_keys:
