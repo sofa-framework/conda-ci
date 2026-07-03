@@ -17,7 +17,7 @@ cxx_compiler_version:
 glew:
 - '2.3'
 libboost_headers:
-- '1.86'
+- '1.88'
 macos_machine:
 - arm64-apple-darwin20.0.0
 tinyxml2:
