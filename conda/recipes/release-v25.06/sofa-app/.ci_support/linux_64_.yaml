@@ -5,4 +5,4 @@ c_stdlib_version:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '14'
+- '15'
