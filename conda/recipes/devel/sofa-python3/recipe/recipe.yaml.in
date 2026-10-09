@@ -2,9 +2,9 @@ context:
   name: sofa-python3
   version: "26.06.dev%DATE_YYYYMMDD%"
   build_num: 0
-  major: ${{ (version | split('.'))[0] }}
-  minor: ${{ (version | split('.'))[1] }}
-  major_minor: ${{ major }}.${{ minor }}
+  major: "${{ (version | split('.'))[0] }}"
+  minor: "${{ (version | split('.'))[1] }}"
+  major_minor: "${{ major }}.${{ minor }}"
   git_sha: %GIT_SHA%
   sofa_git_sha: %SOFA_GIT_SHA%
 
