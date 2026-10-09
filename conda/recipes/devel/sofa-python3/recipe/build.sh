@@ -27,3 +27,19 @@ cmake --build . --parallel ${CPU_COUNT}
 
 # install
 cmake --build . --parallel ${CPU_COUNT} --target install
+
+
+# Debug installation layout
+echo "===== CMAKE INSTALL PREFIX ====="
+grep '^CMAKE_INSTALL_PREFIX:' CMakeCache.txt || true
+
+echo "===== SOFAPYTHON3 FILES IN CONDA PREFIX ====="
+find "$PREFIX" \( \
+    -name 'config.h' -o \
+    -name 'libSofaPython3.so*' -o \
+    -name 'SofaPython3Config.cmake' -o \
+    -name 'SofaPython3ConfigVersion.cmake' \
+\) -print
+
+echo "===== RELEVANT INSTALL RULES ====="
+grep -i 'SofaPython3' install_manifest.txt || true
