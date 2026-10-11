@@ -9,6 +9,6 @@ c_stdlib_version:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '19'
+- '21'
 macos_machine:
 - x86_64-apple-darwin13.4.0
